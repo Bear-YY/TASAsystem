@@ -1,0 +1,98 @@
+.wrapper {
+  margin-right: auto; 
+  margin-left:  auto; 
+  max-width: 960px;  
+  padding-right: 10px; 
+  padding-left:  10px; 
+}
+
+#navbar {
+  background-color: darkgray;
+  color: white;
+  text-align: right;
+  vertical-align:middle;
+  min-height: 40px;
+
+}
+
+#app1{
+  padding: 20px;   /*内側　（marginが外側）*/
+}
+
+.main {
+  background-color: #ffffff;
+  margin-top: 10px;
+  margin-bottom: 10%;
+  margin-right: 0px;
+  width: 100%;
+}
+
+.side {
+  margin: 10px;
+  width: 12rem;
+} 
+
+.content {
+  margin-left:10px;
+  width: 80%;/*サイドバーとメインコンテンツの間に隙間                    をあけた*/
+}
+
+article {
+  display:flex;/*サイドバーとメインコンテンツを横並びにする                指定をした*/
+}
+
+.login-form{
+  padding: 30px;
+}
+
+#dpt_id-form, #sub_unit-form {
+  width: 50%;
+}
+
+.right-content{
+  margin: 5px 5px 5px auto;
+}
+
+.left-content{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.card {
+  margin-bottom: 20px ;
+}
+
+.tablearea-sm {
+  margin: 10px 10px auto 10px;
+  width: 50%;
+}
+
+.recruit-form {
+  padding: 10px 10px 10px 10px;
+}
+
+.radio-area {
+  padding-left: 5%;
+}
+
+hr {
+  text-align:left;
+  margin-left:0px;
+  border: none; /* デフォルトをキャンセル */
+  height: 2px; /* 線の高さ */
+  background: linear-gradient(90deg, rgba(0,0,0,1) 0%,  rgba(0,0,0,1) 50%, rgba(0,0,0,0.1) 100%);
+}
+/*今回のlinear-gradientの引数は、(グラデーションする方向,開始色,線の中右心の色,終了色)です。
+rgbaで色を指定してます。()内はそれぞれ(赤,緑,青,アルファ値)を表し、色はそれぞれ(0~255)、アルファ値は(0.0~1.0)の範囲で指定。*/
+
+
+.bcenter {
+  text-align: center;
+  margin-top: 10px ;
+  margin-bottom: 10px ;
+}
+
+.card-header {
+  font-weight: bold;
+}
+

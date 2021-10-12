@@ -1,0 +1,25 @@
+INSERT INTO tb_recruitment(tt_id,role_id,tea_id,rec_comment,rec_num) 
+VALUES(1,2,"kato","うおー",2)
+
+//katoが時間割で何か募集しているかを確認
+SELECT * FROM tb_user NATURAL JOIN tb_teacher NATURAL JOIN tb_recruitment
+WHERE usr_id = "kato"
+
+//そもそも募集をしているかを確認
+SELECT EXISTS (SELECT * FROM tb_user NATURAL JOIN tb_teacher NATURAL JOIN tb_recruitment
+WHERE usr_id = "kato")
+
+1募集中の時間割を検索
+2募集してるやつがないなら4へ
+
+3募集中の時間割のIDを記録
+
+4募集中でない時間割のみの情報を出す。
+SELECT * FROM tb_user NATURAL JOIN tb_teacher NATURAL JOIN tb_timetable
+WHERE usr_id = "kato"
+
+SELECT * FROM tb_teacher NATURAL JOIN tb_timetable NATURAL JOIN tb_subject 
+WHERE tea_id = "kato"
+
+//学生の科目別成績　(gradeが2以下すなわちSとA)
+SELECT * FROM tb_student NATURAL JOIN tb_course NATURAL JOIN tb_subject NATURAL JOIN tb_timetable WHERE stu_id = '30RS002' AND grade <= 2
