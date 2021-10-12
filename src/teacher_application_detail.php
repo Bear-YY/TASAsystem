@@ -11,11 +11,6 @@ $tt_timed = $_POST['tt_timed'];
 $role_id = $_POST['role_id'];
 $rec_num = $_POST['rec_num'];
 
-
-// var_dump($_POST);
-// var_dump($_GET);
-// echo $app_id;
-
 $sql = <<<EOM
 SELECT * FROM tb_application app NATURAL JOIN tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_subject sub,tb_course cou,tb_student stu
 WHERE app_id = '{$app_id}' AND rec.tt_id = tt.tt_id AND cou.sub_id = sub.sub_id AND app.stu_id = cou.stu_id AND app.stu_id = stu.stu_id
@@ -112,24 +107,6 @@ $row = $rs->fetch_assoc();
 <?php 
 if(!($row['app_result'])):
 ?>
-
-<!-- 確認用のページを作る場合(確認のための情報を渡す必要がある) -->
-<!-- 
-<?php  
-  echo '<form action="?do=teacher_application_decide&app_id='.$app_id.'" method="post">';
-  echo '<input type="hidden" name="app_id" value="'.$app_id.'">';
-  echo '<input type="hidden" name="sub_name" value="'.$sub_name.'">';
-  echo '<input type="hidden" name="tea_name" value="'.$tea_name.'">';
-  echo '<input type="hidden" name="semester" value="'.$semester.'">';
-  echo '<input type="hidden" name="tt_weekday" value="'.$tt_weekday.'">';
-  echo '<input type="hidden" name="tt_timed" value="'.$tt_timed.'">';  
-?>
-<button type="submit" class="btn btn-primary" role="button">採用決定1</button>
-</form>
- -->
-
-
-
 <!-- modalで確認を取る場合 -->
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">

@@ -103,7 +103,6 @@ $row = $rs->fetch_assoc();
 if((!$usetapps) && (!$setapps)){
 	echo '<h4>応募している学生はまだいません。</h4>';
 	echo '<h4>↓学生を推薦する際はこちらから行ってください。</h4>';
-	echo '<a href="#"><h4>学生を推薦する。</h4></a>';
 }else{
 	echo '<h2>応募者一覧</h2>';
 }
@@ -211,7 +210,6 @@ echo '<input type="hidden" name="rec_num" value="'.$row['rec_num'].'">';
 <?php 
 endif; 
 ?>
-<hr style="border:0;border-top:1px solid black;">
-<a class="btn btn-secondary btn-" href="?do=teacher_reccomend&rec_id=<?= $rec_id;?>" role="button">学生を推薦をする</a>
+<a class="btn btn-secondary" href="?do=teacher_reccomend&rec_id=<?= $rec_id;?>" role="button">学生を推薦をする</a>
 	</div>
 </article>

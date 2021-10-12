@@ -12,12 +12,6 @@ $row = $rs->fetch_assoc();
 
 //募集している時間割があるなら募集に関する情報を取得
 if($row !== 0){
-
-
-	/*$sql = 
-	" SELECT rec.rec_id,tt.tt_id,rec.role_id,rec.rec_num,sub.sub_name,tt.tt_weekday,tt.tt_timed,rec.rec_id,semester
-	FROM tb_teacher tea NATURAL JOIN tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_subject sub
-	WHERE rec.tea_id = '{$tea_id}' AND rec.tt_id = tt.tt_id";*/
 	
 	$sql = 
 	" SELECT * FROM tb_teacher tea NATURAL JOIN tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_subject sub
