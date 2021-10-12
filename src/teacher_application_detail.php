@@ -1,8 +1,33 @@
 <?php 
 require_once('db_inc.php');
 require_once('data.php');
+$rcmflg = false;
+if(isset($_POST['rec_id'])){
+  $rec_id = $_POST['rec_id'];
+}
 
-$app_id = $_GET['app_id'];
+if(isset($_GET['app_id'])){
+  $app_id = $_GET['app_id'];
+  $sql = <<<EOM
+  SELECT * FROM tb_application app NATURAL JOIN tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_subject sub,tb_course cou,tb_student stu
+  WHERE app_id = '{$app_id}' AND rec.tt_id = tt.tt_id AND cou.sub_id = sub.sub_id AND app.stu_id = cou.stu_id AND app.stu_id = stu.stu_id
+  EOM;
+  $rs = $conn->query($sql);
+  $row = $rs->fetch_assoc();
+}
+
+
+if(isset($_GET['rcm_id'])){
+  $rcm_id = $_GET['rcm_id'];
+  $rcmflg = true;
+  $sql = <<<EOM
+  SELECT * FROM tb_recommend rcm,tb_student stu NATURAL JOIN tb_recruitment rec
+  WHERE rcm.stu_id = stu.stu_id AND rec.rec_id = '{$rec_id}'
+  EOM;
+  $rs = $conn->query($sql);
+  $row = $rs->fetch_assoc();
+}
+
 $sub_name = $_POST['sub_name'];
 $tea_name = $_POST['tea_name'];
 $semester = $_POST['semester'];
@@ -11,12 +36,7 @@ $tt_timed = $_POST['tt_timed'];
 $role_id = $_POST['role_id'];
 $rec_num = $_POST['rec_num'];
 
-$sql = <<<EOM
-SELECT * FROM tb_application app NATURAL JOIN tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_subject sub,tb_course cou,tb_student stu
-WHERE app_id = '{$app_id}' AND rec.tt_id = tt.tt_id AND cou.sub_id = sub.sub_id AND app.stu_id = cou.stu_id AND app.stu_id = stu.stu_id
-EOM;
-$rs = $conn->query($sql);
-$row = $rs->fetch_assoc();
+
 
  ?>
 
@@ -105,12 +125,13 @@ $row = $rs->fetch_assoc();
 </div>
 
 <?php 
-if(!($row['app_result'])):
+if(!$rcmflg):
+if($row['app_result'] === NULL):
 ?>
 <!-- modalで確認を取る場合 -->
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
-  採用決定2
+  採用決定
 </button>
 
 <!-- Modal -->
@@ -139,6 +160,7 @@ if(!($row['app_result'])):
 </div>
 
 <?php 
+endif;
 endif;
  ?>
 

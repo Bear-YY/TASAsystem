@@ -3,6 +3,24 @@ require_once('db_inc.php');
 require_once('data.php');
 $rec_id = $_GET['rec_id'];
 
+$sql = <<<EOM
+SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' AND app_result IS NULL ORDER BY stu_gpa DESC
+EOM;
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+$usetapps = [];    						//$usetapps (un set applications)
+while($row){
+	$stu_id = $row['stu_id'];
+	$usetapps[$stu_id] = [
+		'stu_name' => $row['stu_name'],
+		'ad_year' => $row['ad_year'],
+		'app_id' => $row['app_id'],
+		'app_day' => $row['app_day'],
+		'stu_gpa' => $row['stu_gpa']
+	];
+	$row = $rs->fetch_assoc();
+}
+
 // 応募していて採用決定されてない人のデータ
 $sql = <<<EOM
 SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' AND app_result IS NULL ORDER BY stu_gpa DESC
@@ -40,8 +58,27 @@ while($row){
 	];
 	$row = $rs->fetch_assoc();
 }
-// var_dump($setapps);
-// var_dump($usetapps);
+
+//推薦をされた学生の情報を取得
+$sql = <<<EOM
+SELECT * FROM tb_recommend rcm,tb_student stu NATURAL JOIN tb_recruitment rec
+WHERE rcm.stu_id = stu.stu_id AND rcm.rec_id = '{$rec_id}'
+EOM;
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+$recommends = [];							
+while($row){
+	$rcm_id = $row['rcm_id'];
+	$recommends[$rcm_id] = [
+		'stu_id' => $row['stu_id'],
+		'stu_name' => $row['stu_name'],
+		'ad_year' => $row['ad_year'],
+		'stu_gpa' => $row['stu_gpa'],
+		'rcm_result' => $row['rcm_result']
+	];
+	$row = $rs->fetch_assoc();
+}
+
 
 //募集をしてる時間割情報の取得
 $sql = <<<EOM
@@ -94,12 +131,73 @@ $row = $rs->fetch_assoc();
       </tbody>
     </table>
   </div>
+
+<?php 
+if($recommends):
+ ?>
 <hr style="border:0;border-top:1px solid black;">
+<h3>推薦をした学生</h3>
+<table class="table table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">学籍番号</th>
+      <th scope="col">氏名</th>
+      <th scope="col">学年</th>
+      <th scope="col">GPA</th>
+      <th scope="col">推薦結果</th>
+      <th scope="col">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+<?php 
+foreach ($recommends as $key => $value): 
+echo '<form action="?do=teacher_application_detail&rcm_id='.$key.'" method="post">';
+echo '<input type="hidden" name="sub_name" value="'.$row['sub_name'].'">';
+echo '<input type="hidden" name="tea_name" value="'.$row['tea_name'].'">';
+echo '<input type="hidden" name="semester" value="'.$row['semester'].'">';
+echo '<input type="hidden" name="tt_weekday" value="'.$row['tt_weekday'].'">';
+echo '<input type="hidden" name="tt_timed" value="'.$row['tt_timed'].'">';
+echo '<input type="hidden" name="role_id" value="'.$row['role_id'].'">';
+echo '<input type="hidden" name="rec_num" value="'.$row['rec_num'].'">';
+echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 
+?>
+
+		<tr>
 <?php
+				  echo '<td scope="col">'.$value['stu_id'].'</td>';
+				  echo '<td scope="col">'.$value['stu_name'].'</td>';
+				  $year = $fake_year - $value['ad_year'];
+				  echo '<td scope="col">'.$year.'</td>';
+				  echo '<td scope="col">'.$value['stu_gpa'].'</td>';
+				  if($value['rcm_result']){
+				  	if($value['rcm_result'] == 1){
+				  		$result = '受領';
+				  	}
+				  	if($value['rcm_result'] == 2){
+				  		$result = '拒否';
+				  	}
+				  }else{
+				  	$result = '未回答';
+				  }
+				  echo '<td scope="col">'.$result.'</td>';
+				  echo '<td align="center">
+		  			<button type="submit" class="btn btn-info btn-sm" role="button">推薦詳細</button>
+		  			<button type="submit" class="btn btn-secondary btn-sm" role="button">詳細</button>
+		  			</td>';
+				  echo '</form>';
+?>
+		</tr>
+<?php endforeach; ?>
+  </tbody>
+</table>
 
+<?php 
+endif;
+ ?>
 
-
+<hr style="border:0;border-top:1px solid black;">
+<?php
 if((!$usetapps) && (!$setapps)){
 	echo '<h4>応募している学生はまだいません。</h4>';
 	echo '<h4>↓学生を推薦する際はこちらから行ってください。</h4>';
@@ -108,7 +206,6 @@ if((!$usetapps) && (!$setapps)){
 }
 ?>
 <?php if($setapps): ?>
-<h3>採用した学生</h3>
 <table class="table table-bordered">
   <thead class="thead-dark">
     <tr>
