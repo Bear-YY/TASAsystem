@@ -23,4 +23,10 @@
 		return false;
 	}
 
+	function getToday(){
+		$date = time();
+		$date = date('Y-m-d', $date);
+		return $date;
+	}
+
 ?>

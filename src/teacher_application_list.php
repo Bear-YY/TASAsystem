@@ -210,6 +210,6 @@ echo '<input type="hidden" name="rec_num" value="'.$row['rec_num'].'">';
 <?php 
 endif; 
 ?>
-<a class="btn btn-secondary" href="?do=teacher_reccomend&rec_id=<?= $rec_id;?>" role="button">学生を推薦をする</a>
+<a class="btn btn-secondary" href="?do=teacher_recommend&rec_id=<?= $rec_id;?>" role="button">学生を推薦をする</a>
 	</div>
 </article>

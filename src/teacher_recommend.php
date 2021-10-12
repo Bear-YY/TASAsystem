@@ -28,7 +28,6 @@ var_dump($students);
 <table class="table table-bordered">
   <thead class="thead-dark">
     <tr>
-    　<th scope="col"></th>
       <th scope="col">学籍番号</th>
       <th scope="col">氏名</th>
       <th scope="col">学年</th>
@@ -41,9 +40,6 @@ var_dump($students);
 foreach ($students as $key => $value): 
 ?>
 	<tr>
-		<td scope="col">
-			<span class="badge badge-primary"></span>
-		</td>
 <?php
 			  print('<td scope="col">'.$key.'</td>');
 			  print('<td scope="col">'.$value['stu_name'].'</td>');
@@ -51,7 +47,7 @@ foreach ($students as $key => $value):
 			  print('<td scope="col">'.$year.'</td>');
 			  print('<td scope="col">'.$value['stu_gpa'].'</td>');
 			  echo '<td>';
-			  echo '<a class="btn btn-secondary" href="?do=teacher_reccomend_detail&rec_id=<?= $rec_id;?>&stu_id=<?= $key;?>" role="button">詳細</a>';
+			  echo '<a class="btn btn-secondary" href="?do=teacher_recommend_detail&rec_id='.$rec_id.'&stu_id='.$key.'" role="button">詳細</a>';
 			  echo '</td>';
 ?>
 		</tr>

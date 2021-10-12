@@ -173,6 +173,5 @@ while($row){
   ?>		  	
 			</tbody>
 		</table>
-		<button type="button" class="btn btn-secondary" onclick="history.back()">学生ホームに戻る</button>
 	</div>	
 </article>
