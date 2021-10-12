@@ -3,7 +3,6 @@ require_once('db_inc.php');
 require_once('data.php');
 $rec_id = $_GET['rec_id'];
 
-
 // 応募していて採用決定されてない人のデータ
 $sql = <<<EOM
 SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' AND app_result IS NULL ORDER BY stu_gpa DESC
@@ -212,5 +211,7 @@ echo '<input type="hidden" name="rec_num" value="'.$row['rec_num'].'">';
 <?php 
 endif; 
 ?>
+<hr style="border:0;border-top:1px solid black;">
+<a class="btn btn-secondary btn-" href="?do=teacher_reccomend&rec_id=<?= $rec_id;?>" role="button">学生を推薦をする</a>
 	</div>
 </article>

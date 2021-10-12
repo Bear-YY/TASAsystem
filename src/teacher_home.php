@@ -31,29 +31,6 @@ if($row !== 0){
 	}
 }
 
-// $sql = "SELECT sub_name,semester,tt_weekday,tt_timed,tt_id FROM tb_teacher NATURAL JOIN tb_timetable NATURAL JOIN tb_subject WHERE tea_id = '{$tid}'";
-// $rs = $conn->query($sql);
-// $row = $rs->fetch_assoc();
-// if($row){
-// 	if($rec){
-// 	//募集している科目があるとき
-// 			while($row){
-// 				$i = 0;
-// 				if(!($row['tt_id'] === $rec[$i]['tt_id'])){			//同じ時間割で2回登録してしまうと、バグります。（2回目が、募集してない扱いで$norecに格納される。）
-// 					array_push($norec, $row);		
-// 				}
-// 				--$i;
-// 				$row = $rs->fetch_assoc();
-// 			}
-// 	}else{
-// 	// 募集している科目がないときは全部入れる
-// 		while($row){
-// 			array_push($norec, $row);		
-// 			$row = $rs->fetch_assoc();
-// 		}
-// 	}	
-// }
-
 $sql = <<<EOM
 SELECT * FROM tb_timetable NATURAL JOIN tb_subject WHERE tt_id NOT IN
 (SELECT tt_id FROM tb_teacher NATURAL JOIN tb_recruitment WHERE tea_id = '{$tea_id}') AND tea_id = '{$tea_id}'
@@ -66,12 +43,8 @@ while($row){
 	$row= $rs->fetch_assoc();
 }
 
-//var_dump($rec);
-//var_dump($norec);
-
 ?>
 <h2>教員ホーム</h2>
-<a class="btn btn-secondary btn-" href="#" role="button">学生を推薦をする</a>
 <h3>担当科目一覧</h3>
 
 <?php if($rec): ?>
