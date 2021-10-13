@@ -152,13 +152,6 @@ if($recommends):
 <?php 
 foreach ($recommends as $key => $value): 
 echo '<form action="?do=teacher_application_detail&rcm_id='.$key.'" method="post">';
-echo '<input type="hidden" name="sub_name" value="'.$row['sub_name'].'">';
-echo '<input type="hidden" name="tea_name" value="'.$row['tea_name'].'">';
-echo '<input type="hidden" name="semester" value="'.$row['semester'].'">';
-echo '<input type="hidden" name="tt_weekday" value="'.$row['tt_weekday'].'">';
-echo '<input type="hidden" name="tt_timed" value="'.$row['tt_timed'].'">';
-echo '<input type="hidden" name="role_id" value="'.$row['role_id'].'">';
-echo '<input type="hidden" name="rec_num" value="'.$row['rec_num'].'">';
 echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 
 ?>
@@ -205,6 +198,11 @@ if((!$usetapps) && (!$setapps)){
 	echo '<h2>応募者一覧</h2>';
 }
 ?>
+
+
+
+
+
 <?php if($setapps): ?>
 <table class="table table-bordered">
   <thead class="thead-dark">
@@ -223,14 +221,7 @@ if((!$usetapps) && (!$setapps)){
 <?php 
 	foreach ($setapps as $key => $value):
 	echo '<form action="?do=teacher_application_detail&app_id='.$value['app_id'].'" method="post">';
-	echo '<input type="hidden" name="sub_name" value="'.$row['sub_name'].'">';
-	echo '<input type="hidden" name="tea_name" value="'.$row['tea_name'].'">';
-	echo '<input type="hidden" name="semester" value="'.$row['semester'].'">';
-	echo '<input type="hidden" name="tt_weekday" value="'.$row['tt_weekday'].'">';
-	echo '<input type="hidden" name="tt_timed" value="'.$row['tt_timed'].'">';
-	echo '<input type="hidden" name="role_id" value="'.$row['role_id'].'">';
-	echo '<input type="hidden" name="rec_num" value="'.$row['rec_num'].'">';
-
+	echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 ?>
 
 		<tr>
@@ -256,6 +247,9 @@ if((!$usetapps) && (!$setapps)){
 <?php 
 endif; 
 
+
+
+
 if($usetapps): ?>
 <h3>採用の判断をしていない学生</h3>
 <table class="table table-bordered">
@@ -274,14 +268,7 @@ if($usetapps): ?>
 <?php 
 foreach ($usetapps as $key => $value): 
 echo '<form action="?do=teacher_application_detail&app_id='.$value['app_id'].'" method="post">';
-echo '<input type="hidden" name="sub_name" value="'.$row['sub_name'].'">';
-echo '<input type="hidden" name="tea_name" value="'.$row['tea_name'].'">';
-echo '<input type="hidden" name="semester" value="'.$row['semester'].'">';
-echo '<input type="hidden" name="tt_weekday" value="'.$row['tt_weekday'].'">';
-echo '<input type="hidden" name="tt_timed" value="'.$row['tt_timed'].'">';
-echo '<input type="hidden" name="role_id" value="'.$row['role_id'].'">';
-echo '<input type="hidden" name="rec_num" value="'.$row['rec_num'].'">';
-
+echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 ?>
 
 		<tr>

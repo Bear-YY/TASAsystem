@@ -1,10 +1,24 @@
 <?php 
 require_once('db_inc.php');
 require_once('data.php');
+
+
 $rcmflg = false;
-if(isset($_POST['rec_id'])){
-  $rec_id = $_POST['rec_id'];
-}
+$rec_id = $_POST['rec_id'];
+$sql = <<<EOM
+SELECT * FROM tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_teacher NATURAL JOIN tb_subject
+WHERE rec_id = '{$rec_id}' AND rec.tt_id = tt.tt_id
+EOM;
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+$sub_name = $row['sub_name'];
+$tea_name = $row['tea_name'];
+$semester = $row['semester'];
+$tt_weekday = $row['tt_weekday'];
+$tt_timed = $row['tt_timed'];
+$role_id = $row['role_id'];
+$rec_num = $row['rec_num']; 
+
 
 if(isset($_GET['app_id'])){
   $app_id = $_GET['app_id'];
@@ -27,14 +41,6 @@ if(isset($_GET['rcm_id'])){
   $rs = $conn->query($sql);
   $row = $rs->fetch_assoc();
 }
-
-$sub_name = $_POST['sub_name'];
-$tea_name = $_POST['tea_name'];
-$semester = $_POST['semester'];
-$tt_weekday = $_POST['tt_weekday'];
-$tt_timed = $_POST['tt_timed'];
-$role_id = $_POST['role_id'];
-$rec_num = $_POST['rec_num'];
 
 var_dump($row);
 

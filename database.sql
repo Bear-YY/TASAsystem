@@ -154,11 +154,11 @@ CREATE TABLE tb_course(
 );
 
 CREATE TABLE tb_config(
-    tea_id  VARCHAR(16) ,   --  教員ID
+    tt_id INT UNSIGNED, 
     que_id  INT UNSIGNED,   --  アンケート番号
     con_id  SERIAL  ,   --  設定ID
     con_value   INT ,   --  設定数値
-    PRIMARY KEY(con_id,tea_id,que_id)
+    PRIMARY KEY(con_id,tt_id,que_id)
 );
 
 -- テーブルに外部キー(FOREIGN KEY)を追加
@@ -218,9 +218,10 @@ ALTER TABLE tb_course ADD
 FOREIGN KEY(sub_id) REFERENCES tb_subject(sub_id);
 
 ALTER TABLE tb_config ADD
-FOREIGN KEY(tea_id) REFERENCES tb_teacher(tea_id);
+FOREIGN KEY(tt_id) REFERENCES tb_timetable(tt_id);
 ALTER TABLE tb_config ADD
 FOREIGN KEY(que_id) REFERENCES tb_questionnaire(que_id);
+
 
 -- 仮データの登録 -------------------------------------------------------
 

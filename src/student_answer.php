@@ -1,6 +1,22 @@
 <h1>アンケート回答</h1>
 <?php 
 require_once('db_inc.php');
+$usr_id = $_SESSION['usr_id'];
+$stu_id = strtoupper($usr_id); //全部大文字
+$stu_id = mb_substr($stu_id, 1);  //頭の一文字を消す(細かい使い方は調べましょう)
+$act = 'insert';
+
+$sql = "SELECT count() FROM tb_answer WHERE stu_id = '{$stu_id}')";
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+
+
+if($row > 0){
+  $act = 'update';
+}
+
+var_dump($row);
+
 $sql = "SELECT * FROM tb_questionnaire";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
@@ -13,10 +29,10 @@ echo '<form action="?do=student_answer_save" method="post">';
 while($row):
   echo '<h5>・'.$row['que_title'].'</h5>';
   echo '<div class="radio-area">';
-  for($i = 0; $i <= 5; $i++):
+  for($i = 1; $i <= 5; $i++):
     echo '<div class="form-check">';
     echo '<input class="form-check-input" type="radio" value="'.$i.'" id="Check1" name="'.$row['que_id'].'"';
-    if($i === 0){
+    if($i === 1){
       echo 'checked';
     }
     echo '>';
@@ -44,9 +60,6 @@ switch ($i) {
       echo "当てはまらない";// code...
     // code...
     break;
-  default:
-    echo '特になし';// code...
-    break;
 }
 ?>
   </label>
@@ -57,8 +70,13 @@ switch ($i) {
   echo "</div>";
   echo "<br>";
   endwhile;
+  echo '<input type="hidden" name="act" value="<?= $act;?>">';
+  if($act === 'insert'){
+      echo '<button type="submit" class="btn btn-primary">登録</button>';
+  }
+  if($act === 'update')
+      echo '<button type="submit" class="btn btn-primary">更新</button>';
   ?>
-      <button type="submit" class="btn btn-primary">登録</button>
     </form>   
   </div>
 </article>
