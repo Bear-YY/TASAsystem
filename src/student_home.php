@@ -74,6 +74,29 @@ while ($row) {
 	$row = $rs->fetch_assoc();
 }
 
+//推薦が来ている時間割
+$sql = <<<EOM
+SELECT * FROM tb_recommend rcm , tb_recruitment rec, tb_timetable tt NATURAL JOIN tb_subject NATURAL JOIN tb_teacher
+WHERE rcm.stu_id = '{$stu_id}' AND rcm.rec_id = rec.rec_id AND rec.tt_id = tt.tt_id
+EOM;
+$rs = $conn->query($sql);
+if(!$rs) die('エラー: '. $conn->error);
+$row = $rs->fetch_assoc();
+$recommends = [];
+while ($row) {
+	$rcm_id = $row['rcm_id'];
+	$recommends[$rcm_id] = [
+		'rec_id' => $row['rec_id'],
+		'sub_name' => $row['sub_name'],
+		'tt_weekday' => $row['tt_weekday'],
+		'tt_timed' => $row['tt_timed'],
+		'semester' => $row['semester'],
+		'tea_name' => $row['tea_name'],
+		'tea_id' => $row['tea_id']
+	];
+	$row = $rs->fetch_assoc();
+}
+
 
 $sql = <<<EOM
 SELECT * FROM tb_application app NATURAL JOIN tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_subject
@@ -82,16 +105,12 @@ EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 
+var_dump($recommends);
  ?>
+
 
 <article>
 	<div class="side">
-		<!-- <div class="bcenter">
-				<a href="?do=student_schedule"><button type="button" class="btn btn-info">スケジュール管理</button></a>
-		</div>
-		<div class="bcenter">
-				<a href="?do=student_answer"><button type="button" class="btn btn-info">アンケート回答</button></a>
-		</div> -->
 		<!-- 最後のsql文の実行結果を取ってきてるので、配列に入れて管理する場合は注意 -->
 		<?php if($row): ?>				
 		<div class="card bg-light mb-3" style="width: 12rem;" >
@@ -107,7 +126,27 @@ $row = $rs->fetch_assoc();
         	echo '</ul>';
         ?>
     </div>
-  <?php endif; ?>
+  	<?php 
+  	endif;
+    if($recommends): 
+  	?>
+    <div class="card bg-light mb-3" style="width: 12rem;" >
+        <div class="card-header">
+          推薦がある時間割
+        </div>
+        <?php
+        	echo '<ul class="list-group list-group-flush">';
+        	foreach ($recommends as $key => $value) {
+        		echo '<li class="list-group-item">';
+        			echo '<b>'.$value['sub_name']; echo '</b><br>';
+        			echo '--'.$semesters[$value['semester']].'-'.$weekdays_sm[$value['tt_weekday']].'-'.$times[$value['tt_timed']].'<br>';
+        			echo '--'.$value['tea_name'];
+        		echo '</li>'; 
+        	}
+        	echo '</ul>';
+        ?>
+    </div>
+  	<?php endif; ?>
 	</div>
 	<div class="main">
 		<h3>応募可能科目一覧</h3>
