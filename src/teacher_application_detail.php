@@ -16,8 +16,6 @@ if(isset($_POST['search'])) {
     $search = $_POST["search"];
 }
 
-var_dump($rec_id);
-
 $sql = <<<EOM
 SELECT * FROM tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_teacher NATURAL JOIN tb_subject
 WHERE rec_id = '{$rec_id}' AND rec.tt_id = tt.tt_id
@@ -218,7 +216,6 @@ endif;
 
 
 <?php 
-var_dump($row);
 if(isset($app_id)){
   $sql = <<<EOM
   SELECT * FROM tb_application WHERE app_id = '{$app_id}'
@@ -226,7 +223,7 @@ if(isset($app_id)){
   $rs = $conn->query($sql);
   $row = $rs->fetch_assoc();
   if($row['app_result'] === NULL){
-    
+
 
 ?>
 <!-- modalで確認を取る場合 -->
