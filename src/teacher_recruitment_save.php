@@ -22,8 +22,8 @@ EOM;
 $rs = $conn->query($sql);
 
 foreach ($ques as $key => $value) {
-    $sql ="INSERT INTO tb_config(tea_id,que_id,con_value)
-        VALUES('{$tea_id}','{$key}','{$value}')";
+    $sql ="INSERT INTO tb_config(tt_id,que_id,con_value)
+        VALUES('{$tt_id}','{$key}','{$value}')";
     $rs = $conn->query($sql);
     if (!$rs) die('エラー: ' . $conn->error);
 }
