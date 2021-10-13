@@ -21,8 +21,8 @@ if(isset($_GET['rcm_id'])){
   $rcm_id = $_GET['rcm_id'];
   $rcmflg = true;
   $sql = <<<EOM
-  SELECT * FROM tb_recommend rcm,tb_student stu NATURAL JOIN tb_recruitment rec
-  WHERE rcm.stu_id = stu.stu_id AND rec.rec_id = '{$rec_id}'
+  SELECT * FROM tb_recommend rcm,tb_student stu
+  WHERE rcm.stu_id = stu.stu_id AND rcm.rcm_id = '{$rcm_id}'
   EOM;
   $rs = $conn->query($sql);
   $row = $rs->fetch_assoc();
@@ -36,7 +36,7 @@ $tt_timed = $_POST['tt_timed'];
 $role_id = $_POST['role_id'];
 $rec_num = $_POST['rec_num'];
 
-
+var_dump($row);
 
  ?>
 
