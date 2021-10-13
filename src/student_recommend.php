@@ -11,6 +11,7 @@ $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
  ?>
 
+
 <div class="main">
 	 <div class="tablearea-sm">
 	   <div>
@@ -41,15 +42,23 @@ $row = $rs->fetch_assoc();
 	       <tr>
 	         <th scope="row" class="table-secondary">募集役割</th>
 	         <td><?= $role[$row['role_id']]; ?></td>
-	       </tr><tr>
+	       </tr>
+	       <tr>
 	         <th scope="row" class="table-secondary">回答期日</th>
 	         <td><?= $row['rcm_deadline']; ?></td>
+	       </tr>
+	       <tr>
+	         <th scope="row" class="table-secondary">教員コメント</th>
+	         <td><?= $row['rcm_comment']; ?></td>
 	       </tr>
 	       
 
 	     </tbody>
 	   </table>
 	</div>
+
+	
+	<hr style="border:0;border-top:1px solid black;">
 	<?php 
 	if($row['rcm_result'] == 1){
 		echo '<p>あなたは推薦了承済みです。</p>';

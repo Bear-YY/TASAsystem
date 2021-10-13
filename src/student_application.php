@@ -15,10 +15,6 @@ $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 // echo $rec_id;
 
-//応募済みなら「応募済みです」みたいな表示をする。
-
-
-
  ?>
 
  <div class="main">
