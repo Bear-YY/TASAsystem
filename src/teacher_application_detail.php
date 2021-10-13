@@ -7,28 +7,51 @@ require_once('data.php');
 
 $rcmflg = false;
 $rec_id = $_POST['rec_id'];
+$search = '';
+$stu_id = $_GET['stu_id'];
+if(isset($_GET['app_id'])){
+  $app_id = $_GET['app_id'];
+}
+if(isset($_POST['search'])) {
+    $search = $_POST["search"];
+}
+
+var_dump($rec_id);
+
 $sql = <<<EOM
 SELECT * FROM tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_teacher NATURAL JOIN tb_subject
 WHERE rec_id = '{$rec_id}' AND rec.tt_id = tt.tt_id
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
-$sub_name = $row['sub_name'];
-$tea_name = $row['tea_name'];
-$semester = $row['semester'];
-$tt_weekday = $row['tt_weekday'];
-$tt_timed = $row['tt_timed'];
-$role_id = $row['role_id'];
-$rec_num = $row['rec_num']; 
+$subject_detail = [
+  'sub_name' => $row['sub_name'],
+  'tea_name' => $row['tea_name'],
+  'semester' => $row['semester'],
+  'tt_weekday' => $row['tt_weekday'],
+  'tt_timed' => $row['tt_timed'],
+  'role_id' => $row['role_id'],
+  'rec_num' => $row['rec_num']
+];
 
 
-if(isset($_GET['app_id'])){
-  $app_id = $_GET['app_id'];
-  $sql = <<<EOM
-  SELECT * FROM tb_application app NATURAL JOIN tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_subject sub,tb_course cou,tb_student stu
-  WHERE app_id = '{$app_id}' AND rec.tt_id = tt.tt_id AND cou.sub_id = sub.sub_id AND app.stu_id = cou.stu_id AND app.stu_id = stu.stu_id
-  EOM;
-  $rs = $conn->query($sql);
+$sql = <<<EOM
+SELECT * FROM tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_subject sub,tb_course cou NATURAL JOIN tb_student stu
+WHERE rec.rec_id = '{$rec_id}' AND stu.stu_id = '{$stu_id}' AND cou.sub_id = sub.sub_id AND rec.tt_id = tt.tt_id
+EOM;
+$rs = $conn->query($sql);
+if(!$rs) die('エラー: '. $conn->error);
+$row = $rs->fetch_assoc();
+$stu_detail = [];
+while($row){
+  $stu_detail = [
+    'stu_id' => $row['stu_id'],
+    'stu_name' => $row['stu_name'],
+    'ad_year' => $row['ad_year'],
+    'grade' => $row['grade'],
+    'stu_mail' => $row['stu_mail'],
+    'stu_gpa' => $row['stu_gpa']
+  ];
   $row = $rs->fetch_assoc();
 }
 
@@ -44,8 +67,6 @@ if(isset($_GET['rcm_id'])){
   $row = $rs->fetch_assoc();
 }
 
-var_dump($row);
-
  ?>
 
 <div class="tablearea-sm">
@@ -56,31 +77,31 @@ var_dump($row);
      <tbody>
        <tr>
          <th scope="row" width="25%" class="table-secondary">科目名</th>
-         <td><?= $sub_name; ?></td>
+         <td><?= $subject_detail['sub_name']; ?></td>
        </tr>
        <tr>
          <th scope="row" class="table-secondary">担当教員</th>
-         <td><?= $tea_name; ?></td>
+         <td><?= $subject_detail['tea_name']; ?></td>
        </tr>
       <tr>
          <th scope="row" class="table-secondary">学期</th>
-         <td><?= $semesters[$semester];?></td>
+         <td><?= $semesters[$subject_detail['semester']];?></td>
        </tr>
        <tr>
          <th scope="row" class="table-secondary">曜日</th>
-         <td><?= $weekdays[$tt_weekday]; ?></td>
+         <td><?= $weekdays[$subject_detail{'tt_weekday'}]; ?></td>
        </tr>
        <tr>
          <th scope="row" class="table-secondary">時限</th>
-         <td><?= $times[$tt_timed]; ?></td>
+         <td><?= $times[$subject_detail{'tt_timed'}]; ?></td>
        </tr>
        <tr>
          <th scope="row" class="table-secondary">募集役割</th>
-         <td><?= $role[$role_id]; ?></td>
+         <td><?= $role[$subject_detail['role_id']]; ?></td>
        </tr>
        <tr>
          <th scope="row" class="table-secondary">募集人数</th>
-         <td><?= $rec_num; ?>人</td>
+         <td><?= $subject_detail['rec_num']; ?>人</td>
        </tr>
      </tbody>
    </table>
@@ -93,48 +114,120 @@ var_dump($row);
    <div>
        <h2>募集学生の応募情報</h2>
    </div>
-   <table class="table table-bordered">
-     <thead>
-         <th scope="row"  class="table-secondary">学籍番号</th>
-         <th scope="row" class="table-secondary">氏名</th>
-         <th scope="row" class="table-secondary">学年</th>
-         <th scope="row" class="table-secondary">成績</th>
-         <th scope="row" class="table-secondary">メールアドレス</th>
-         <th scope="row" class="table-secondary">操作</th>
-
-
-     </thead>
-     <tbody>
+   <table class="table table-sm table-bordered">
+     <thead class="thead-dark"> 
        <tr>
-         <td><?= $row['stu_id']; ?></td>
-         <td><?= $row['stu_name']; ?></td>
-         <?php  
-            $stu_year = $fake_year - $row['ad_year'];
-         ?>
-         <td><?= $school_grade[$stu_year];?></td>
-         <td><?= $grade[$row['grade']]; ?></td>
-         <?php 
-            //$usr_mail:学籍番号を使用した場合のメールアドレス
-            $usr_mail = mb_strtolower($row['stu_id']);
-            $usr_mail = 'k'.$usr_mail.'@kyusan.com';      
-         ?>
-         <!-- <td><?= $row['stu_mail'] ; ?></td>
-          --><td><?= $usr_mail ; ?></td>
-          <td align="center">
-            <?php  
-            echo '<a class="btn btn-danger btn-sm" href="?do=teacher_subject_search&stu_id='.$row['stu_id'].'" role="button" target="_brank">';
+           <th scope="col">学籍番号</th>
+           <th scope="col">氏名</th>
+           <th scope="col">学年</th>
+           <th scope="col">GPA</th>
+           <th scope="col">成績</th>
+           <th scope="col">メールアドレス</th>
+         </tr>
+     </thead>  
+       <tbody>
+         <tr>
+           <td><?= $stu_detail['stu_id']; ?></td>
+           <td><?= $stu_detail['stu_name']; ?></td>
+           <?php 
+             $year = $fake_year - $stu_detail['ad_year'];
             ?>
-              科目別の成績検索 <br> (別ウィンドウが開きます)
-            </a>
-          </td>
-       <tr>
-     </tbody>
+           <td><?= $school_grade[$year]; ?></td>
+           <td><?= $stu_detail['stu_gpa']; ?></td>
+           <td><?= $grade[$stu_detail['grade']]; ?></td>
+           <td><?= $stu_detail['stu_mail']; ?></td>
+         </tr>
+       </tbody>
    </table>
 </div>
 
+
+<hr style="border:0;border-top:1px solid black;">
 <?php 
-if(!$rcmflg):
-if($row['app_result'] === NULL):
+if(isset($app_id)){
+  echo '<form action="?do=teacher_application_detail&stu_id='.$stu_id.'&app_id='.$app_id.'" method="post" class="form-inline">';
+}
+
+if(isset($rcm_id)){
+  echo '<form action="?do=teacher_application_detail&stu_id='.$stu_id.'&rcm_id='.$rcm_id.'" method="post" class="form-inline">';
+}
+
+echo   '<div class="form-group">';
+echo     '<label for="input_sub" class="col-sm-4 col-form-label">科目別成績</label>';
+echo     '<div class="col-sm-7">';
+echo       '<input type="text" class="form-control" id="input-sub" name="search" value="'.$search.'">';
+echo     '</div>';
+echo   '</div>';
+echo   '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
+echo   '<button type="submit" class="btn btn-primary mb-0">検索</button>';
+echo '</form>';
+
+
+if($search === ''){
+  $sql = <<<EOM
+  SELECT * FROM tb_student stu NATURAL JOIN tb_course NATURAL JOIN tb_subject WHERE stu_id = '{$stu_id}'
+  EOM;
+}else{
+  $sql = <<<EOM
+  SELECT * FROM tb_student stu NATURAL JOIN tb_course NATURAL JOIN tb_subject WHERE sub_name LIKE '%$search%' AND stu_id = '{$stu_id}'
+  EOM;
+}
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+$subjects = [];
+while($row){
+  $sub_id = $row['sub_id'];
+  $subjects[$sub_id] = [
+    'sub_name' => $row['sub_name'],
+    'grade' => $row['grade'],
+    'get_year' => $row['get_year']
+  ];
+  $row = $rs->fetch_assoc();
+}
+if($subjects):
+?>
+<div class="tablearea-sm">
+  <table class="table table-sm table-bordered">
+    <thead class="thead-dark"> 
+      <tr>
+          <th scope="col">科目名</th>
+          <th scope="col">成績</th>
+          <th scope="col">取得学年</th>
+        </tr>
+    </thead>  
+      <tbody>
+        <?php foreach ($subjects as $key => $value): ?>
+          
+        <tr>
+          <td><?= $value['sub_name']; ?></td>
+          <td><?= $grade[$value['grade']]; ?></td>
+          <td><?= $value['get_year']; ?>年生</td>
+          </td>
+        </tr>
+        
+        <?php endforeach ?>
+      </tbody>
+  </table>
+</div>
+<?php 
+else:
+  echo '<p>その科目をこの学生は履修していません。</p>';
+endif;
+ ?>
+
+
+
+<?php 
+var_dump($row);
+if(isset($app_id)){
+  $sql = <<<EOM
+  SELECT * FROM tb_application WHERE app_id = '{$app_id}'
+  EOM;
+  $rs = $conn->query($sql);
+  $row = $rs->fetch_assoc();
+  if($row['app_result'] === NULL){
+    
+
 ?>
 <!-- modalで確認を取る場合 -->
 <!-- Button trigger modal -->
@@ -143,8 +236,6 @@ if($row['app_result'] === NULL):
 </button>
 
 <!-- Modal -->
-<?php  
-?>
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -168,7 +259,7 @@ if($row['app_result'] === NULL):
 </div>
 
 <?php 
-endif;
-endif;
+  }
+}
  ?>
 

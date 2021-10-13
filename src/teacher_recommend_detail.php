@@ -108,7 +108,6 @@ $row = $rs->fetch_assoc();
         <td><?= $grade[$stu_detail['grade']]; ?></td>
         <td><?= $stu_detail['stu_mail']; ?></td>
       </tr>
-      
     </tbody>
 </table>
 

@@ -21,7 +21,7 @@ while($row){
 	$row = $rs->fetch_assoc();
 }
 
-// 応募していて採用決定されてない人のデータ
+// 応募していて判断されてない人のデータ
 $sql = <<<EOM
 SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' AND app_result IS NULL ORDER BY stu_gpa DESC
 EOM;
@@ -133,6 +133,8 @@ $row = $rs->fetch_assoc();
   </div>
 
 <?php 
+
+// 推薦した学生
 if($recommends):
  ?>
 <hr style="border:0;border-top:1px solid black;">
@@ -151,11 +153,10 @@ if($recommends):
   <tbody>
 <?php 
 foreach ($recommends as $key => $value): 
-echo '<form action="?do=teacher_application_detail&rcm_id='.$key.'" method="post">';
+echo '<form action="?do=teacher_application_detail&rcm_id='.$key.'&stu_id='.$value['stu_id'].'" method="post">';
 echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 
 ?>
-
 		<tr>
 <?php
 				  echo '<td scope="col">'.$value['stu_id'].'</td>';
@@ -202,7 +203,7 @@ if((!$usetapps) && (!$setapps)){
 
 
 
-
+<!-- 採用決定した学生 -->
 <?php if($setapps): ?>
 <table class="table table-bordered">
   <thead class="thead-dark">
@@ -220,7 +221,7 @@ if((!$usetapps) && (!$setapps)){
 
 <?php 
 	foreach ($setapps as $key => $value):
-	echo '<form action="?do=teacher_application_detail&app_id='.$value['app_id'].'" method="post">';
+	echo '<form action="?do=teacher_application_detail&app_id='.$value['app_id'].'&stu_id='.$key.'" method="post">';
 	echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 ?>
 
@@ -267,7 +268,7 @@ if($usetapps): ?>
   <tbody>
 <?php 
 foreach ($usetapps as $key => $value): 
-echo '<form action="?do=teacher_application_detail&app_id='.$value['app_id'].'" method="post">';
+echo '<form action="?do=teacher_application_detail&app_id='.$value['app_id'].'&stu_id='.$key.'" method="post">';
 echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 ?>
 
