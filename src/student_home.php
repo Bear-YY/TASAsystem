@@ -99,7 +99,7 @@ while ($row) {
 
 
 $sql = <<<EOM
-SELECT * FROM tb_application app NATURAL JOIN tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_subject
+SELECT * FROM tb_application app NATURAL JOIN tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_subject NATURAL JOIN tb_teacher
 WHERE rec.tt_id = tt.tt_id AND stu_id = '{$stu_id}'
 EOM;
 $rs = $conn->query($sql);
@@ -119,7 +119,11 @@ $row = $rs->fetch_assoc();
         <?php
         	echo '<ul class="list-group list-group-flush">';
         	while($row){ 
-        		echo '<li class="list-group-item">'.$row['sub_name'].'</li>';
+        		echo '<li class="list-group-item">';
+        		echo '<a href=""><b>'.$row['sub_name']; echo '</b></a><br>';
+        			echo '・担当：'.$row['tea_name'].'<br>';
+        			echo '・'.$semesters[$row['semester']].'-'.$weekdays_sm[$row['tt_weekday']].'-'.$times[$row['tt_timed']].'<br>';
+        		echo '</li>'; 
         		$row = $rs->fetch_assoc();
         	}
         	echo '</ul>';
@@ -138,8 +142,8 @@ $row = $rs->fetch_assoc();
         	foreach ($recommends as $key => $value) {
         		echo '<li class="list-group-item">';
         			echo '<a href="?do=student_recommend&rcm_id='.$key.'"><b>'.$value['sub_name']; echo '</b></a><br>';
-        			echo '--'.$semesters[$value['semester']].'-'.$weekdays_sm[$value['tt_weekday']].'-'.$times[$value['tt_timed']].'<br>';
-        			echo '--'.$value['tea_name'];
+        			echo '・担当：'.$value['tea_name'].'<br>';
+        			echo '・'.$semesters[$value['semester']].'-'.$weekdays_sm[$value['tt_weekday']].'-'.$times[$value['tt_timed']].'<br>';
         		echo '</li>'; 
         	}
         	echo '</ul>';
