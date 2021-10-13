@@ -94,7 +94,6 @@ $row = $rs->fetch_assoc();
     	  <th scope="col">GPA</th>
     	  <th scope="col">成績</th>
     	  <th scope="col">メールアドレス</th>
-    	  <th scope="col">操作</th>
     	</tr>
 	</thead>	
     <tbody>
@@ -108,13 +107,6 @@ $row = $rs->fetch_assoc();
         <td><?= $stu_detail['stu_gpa']; ?></td>
         <td><?= $grade[$stu_detail['grade']]; ?></td>
         <td><?= $stu_detail['stu_mail']; ?></td>
-        <td align="center">
-        	<?php  
-            echo '<a class="btn btn-danger btn-sm" href="?do=teacher_subject_search&stu_id='.$stu_detail['stu_id'].'" role="button" target="_brank">';
-            ?>
-              科目別の成績検索 <br> (別ウィンドウが開きます)
-            </a>
-        </td>
       </tr>
       
     </tbody>
