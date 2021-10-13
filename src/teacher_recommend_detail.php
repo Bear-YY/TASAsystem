@@ -1,6 +1,12 @@
 <?php 
 require_once('db_inc.php');
 require_once('data.php');
+
+$search = '';
+if(isset($_POST["search"])) {
+    $search = $_POST["search"];
+}
+
 $rec_id = $_GET['rec_id'];
 $stu_id = $_GET['stu_id'];
 $tea_id = $_SESSION['usr_id'];
@@ -24,9 +30,6 @@ while($row){
 	];
 	$row = $rs->fetch_assoc();
 }
-
-var_dump($stu_detail);
-
 $sql = <<<EOM
 SELECT * FROM tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_teacher NATURAL JOIN tb_subject
 WHERE rec_id = '{$rec_id}' AND rec.tt_id = tt.tt_id
@@ -116,6 +119,77 @@ $row = $rs->fetch_assoc();
       
     </tbody>
 </table>
+
+
+<hr style="border:0;border-top:1px solid black;">
+<?php 
+echo '<form action="?do=teacher_recommend_detail&stu_id='.$stu_id.'&rec_id='.$rec_id.'" method="post" class="form-inline">';
+echo   '<div class="form-group">';
+echo     '<label for="input_sub" class="col-sm-4 col-form-label">科目別成績</label>';
+echo     '<div class="col-sm-7">';
+echo       '<input type="text" class="form-control" id="input-sub" name="search" value="'.$search.'">';
+echo     '</div>';
+echo   '</div>';
+echo   '<button type="submit" class="btn btn-primary mb-0">検索</button>';
+echo '</form>';
+
+
+if($search === ''){
+  $sql = <<<EOM
+  SELECT * FROM tb_student stu NATURAL JOIN tb_course NATURAL JOIN tb_subject WHERE stu_id = '{$stu_id}'
+  EOM;
+}else{
+  $sql = <<<EOM
+  SELECT * FROM tb_student stu NATURAL JOIN tb_course NATURAL JOIN tb_subject WHERE sub_name LIKE '%$search%' AND stu_id = '{$stu_id}'
+  EOM;
+}
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+$subjects = [];
+while($row){
+  $sub_id = $row['sub_id'];
+  $subjects[$sub_id] = [
+    'sub_name' => $row['sub_name'],
+    'grade' => $row['grade'],
+    'get_year' => $row['get_year']
+  ];
+  $row = $rs->fetch_assoc();
+}
+if($subjects):
+?>
+
+
+<div class="tablearea-sm">
+  <table class="table table-sm table-bordered">
+    <thead class="thead-dark"> 
+      <tr>
+          <th scope="col">科目名</th>
+          <th scope="col">成績</th>
+          <th scope="col">取得学年</th>
+        </tr>
+    </thead>  
+      <tbody>
+        <?php foreach ($subjects as $key => $value): ?>
+          
+        <tr>
+          <td><?= $value['sub_name']; ?></td>
+          <td><?= $grade[$value['grade']]; ?></td>
+          <td><?= $value['get_year']; ?>年生</td>
+          </td>
+        </tr>
+        
+        <?php endforeach ?>
+      </tbody>
+  </table>
+</div>
+<?php 
+else:
+  echo '<p>その科目をこの学生は履修していません。</p>';
+endif;
+
+
+ ?>
+
 <form action="?do=teacher_recommend_add" method="post">
 <input type="hidden" name="rec_id" value="<?= $rec_id;?>">	
 <input type="hidden" name="stu_id" value="<?= $stu_id;?>">	

@@ -3,6 +3,8 @@ require_once('db_inc.php');
 require_once('data.php');
 
 
+// select * from tb_student stu natural join tb_course natural join tb_subject where sub_name like '%プログラミング%' and stu_id = '30RS001';
+
 $rcmflg = false;
 $rec_id = $_POST['rec_id'];
 $sql = <<<EOM
