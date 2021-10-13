@@ -105,7 +105,6 @@ EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 
-var_dump($recommends);
  ?>
 
 
@@ -138,7 +137,7 @@ var_dump($recommends);
         	echo '<ul class="list-group list-group-flush">';
         	foreach ($recommends as $key => $value) {
         		echo '<li class="list-group-item">';
-        			echo '<b>'.$value['sub_name']; echo '</b><br>';
+        			echo '<a href="?do=student_recommend&rcm_id='.$key.'"><b>'.$value['sub_name']; echo '</b></a><br>';
         			echo '--'.$semesters[$value['semester']].'-'.$weekdays_sm[$value['tt_weekday']].'-'.$times[$value['tt_timed']].'<br>';
         			echo '--'.$value['tea_name'];
         		echo '</li>'; 

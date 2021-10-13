@@ -96,3 +96,6 @@ rgbaで色を指定してます。()内はそれぞれ(赤,緑,青,アルファ�
   font-weight: bold;
 }
 
+.red {
+  color: red;
+}

@@ -172,7 +172,7 @@ echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 				  echo '<td scope="col">'.$value['stu_gpa'].'</td>';
 				  if($value['rcm_result']){
 				  	if($value['rcm_result'] == 1){
-				  		$result = '受領';
+				  		$result = '了承';
 				  	}
 				  	if($value['rcm_result'] == 2){
 				  		$result = '拒否';

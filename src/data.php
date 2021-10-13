@@ -54,7 +54,11 @@ $times = [
 
 
 
-
+// if($value['rcm_result'] == 1){
+// 				  		$result = '受領';
+// 				  	}
+// 				  	if($value['rcm_result'] == 2){
+// 				  		$result = '拒否';
 
 
 
