@@ -117,7 +117,6 @@ while($row){
 	$row = $rs->fetch_assoc();
 }
 
-var_dump($apps);
 
  ?>
 
