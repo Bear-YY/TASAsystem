@@ -1,6 +1,6 @@
 <?php 
 require_once('db_inc.php');
-require_once('data.php');
+include('data.php');
 require_once('utils.php');
 $timetable = array();     
 $rectt = [];				//応募中の時間割idを記録する。
@@ -8,7 +8,6 @@ $rectt = [];				//応募中の時間割idを記録する。
 $schflg = false;
 $ttflg = false;
 $recttflg = false;
-
 
 $semester = 1;					//学期の検索対象  デフォルトでは前期を指定している。(1 => 前期、2 => 後期)
 if(isset($_GET['semester'])){
@@ -97,13 +96,28 @@ while ($row) {
 	$row = $rs->fetch_assoc();
 }
 
-
+//応募している時間割情報 サイドバー用
 $sql = <<<EOM
 SELECT * FROM tb_application app NATURAL JOIN tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_subject NATURAL JOIN tb_teacher
 WHERE rec.tt_id = tt.tt_id AND stu_id = '{$stu_id}'
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
+$apps = [];
+while($row){
+	$app_id = $row['app_id'];
+	$apps[$app_id] = [
+		'app_result' => $row['app_result'],
+		'sub_name' => $row['sub_name'],
+		'tea_name' => $row['tea_name'],
+		'semester' => $row['semester'],
+		'tt_weekday' => $row['tt_weekday'],
+		'tt_timed' => $row['tt_timed']
+	];
+	$row = $rs->fetch_assoc();
+}
+
+var_dump($apps);
 
  ?>
 
@@ -111,25 +125,11 @@ $row = $rs->fetch_assoc();
 <article>
 	<div class="side">
 		<!-- 最後のsql文の実行結果を取ってきてるので、配列に入れて管理する場合は注意 -->
-		<?php if($row): ?>				
-		<div class="card bg-light mb-3" style="width: 12rem;" >
-        <div class="card-header">
-          応募中の時間割
-        </div>
-        <?php
-        	echo '<ul class="list-group list-group-flush">';
-        	while($row){ 
-        		echo '<li class="list-group-item">';
-        		echo '<a href=""><b>'.$row['sub_name']; echo '</b></a><br>';
-        			echo '・担当：'.$row['tea_name'].'<br>';
-        			echo '・'.$semesters[$row['semester']].'-'.$weekdays_sm[$row['tt_weekday']].'-'.$times[$row['tt_timed']].'<br>';
-        		echo '</li>'; 
-        		$row = $rs->fetch_assoc();
-        	}
-        	echo '</ul>';
-        ?>
-    </div>
-  	<?php 
+		<?php if($apps): 				
+		listSide($apps, NULL , '応募中の時間割');
+		listSide($apps, 1 , '採用された時間割');
+		// listSide($apps, 2 , '不採用の時間割');
+
   	endif;
     if($recommends): 
   	?>
@@ -149,6 +149,10 @@ $row = $rs->fetch_assoc();
         	echo '</ul>';
         ?>
     </div>
+
+
+
+
   	<?php endif; ?>
 	</div>
 	<div class="main">
