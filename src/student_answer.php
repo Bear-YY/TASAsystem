@@ -1,21 +1,29 @@
 <h1>アンケート回答</h1>
 <?php 
 require_once('db_inc.php');
+require_once('data.php');
 $usr_id = $_SESSION['usr_id'];
 $stu_id = strtoupper($usr_id); //全部大文字
 $stu_id = mb_substr($stu_id, 1);  //頭の一文字を消す(細かい使い方は調べましょう)
 $act = 'insert';
 
-$sql = "SELECT count() FROM tb_answer WHERE stu_id = '{$stu_id}')";
+$sql = "SELECT * FROM tb_answer WHERE stu_id = '{$stu_id}'";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 
-
-if($row > 0){
+if($row){
   $act = 'update';
+  $answers = [];
+  while($row){
+    $que_id = $row['que_id'];
+    $answers[$que_id] = $row['ans_value'];
+    $row = $rs->fetch_assoc();
+  }
 }
 
-var_dump($row);
+// var_dump($answers);
+
+var_dump($act);
 
 $sql = "SELECT * FROM tb_questionnaire";
 $rs = $conn->query($sql);
@@ -25,9 +33,17 @@ $row = $rs->fetch_assoc();
 <article>
   <div class="main">
 <?php 
-echo '<form action="?do=student_answer_save" method="post">';
+
+echo '<form action="?do=student_answer_save&act='.$act.'" method="post">';
+
 while($row):
-  echo '<h5>・'.$row['que_title'].'</h5>';
+  if($act === 'insert'){
+    echo '<h5>・'.$row['que_title'].'</h5>';
+  }
+  if($act === 'update'){
+    echo '<h5>・'.$row['que_title'].'&nbsp&nbspーー前回の回答：'.$ques[$answers[$row['que_id']]].'</h5>';
+  }
+
   echo '<div class="radio-area">';
   for($i = 1; $i <= 5; $i++):
     echo '<div class="form-check">';
@@ -70,7 +86,6 @@ switch ($i) {
   echo "</div>";
   echo "<br>";
   endwhile;
-  echo '<input type="hidden" name="act" value="<?= $act;?>">';
   if($act === 'insert'){
       echo '<button type="submit" class="btn btn-primary">登録</button>';
   }
