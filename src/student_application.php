@@ -81,7 +81,7 @@ $row = $rs->fetch_assoc();
 
 
 <?php 
-$sql = "SELECT * FROM tb_application WHERE stu_id = '{$stu_id}' LIMIT 1";
+$sql = "SELECT * FROM tb_application WHERE stu_id = '{$stu_id}' AND rec_id = '{$rec_id}' LIMIT 1";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 
