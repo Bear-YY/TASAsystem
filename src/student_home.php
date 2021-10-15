@@ -124,12 +124,10 @@ while($row){
 <article>
 	<div class="side">
 		<!-- 最後のsql文の実行結果を取ってきてるので、配列に入れて管理する場合は注意 -->
-		<?php if($apps): 				
+		<?php				
 		listSide($apps, NULL , '応募中の時間割');
 		listSide($apps, 1 , '採用された時間割');
 		// listSide($apps, 2 , '不採用の時間割');
-
-  	endif;
     if($recommends): 
   	?>
     <div class="card bg-light mb-3" style="width: 12rem;" >

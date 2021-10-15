@@ -12,6 +12,7 @@
     $_SESSION['usr_kind'] = $row['usr_kind'];
     header('Location:index.php');   
   }else{
-    header('Location:?do=sys_login');   
+    header('Location:?do=sys_login&err=wrong');   
+    // header('Location:?do=sys_login');   
   }
 ?>

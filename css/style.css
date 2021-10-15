@@ -19,6 +19,8 @@
   padding: 20px;   /*内側　（marginが外側）*/
 }
 
+
+
 .main {
   background-color: #ffffff;
   margin-top: 10px;
@@ -41,8 +43,10 @@ article {
   display:flex;/*サイドバーとメインコンテンツを横並びにする                指定をした*/
 }
 
-.login-form{
-  padding: 30px;
+
+.login{
+  margin: 5%;
+  padding: 5%;
 }
 
 #dpt_id-form, #sub_unit-form {
