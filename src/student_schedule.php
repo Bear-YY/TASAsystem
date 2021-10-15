@@ -132,7 +132,7 @@ while($row){
 	</div>
 	<div class="modal fade" id="modalSchedule-<?= $j.$i;?>" tabindex="-1" aria-labelledby="label-<?= $j.$i;?>" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-	    <form action="?do=student_schedule_save" method="post">
+	    <form action="?do=student_schedule_save" method="post" class="needs-validation" novalidate>
 	    	<div class="modal-content">
 	    	  <div class="modal-header">
 	    	    <h5 class="modal-title" id="label-<?= $j.$i;?>">スケジュールを登録してください</h5>
@@ -149,11 +149,14 @@ while($row){
 						<h2><?= $weekdays[$j].'-'.$times[$i].'目'; ?></h2>
 						<div class="form-group">
 							<label for="sch_title-form">スケジュール名</label>
-							<input type="text" class="form-control" name="sch_name" id="sch_title-form" placeholder="例:離散数学">
+							<input type="text" class="form-control" name="sch_name" id="sch_title-form" placeholder="例:離散数学"  required>
+							<div class="invalid-feedback">
+      				  スケジュール名を入力してください
+      				</div>
   					</div>
 						<div class="form-group">
 							<label for="sch_detail-form">スケジュール詳細</label>
-    					<textarea class="form-control" id="sch_detail-form" rows="3" name="sch_detail"></textarea>
+    					<textarea class="form-control" id="sch_detail-form" rows="3" name="sch_detail" placeholder="記入なしでも構いません"></textarea>
   					</div>
 	    	  </div>
 	    	  <div class="modal-footer">
@@ -177,3 +180,5 @@ while($row){
 		</table>
 	</div>	
 </article>
+
+<script src="../js/validation.js"></script>
