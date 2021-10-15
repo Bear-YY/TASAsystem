@@ -2,6 +2,10 @@
 
 require_once('db_inc.php');
 require_once('data.php');
+$usr_id = $_SESSION['usr_id'];
+$stu_id = strtoupper($usr_id); //全部大文字
+$stu_id = mb_substr($stu_id, 1);  //頭の一文字を消す(細かい使い方は調べましょう)
+
 $rec_id = $_GET['rec_id'];
 $sql = <<<EOM
 SELECT * FROM tb_recruitment 
@@ -74,7 +78,23 @@ $row = $rs->fetch_assoc();
       </table>
       <hr color="#000000" width="80%" size="3">
 
-      <form action="?do=student_application_add" method="post">
+
+
+<?php 
+$sql = "SELECT * FROM tb_application WHERE stu_id = '{$stu_id}' LIMIT 1";
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+
+if($row){
+
+  echo '<h4>あなたはすでにこの時間割に応募しています。</h4>';
+  echo '<h4>結果がホーム画面に通知されるのでお待ちください。</h4>';
+
+ ?>
+<?php 
+}else{
+ ?>
+      <form action="?do=student_application_add" method="post" class="needs-validation" novalidate>
       <div class="form-group">
           <!-- hiddenで(rec_id)を送るのはセキュリティ上どうなのだろうか？--ページのソース参照からばれてしまう。 -->
           <?php 
@@ -83,10 +103,18 @@ $row = $rs->fetch_assoc();
       </div>
       <div class="form-group">
           <label for="app-comment">意気込み・連絡事項</label>
-          <textarea class="form-control" id="app-comment" name='app_comment' rows="4"></textarea>
+          <textarea class="form-control" id="app-comment" name='app_comment' rows="4" required></textarea>
+          <div class="invalid-feedback">
+            テキストエリアに文章を入力してください。
+          </div>
       </div>
       
       <button type="submit" class="btn btn-primary">応募する</button>
     </form>   
     </div>     
 </div>
+
+<?php 
+} 
+?>
+<script src="../js/validation.js"></script>

@@ -208,7 +208,7 @@ if((!$usetapps) && (!$setapps)){
 <table class="table table-bordered">
   <thead class="thead-dark">
     <tr>
-    　<th scope="col"></th>
+    　<th scope="col">状態</th>
       <th scope="col">学籍番号</th>
       <th scope="col">氏名</th>
       <th scope="col">学年</th>
@@ -226,7 +226,7 @@ if((!$usetapps) && (!$setapps)){
 ?>
 
 		<tr>
-			<td scope="col">
+			<td scope="col" align="center">
 				<h4><span class="badge badge-primary">採用中</span></h4>
 			</td>
 <?php

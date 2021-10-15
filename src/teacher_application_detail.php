@@ -255,8 +255,13 @@ if(isset($app_id)){
   </div>
 </div>
 
+
 <?php 
   }
 }
  ?>
+<div style="text-align: right;">
+  
+<a class="btn btn-primary" href="?do=teacher_application_list&rec_id=<?= $rec_id;?>" role="button">応募・推薦者リストに戻る</a>
+</div>
 

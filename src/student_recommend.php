@@ -74,18 +74,21 @@ $row = $rs->fetch_assoc();
 
 	<div>
 		<?php for($i = 0; $i <= 1; $i++): ?>
-		<form action="?do=student_recommend_save" method="post">
+		<form action="?do=student_recommend_save" method="post" class="needs-validation" novalidate>
 			<div class="form-group">
 			<?php  
 			if($i === 0){
 	      	    echo '<label for="rcm-acomment">①推薦了承</label>';
-	      	    echo '<textarea class="form-control" id="rcm-acomment" name="rcm_acomment" rows="4" placeholder="連絡事項等を入力してください"></textarea>';
+	      	    echo '<textarea class="form-control" id="rcm-acomment" name="rcm_acomment" rows="4" placeholder="連絡事項等を入力してください" required></textarea>';
 	      	}
 	      	if($i === 1){
 	      	    echo '<label for="rcm-acomment">②推薦を断る</label>';
-	      		echo '<textarea class="form-control" id="rcm-acomment" name="rcm_acomment" rows="4" placeholder="断る理由を簡潔に記入してください"></textarea>';
+	      		echo '<textarea class="form-control" id="rcm-acomment" name="rcm_acomment" rows="4" placeholder="断る理由を簡潔に記入してください" required></textarea>';
 	      	}
 			?>
+			<div class="invalid-feedback">
+            	テキストエリアに文章を入力してください。
+          	</div>
 	      	</div>
 	      	<input type="hidden" name="rcm_id" value="<?= $rcm_id;?>">
 	      	<div style="text-align: right;">
@@ -167,3 +170,5 @@ $row = $rs->fetch_assoc();
 	}
 	 ?>
 </div>
+
+<script src="../js/validation.js"></script>

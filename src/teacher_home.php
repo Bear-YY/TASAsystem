@@ -10,8 +10,6 @@ $sql =
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 
-var_dump($row);
-
 //募集している時間割があるなら募集に関する情報を取得
 if($row !== 0){
 	

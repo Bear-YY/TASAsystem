@@ -2,7 +2,7 @@
 require_once('db_inc.php');
 require_once('data.php');
 $rec_id = $_GET['rec_id'];
-echo $rec_id;
+// echo $rec_id;
 
 $sql = <<<EOM
 SELECT * FROM tb_student NATURAL JOIN tb_course NATURAL JOIN tb_subject NATURAL JOIN tb_timetable tt,tb_recruitment rec
@@ -23,7 +23,7 @@ while($row){
 	$row = $rs->fetch_assoc();
 }
 
-var_dump($students);
+// var_dump($students);
 ?>
 
  <h3>成績条件を満たす学生</h3>
