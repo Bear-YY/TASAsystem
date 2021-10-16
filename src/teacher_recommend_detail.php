@@ -30,6 +30,7 @@ while($row){
 	];
 	$row = $rs->fetch_assoc();
 }
+
 $sql = <<<EOM
 SELECT * FROM tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_teacher NATURAL JOIN tb_subject
 WHERE rec_id = '{$rec_id}' AND rec.tt_id = tt.tt_id
@@ -114,6 +115,67 @@ $row = $rs->fetch_assoc();
 
 <hr style="border:0;border-top:1px solid black;">
 <?php 
+//学生のアンケート回答情報を取得
+$sql = "SELECT * FROM tb_questionnaire NATURAL JOIN tb_answer WHERE stu_id = '{$stu_id}'";
+$rs = $conn->query($sql);
+if(!$rs) die('エラー: '. $conn->error);
+$row = $rs->fetch_assoc();
+$ansinfo = [];
+while($row){
+  $que_id = $row['que_id'];
+  $ansinfo[$que_id] = [
+    'que_title' => $row['que_title'],
+    'ans_value' => $row['ans_value'] 
+  ];
+  $row = $rs->fetch_assoc();
+}
+
+//教員のアンケート設定情報を取得
+$sql = "SELECT * FROM tb_config NATURAL JOIN tb_questionnaire NATURAL JOIN tb_recruitment WHERE rec_id = '{$rec_id}'";
+$rs = $conn->query($sql);
+if(!$rs) die('エラー: '. $conn->error);
+$row = $rs->fetch_assoc();
+$coninfo = [];
+while($row){
+  $que_id = $row['que_id'];
+  $coninfo[$que_id] = [
+    'con_value' => $row['con_value'] 
+  ];
+  $row = $rs->fetch_assoc();
+}
+
+if($ansinfo){
+
+?>
+
+<h3>アンケート回答結果</h3>
+<table class="table table-sm table-bordered">
+  <thead class="thead-dark"> 
+    <tr>
+        <th scope="col">アンケート項目名</th>
+        <th scope="col">学生回答</th>
+        <th scope="col">教員設定</th>
+      </tr>
+  </thead>  
+    <tbody>
+      <?php 
+      foreach ($ansinfo as $key => $value) {
+       ?>
+      <tr>
+        <td><?= $value['que_title']; ?></td>
+        <td><?= $ques[$value['ans_value']]; ?></td>
+        <td><?= $ques[$coninfo[$key]['con_value']]; ?></td>
+      </tr>
+      <?php 
+      }
+      ?>
+
+    </tbody>
+</table>
+<hr style="border:0;border-top:1px solid black;">
+
+<?php
+}
 echo '<form action="?do=teacher_recommend_detail&stu_id='.$stu_id.'&rec_id='.$rec_id.'" method="post" class="form-inline">';
 echo   '<div class="form-group">';
 echo     '<label for="input_sub" class="col-sm-4 col-form-label">科目別成績</label>';
