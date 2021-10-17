@@ -62,7 +62,7 @@ $select2 = array(1 => "必修科目",
 echo '<td>'.$select2[$row['sub_section']].'</td>';
 
 ?>
-<td align="center"><a class="btn btn-secondary btn-sm" href="https://getbootstrap.com/docs/4.5/components/buttons/" role="button">時間割登録</a></td>
+<td align="center"><a class="btn btn-secondary btn-sm" href="?do=admin_timetable&sub_id=<?= $row['sub_id'];?>" role="button">時間割登録</a></td>
 </tr>
 <?php
 $row = $rs->fetch_assoc ();  

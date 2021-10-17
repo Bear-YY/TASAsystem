@@ -4,7 +4,7 @@
 	<div class="main">
 		<h1>科目登録</h1>
 <!-- 		デバック用に切り替えて(上のほうがデバック用)-->		
-		<form action="?do=admin_subject_save" method="post">
+		<form action="?do=" method="post">
 		<!-- <form action="?do=eps_subject" method="post"> -->
 
 			<div class="form-group">
