@@ -4,13 +4,15 @@ include('data.php');
 $sub_id = $_GET['sub_id'];
 $timetable = [];
 
+
 $sql = <<<EOM
-SELECT * FROM tb_subject NATURAL JOIN tb_timetable NATURAL JOIN tb_teacher WHERE sub_id = '1';
+SELECT * FROM tb_subject NATURAL JOIN tb_timetable NATURAL JOIN tb_teacher WHERE sub_id = '{$sub_id}';
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 $sub_name = $row['sub_name'];
 $timetable = [];
+$category_id = $row['category_id'];
 while($row){
 	$tt_id = $row['tt_id'];
 	$timetable[$tt_id] = [
@@ -24,6 +26,9 @@ while($row){
 	$row = $rs->fetch_assoc();
 }
 
+$sql = <<<EOM
+SELECT * FORM tb_subject NATURAL JOIN tb_category WHERE category_id = '{$category_id}' 
+EOM;
 ?>
 
 <?php 
@@ -61,12 +66,19 @@ if($timetable){
 
 <?php  
 }
+if(isset($_GET['err'])){
+	$err = $_GET['err'];
+	if($err === 'wrong'){
+		echo '<p class="red">入力した教員IDは存在しません。</p>';
+		echo '<p class="red">入力をやり直してください。</p>';
+	}
+}
 ?>
 <h4>時間割の新規登録</h4>
-<form action="?do=" method="post">
+<form action="?do=admin_timetable_save" method="post">
 	<div class="form-group col-md-6"> <!-- 6マス使います的な？ -->
 		<label for="tea_id-form" >教員ID</label>
-		<input type="text" class="form-control" name="tea_id" id="tea_id-form" placeholder="例:プログラミング基礎">
+		<input type="text" class="form-control" name="tea_id" id="tea_id-form" placeholder="例:kyusan">
 	</div>
 	<input type="hidden" name="sub_id" value="<?= $sub_id ;?>">
 	<div class="form-group row col-sm-9 mb-2"> <!-- mbが下との幅と思われる sm-9は9マス -->
@@ -83,8 +95,8 @@ if($timetable){
 			<select class="form-control" id="tt_weekday-form" name="tt_weekday">
 			  <option selected disabled>未選択</option>
 			  <option value="1">月曜日</option>
-			  <option value="2">水曜日</option>
-			  <option value="3">火曜日</option>
+			  <option value="2">火曜日</option>
+			  <option value="3">水曜日</option>
 			  <option value="4">木曜日</option>
 			  <option value="5">金曜日</option>
 			  <option value="6">土曜日</option>
