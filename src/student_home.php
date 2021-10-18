@@ -55,6 +55,8 @@ while ($row) {
 	$row = $rs->fetch_assoc();
 }
 
+var_dump($rectt);
+
 //スケジュール情報を取得
 $sql = <<<EOM
 SELECT * FROM tb_schedule WHERE stu_id = '{$stu_id}' AND sch_semester = '{$semester}'
@@ -204,9 +206,9 @@ while($row){
 						foreach ($rectt as $key => $value) {
 							if(flagonCheck($j, $i ,$value['tt_weekday'], $value['tt_timed'])){
 								if($schflg){
-									echo '<b>'.$value['sub_name'].'</b><br>--'.$value['tea_name'].'<br>';
+									echo '<b>・'.$value['sub_name'].'</b><br>--'.$value['tea_name'].'<br>';
 								}else{
-									echo '<a href="?do=student_application&rec_id='.$value['rec_id'].'"><b>'.$value['sub_name'].'</b><br>--'.$value['tea_name'].'<br><a>';
+									echo '<a href="?do=student_application&rec_id='.$value['rec_id'].'"><b>・'.$value['sub_name'].'</b><br>--'.$value['tea_name'].'<br><a>';
 								}
 							}
 						}

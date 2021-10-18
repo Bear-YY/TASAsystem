@@ -52,9 +52,9 @@ if($timetable){
        	<?php foreach ($timetable as $key => $value):?>
          <tr>
            <td><?= $value['tea_name']; ?></td>
-           <td><?= $value['semester']; ?></td>
-           <td><?= $value['tt_weekday']; ?></td>
-           <td><?= $value['tt_timed']; ?></td>
+           <td><?= $semesters[$value['semester']]; ?></td>
+           <td><?= $weekdays[$value['tt_weekday']]; ?></td>
+           <td><?= $times[$value['tt_timed']]; ?></td>
            <td><?= $value['tt_year']; ?></td>
            <td><?= $value['tt_classnum']; ?></td>
          </tr>
@@ -75,25 +75,31 @@ if(isset($_GET['err'])){
 }
 ?>
 <h4>時間割の新規登録</h4>
-<form action="?do=admin_timetable_save" method="post">
+<form action="?do=admin_timetable_save" method="post" class="needs-validation" novalidate>
 	<div class="form-group col-md-6"> <!-- 6マス使います的な？ -->
 		<label for="tea_id-form" >教員ID</label>
-		<input type="text" class="form-control" name="tea_id" id="tea_id-form" placeholder="例:kyusan">
+		<input type="text" class="form-control" name="tea_id" id="tea_id-form" placeholder="例:kyusan" required>
+		<div class="invalid-feedback">
+  		教員IDを入力してください。
+  	</div>
 	</div>
 	<input type="hidden" name="sub_id" value="<?= $sub_id ;?>">
 	<div class="form-group row col-sm-9 mb-2"> <!-- mbが下との幅と思われる sm-9は9マス -->
 		<div class="col-md-3">
 			<label for="semester-form">学期</label>
-			<select class="form-control" id="sub_section-form" name="semester">
-			  <option selected disabled>未選択</option>
+			<select class="form-control" id="sub_section-form" name="semester" required>
+			  <option selected disabled value="">未選択</option>
 			  <option value="1">前期</option>
 			  <option value="3">後期</option>
 			</select>
+			<div class="invalid-feedback">
+        学期を選択してください。
+      </div>
 		</div>
 		<div class="col-md-3">
 		<label for="tt_weekday-form">曜日</label>
-			<select class="form-control" id="tt_weekday-form" name="tt_weekday">
-			  <option selected disabled>未選択</option>
+			<select class="form-control" id="tt_weekday-form" name="tt_weekday" required>
+			  <option selected disabled value="">未選択</option>
 			  <option value="1">月曜日</option>
 			  <option value="2">火曜日</option>
 			  <option value="3">水曜日</option>
@@ -101,11 +107,14 @@ if(isset($_GET['err'])){
 			  <option value="5">金曜日</option>
 			  <option value="6">土曜日</option>
 			</select>
+			<div class="invalid-feedback">
+        曜日を選択してください。
+      </div>
 		</div>
 		<div class="col-md-3">
 			<label for="tt_timed-form">時限</label>
-			<select class="form-control" id="tt_timed-form" name="tt_timed">
-			  <option selected disabled>未選択</option>
+			<select class="form-control" id="tt_timed-form" name="tt_timed" required>
+			  <option selected disabled value="">未選択</option>
 			  <option value="1">1限目</option>
 			  <option value="2">2限目</option>
 			  <option value="3">3限目</option>
@@ -114,15 +123,26 @@ if(isset($_GET['err'])){
 			  <option value="6">6限目</option>
 			  <option value="7">7限目</option>
 			</select>
+			<div class="invalid-feedback">
+        時限を選択してください。
+      </div>
 		</div>
 	</div>
 	<div class="form-group col-md-2"> <!-- 6マス使います的な？ -->
-		<label for="tt_year-form" >年度</label>
-		<input type="number" class="form-control" name="tt_year" id="tt_year-form" placeholder="例:2021">
+		<label for="tt_year-form" >実施年度</label>
+		<input type="number" class="form-control" name="tt_year" id="tt_year-form" placeholder="例:2021" required>
+		<div class="invalid-feedback">
+     年度を入力してください。
+    </div>
 	</div>
 	<div class="form-group col-md-4"> <!-- 6マス使います的な？ -->
 		<label for="tt_classnum-form" >教室番号</label>
-		<input type="text" class="form-control" name="tt_classnum" id="tt_classnum-form" placeholder="例:12105">
+		<input type="text" class="form-control" name="tt_classnum" id="tt_classnum-form" placeholder="例:12105" required>
+		<div class="invalid-feedback">
+      教室番号を入力してください。
+    </div>
 	</div>
 	<button type="submit" class="btn btn-primary">登録</button>
 </form>
+
+<script src="../js/validation.js"></script>
