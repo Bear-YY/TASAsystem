@@ -496,8 +496,8 @@ CREATE TABLE `tb_timetable` (
   KEY `tea_id` (`tea_id`),
   KEY `sub_id` (`sub_id`),
   CONSTRAINT `tb_timetable_ibfk_1` FOREIGN KEY (`tea_id`) REFERENCES `tb_teacher` (`tea_id`),
-  CONSTRAINT `tb_timetable_ibfk_2` FOREIGN KEY (`sub_id`) REFERENCES `tb_subject` (`sub_id`),
-  CONSTRAINT `tb_timetable_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `tb_role` (`role_id`)
+  CONSTRAINT `tb_timetable_ibfk_2` FOREIGN KEY (`sub_id`) REFERENCES `tb_subject` (`sub_id`)
+  -- ,CONSTRAINT `tb_timetable_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `tb_role` (`role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
