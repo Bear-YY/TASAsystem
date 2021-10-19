@@ -44,6 +44,51 @@
         }
 	}
 
+	function gettotalpointCategoryTT($stu_id, $category_id){
+		include('db_inc.php');
+		$sql = <<<EOM
+		select * from tb_subject natural join tb_timetable natural join tb_category where category_id = '$category_id'
+		EOM;
+		$rs = $conn->query($sql);
+		$row = $rs->fetch_assoc();
+		$reccat = [];
+		while($row){
+			$tt_id = $row['tt_id'];
+			$reccat[$tt_id] = [
+				'category_name' => $row['category_name'], 
+				'category_id' => $row['category_name']		
+			];
+			$row = $rs->fetch_assoc();
+		}
+		//var_dump($reccat);
+		
+		$scores = [];
+		foreach ($reccat as $key => $value) {
+			$sql = <<<EOM
+			select * from tb_student natural join tb_answer natural join tb_config natural join tb_recruitment where stu_id = '$stu_id' and tt_id = '$key';
+			EOM;
+			$rs = $conn->query($sql);
+			$row = $rs->fetch_assoc();
+			$total = 0;
+			while($row){
+				$tt_id = $row['tt_id'];
+				$score = abs($row['con_value'] - $row['ans_value']);
+				if(($row['con_value'] < $row['ans_value'])){
+					$score = -$score;
+				}
+				$total += $score;
+				//echo $total;
+				$row = $rs->fetch_assoc();
+			} 
+			
+			$scores[$tt_id] = [
+				'total' => $total
+			];
+
+		}
+		return $scores;
+	}
+
 	function listSide($array, $app_result, $title){
 		echo '<div class="card bg-light mb-3" style="width: 12rem;">';
         echo '<div class="card-header">';
