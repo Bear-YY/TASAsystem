@@ -2,6 +2,7 @@
 require_once('db_inc.php');
 include('data.php');
 require_once('utils.php');
+include('student_matching.php');
 $timetable = array();     
 $rectt = [];				//応募中の時間割idを記録する。
 
@@ -55,7 +56,6 @@ while ($row) {
 	$row = $rs->fetch_assoc();
 }
 
-var_dump($rectt);
 
 //スケジュール情報を取得
 $sql = <<<EOM
@@ -206,9 +206,9 @@ while($row){
 						foreach ($rectt as $key => $value) {
 							if(flagonCheck($j, $i ,$value['tt_weekday'], $value['tt_timed'])){
 								if($schflg){
-									echo '<b>・'.$value['sub_name'].'</b><br>--'.$value['tea_name'].'<br>';
+									echo '<b>・'.mb_substr($value['sub_name'],0,8).'...</b><br>--'.$value['tea_name'].'<br>';
 								}else{
-									echo '<a href="?do=student_application&rec_id='.$value['rec_id'].'"><b>・'.$value['sub_name'].'</b><br>--'.$value['tea_name'].'<br><a>';
+									echo '<a href="?do=student_application&rec_id='.$value['rec_id'].'"><b>・'.mb_substr($value['sub_name'],0,8).'...</b><br>--'.$value['tea_name'].'<br><a>';
 								}
 							}
 						}

@@ -175,11 +175,12 @@ echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 				  	$result = '未回答';
 				  }
 				  echo '<td scope="col">'.$result.'</td>';
-				  echo '<td align="center">
-		  			<button type="submit" class="btn btn-info btn-sm" role="button">推薦詳細</button>
-		  			<button type="submit" class="btn btn-secondary btn-sm" role="button">詳細</button>
-		  			</td>';
+				  echo '<td align="center">';
+		  		echo '<button type="submit" class="btn btn-secondary" role="button">詳細</button>';
 				  echo '</form>';
+		  		echo '<a class="btn btn-info" href="?do=teacher_recommend_answer&rcm_id='.$key.'" role="button">推薦詳細</a>';
+
+		  		echo '</td>';
 ?>
 		</tr>
 <?php endforeach; ?>
