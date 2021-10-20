@@ -221,7 +221,7 @@ while($row){
 									}
 									if($key2 == $value['category_id']){
 										// echo 'カテゴリー相性：良!!'.$catcount.'<br>';　//デバック用
-										echo '<span class="badge badge-success">↓カテゴリー相性：良!!</span><br>';
+										echo '<span class="badge badge-success">▼カテゴリー相性：良!!</span><br>';
 									}
 									$catcount++;
 								}
@@ -233,7 +233,7 @@ while($row){
 										}
 										if($key3 == $key){
 											// echo '適性相性：良!!'.$quecount.'<br>';　//デバック用
-											echo '<span class="badge badge-success">↓適性相性：良!!</span><br>';
+											echo '<span class="badge badge-success">▼適性相性：良!!</span><br>';
 										}
 										$quecount++;
 									}
