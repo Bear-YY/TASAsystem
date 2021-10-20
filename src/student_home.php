@@ -6,8 +6,7 @@ include('student_matching.php');
 $timetable = array();     
 $rectt = [];				//応募中の時間割idを記録する。
 
-echo $mode;
-
+//echo $mode;
 $schflg = false;
 $ttflg = false;
 $recttflg = false;
@@ -222,7 +221,7 @@ while($row){
 									}
 									if($key2 == $value['category_id']){
 										// echo 'カテゴリー相性：良!!'.$catcount.'<br>';　//デバック用
-										echo '<span class="badge badge-success">カテゴリー相性：良!!</span><br>';
+										echo '<span class="badge badge-success">↓カテゴリー相性：良!!</span><br>';
 									}
 									$catcount++;
 								}
@@ -234,13 +233,14 @@ while($row){
 										}
 										if($key3 == $key){
 											// echo '適性相性：良!!'.$quecount.'<br>';　//デバック用
-											echo '<span class="badge badge-success">適性相性：良!!</span><br>';
+											echo '<span class="badge badge-success">↓適性相性：良!!</span><br>';
 										}
 										$quecount++;
 									}
 								}
 								if($schflg){
-									echo '<b>・'.mb_substr($value['sub_name'],0,8).'...</b><br>--'.$value['tea_name'].'<br>';
+									// echo '<b>・'.mb_substr($value['sub_name'],0,8).'...</b><br>--'.$value['tea_name'].'<br>';   //時間割名の後半を省略
+									echo '<b>・'.$value['sub_name'].'</b><br>--'.$value['tea_name'].'<br>';
 								}else{
 									if($rcmflg){
 										foreach ($recommends as $key4 => $value4) {
@@ -251,7 +251,8 @@ while($row){
 									}else{
 										echo '<a href="?do=student_application&rec_id='.$value['rec_id'].'">';
 									}
-										echo '<b>・'.mb_substr($value['sub_name'],0,8).'...</b><br>--'.$value['tea_name'].'<br><a>';
+										// echo '<b>・'.mb_substr($value['sub_name'],0,8).'...</b><br>--'.$value['tea_name'].'<br><a>';　//時間割名の後半を省略
+										echo '<b>・'.$value['sub_name'].'</b><br>--'.$value['tea_name'].'<br><a>';
 								}
 							}
 						}

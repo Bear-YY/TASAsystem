@@ -45,7 +45,7 @@ $mode = 'questionnaire';
 }
 
 //categorygpa は成績のみで判断するときに使う。
-var_dump($categoryscore); //はアンケート結果を使うときに使う。
+//var_dump($categoryscore); //はアンケート結果を使うときに使う。
 
 
 

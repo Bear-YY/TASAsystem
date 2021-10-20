@@ -138,7 +138,7 @@ $row = $rs->fetch_assoc();
 if($recommends):
  ?>
 <hr style="border:0;border-top:1px solid black;">
-<h3>推薦をした学生</h3>
+<h3>推薦を送った学生</h3>
 <table class="table table-bordered">
   <thead class="thead-dark">
     <tr>
@@ -162,7 +162,7 @@ echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 				  echo '<td scope="col">'.$value['stu_id'].'</td>';
 				  echo '<td scope="col">'.$value['stu_name'].'</td>';
 				  $year = $fake_year - $value['ad_year'];
-				  echo '<td scope="col">'.$year.'</td>';
+				  echo '<td scope="col">'.$school_grade[$year].'</td>';
 				  echo '<td scope="col">'.$value['stu_gpa'].'</td>';
 				  if($value['rcm_result']){
 				  	if($value['rcm_result'] == 1){
@@ -178,8 +178,7 @@ echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 				  echo '<td align="center">';
 		  		echo '<button type="submit" class="btn btn-secondary" role="button">詳細</button>';
 				  echo '</form>';
-		  		echo '<a class="btn btn-info" href="?do=teacher_recommend_answer&rcm_id='.$key.'" role="button">推薦詳細</a>';
-
+		  		echo '<a class="btn btn-info" href="?do=teacher_recommend_answer&rcm_id='.$key.'&rec_id='.$rec_id.'" role="button">推薦詳細</a>';
 		  		echo '</td>';
 ?>
 		</tr>
