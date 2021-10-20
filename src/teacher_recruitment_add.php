@@ -3,6 +3,18 @@ require_once('db_inc.php');
 require_once('data.php');
 $ttid = $_GET['tt_id'];
 $tid = $_SESSION['usr_id'];
+$act = "insert";
+
+$sql = "select * from tb_recruitment where tt_id = '{$ttid}'";
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+if($row){
+  $act = 'update';
+  $rec_id = $row['rec_id'];
+}
+
+
+
 
 $sql = <<<EOM
 SELECT * FROM tb_timetable NATURAL JOIN tb_teacher NATURAL JOIN tb_subject NATURAL JOIN tb_category
@@ -53,7 +65,12 @@ $row = $rs->fetch_assoc();
     <div class="recruit-form">
 <!--        デバック用に切り替えて(上のほうがデバック用)-->      
 <?php 
-    echo '<form action="?do=teacher_recruitment_save&tt_id='.$ttid.'" method="post">';
+if($act === 'insert'){
+  echo '<form action="?do=teacher_recruitment_save&tt_id='.$ttid.'&act='.$act.'" method="post">';
+}
+if($act === 'update'){
+  echo '<form action="?do=teacher_recruitment_save&rec_id='.$rec_id.'&act='.$act.'&tt_id='.$ttid.'" method="post">';
+}
  ?>
         <!-- <form action="?do=eps_subject" method="post"> -->
       <div class="form-group row">
@@ -83,6 +100,7 @@ $row = $rs->fetch_assoc();
           <textarea class="form-control" id="rec-comment" name='rec_comment' rows="4"></textarea>
       </div>
       <hr color="#000000" width="80%" size="3">
+
 <?php 
 $sql = "SELECT * FROM tb_questionnaire";
 $rs = $conn->query($sql);
@@ -139,7 +157,16 @@ switch ($i) {
   endwhile
 ;?>
       <hr color="#000000" width="80%" size="3">
-      <button type="submit" class="btn btn-primary">登録</button>
+      <button type="submit" class="btn btn-primary">
+      <?php 
+      if($act === 'insert'){
+        echo '登録';
+      }
+      if($act === 'update'){
+        echo '更新';
+      }
+      ?>
+      </button>
     </form>   
     </div>     
 </div>

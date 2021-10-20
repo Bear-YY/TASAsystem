@@ -17,7 +17,8 @@ while($row){
 		'semester' => $row['semester'],
 		'tt_weekday' => $row['tt_weekday'],
 		'tt_timed' => $row['tt_timed'],
-		'rec_num' => $row['rec_num']
+		'rec_num' => $row['rec_num'],
+		'tt_id' => $row['tt_id']
 	];
 	$row= $rs->fetch_assoc();
 }
@@ -96,7 +97,7 @@ while($row){
 				  }
 ?>
 			<td scope="col">
-				<a href="#" class="badge badge-info">編集</a>
+				<a href="?do=teacher_recruitment_add&tt_id=<?= $value['tt_id'];?>" class="badge badge-info">編集</a>
 			</td>
 			<td scope="col">
 				<?php 
