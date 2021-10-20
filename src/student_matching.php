@@ -39,14 +39,13 @@ if($row){
 $mode = 'questionnaire';
 	foreach ($categorygpa as $key => $value) {
 		$result = gettotalpointCategoryTT($stu_id, $key);
-		arsort($result); 
-		$categoryscore[$key] = $result;
+		$categoryscore += $result;
+		arsort($categoryscore); 
 	}
-	var_dump($categoryscore);
 }
 
 //categorygpa は成績のみで判断するときに使う。
-//categoryscore はアンケート結果を使うときに使う。
+var_dump($categoryscore); //はアンケート結果を使うときに使う。
 
 
 

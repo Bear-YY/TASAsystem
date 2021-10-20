@@ -53,7 +53,8 @@ while ($row) {
 		'tea_name' => $row['tea_name'],
 		'tt_timed' => $row['tt_timed'],
 		'tt_weekday' => $row['tt_weekday'],
-		'sub_name' => $row['sub_name']
+		'sub_name' => $row['sub_name'],
+		'category_id' => $row['category_id']
 	];
 	$row = $rs->fetch_assoc();
 }
@@ -207,9 +208,27 @@ while($row){
 					if($recttflg && $ttflg){	
 						foreach ($rectt as $key => $value) {
 							if(flagonCheck($j, $i ,$value['tt_weekday'], $value['tt_timed'])){
+								$licount = 1;
+								// if($mode == 'category'){
+									foreach ($categorygpa as $key2 => $value2) {
+										if($licount > 2) {//表示させたい相性の良いカテゴリー順位を記入する。(2 ->1位、2位まで)
+											break;
+										}
+										if($key2 == $value['category_id']){
+											// echo 'カテゴリー相性：良!!'.$licount.'<br>';　//デバック用
+											echo '<span class="badge badge-success">カテゴリー相性：良!!</span><br>';
+										}
+										$licount++;
+									}
+								// }
+								if($mode == 'questionnaire'){
+									foreach ($categoryscore as $key3 => $value3) {
+									}
+								}
 								if($schflg){
 									echo '<b>・'.mb_substr($value['sub_name'],0,8).'...</b><br>--'.$value['tea_name'].'<br>';
 								}else{
+
 									echo '<a href="?do=student_application&rec_id='.$value['rec_id'].'"><b>・'.mb_substr($value['sub_name'],0,8).'...</b><br>--'.$value['tea_name'].'<br><a>';
 								}
 							}
