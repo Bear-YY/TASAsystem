@@ -248,9 +248,6 @@ if((!$usetapps) && (!$setapps)){
 <?php 
 endif; 
 
-
-
-
 if($usetapps): ?>
 <h3>採用の判断をしていない学生</h3>
 <table class="table table-bordered">
@@ -271,7 +268,6 @@ foreach ($usetapps as $key => $value):
 echo '<form action="?do=teacher_application_detail&app_id='.$value['app_id'].'&stu_id='.$key.'" method="post">';
 echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 ?>
-
 		<tr>
 			<td scope="col">
 				<span class="badge badge-primary"></span>
