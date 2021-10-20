@@ -11,6 +11,7 @@ echo $mode;
 $schflg = false;
 $ttflg = false;
 $recttflg = false;
+$rcmflg = false;
 
 $semester = 1;					//学期の検索対象  デフォルトでは前期を指定している。(1 => 前期、2 => 後期)
 if(isset($_GET['semester'])){
@@ -96,7 +97,8 @@ while ($row) {
 		'tt_timed' => $row['tt_timed'],
 		'semester' => $row['semester'],
 		'tea_name' => $row['tea_name'],
-		'tea_id' => $row['tea_id']
+		'tea_id' => $row['tea_id'],
+		'tt_id' => $row['tt_id'],
 	];
 	$row = $rs->fetch_assoc();
 }
@@ -117,7 +119,8 @@ while($row){
 		'tea_name' => $row['tea_name'],
 		'semester' => $row['semester'],
 		'tt_weekday' => $row['tt_weekday'],
-		'tt_timed' => $row['tt_timed']
+		'tt_timed' => $row['tt_timed'],
+		'rec_id' => $row['rec_id']
 	];
 	$row = $rs->fetch_assoc();
 }
@@ -204,32 +207,51 @@ while($row){
 					$ttflg = matchdayCheck($timetable,'tt_weekday','tt_timed',$j,$i);
 					//募集されている科目があるのかを満たしている科目のチャック(募集科目が1コマに2つある場合を考慮しなければならない)
 					$recttflg = matchdayCheck($rectt,'tt_weekday','tt_timed',$j ,$i);
+
+					$rcmflg = matchdayCheck($recommends,'tt_weekday','tt_timed',$j ,$i);
 					
 					if($recttflg && $ttflg){	
 						foreach ($rectt as $key => $value) {
 							if(flagonCheck($j, $i ,$value['tt_weekday'], $value['tt_timed'])){
-								$licount = 1;
+								$catcount = 1;
+								$quecount = 1;
 								// if($mode == 'category'){
-									foreach ($categorygpa as $key2 => $value2) {
-										if($licount > 2) {//表示させたい相性の良いカテゴリー順位を記入する。(2 ->1位、2位まで)
-											break;
-										}
-										if($key2 == $value['category_id']){
-											// echo 'カテゴリー相性：良!!'.$licount.'<br>';　//デバック用
-											echo '<span class="badge badge-success">カテゴリー相性：良!!</span><br>';
-										}
-										$licount++;
+								foreach ($categorygpa as $key2 => $value2) {
+									if($catcount > 2) {//表示させたい相性の良いカテゴリー順位を記入する。(2 ->1位、2位まで)
+										break;
 									}
+									if($key2 == $value['category_id']){
+										// echo 'カテゴリー相性：良!!'.$catcount.'<br>';　//デバック用
+										echo '<span class="badge badge-success">カテゴリー相性：良!!</span><br>';
+									}
+									$catcount++;
+								}
 								// }
 								if($mode == 'questionnaire'){
 									foreach ($categoryscore as $key3 => $value3) {
+										if($quecount > 2) {//表示させたい相性の良いアンケート結果順位を記入する。(2 ->1位、2位まで)
+											break;
+										}
+										if($key3 == $key){
+											// echo '適性相性：良!!'.$quecount.'<br>';　//デバック用
+											echo '<span class="badge badge-success">適性相性：良!!</span><br>';
+										}
+										$quecount++;
 									}
 								}
 								if($schflg){
 									echo '<b>・'.mb_substr($value['sub_name'],0,8).'...</b><br>--'.$value['tea_name'].'<br>';
 								}else{
-
-									echo '<a href="?do=student_application&rec_id='.$value['rec_id'].'"><b>・'.mb_substr($value['sub_name'],0,8).'...</b><br>--'.$value['tea_name'].'<br><a>';
+									if($rcmflg){
+										foreach ($recommends as $key4 => $value4) {
+											if(flagonCheck($j, $i ,$value4['tt_weekday'], $value4['tt_timed'])){
+												echo '<a href="?do=student_recommend&rcm_id='.$key4.'">';
+											}
+										}
+									}else{
+										echo '<a href="?do=student_application&rec_id='.$value['rec_id'].'">';
+									}
+										echo '<b>・'.mb_substr($value['sub_name'],0,8).'...</b><br>--'.$value['tea_name'].'<br><a>';
 								}
 							}
 						}
@@ -240,7 +262,7 @@ while($row){
 			$schflg = false;
 			$ttflg = false;
 			$recttflg = false;
-
+			$rcmflg = false;
 	 	}
 	 print('</tr>');
 }
