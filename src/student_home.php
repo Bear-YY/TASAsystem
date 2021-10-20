@@ -6,6 +6,8 @@ include('student_matching.php');
 $timetable = array();     
 $rectt = [];				//応募中の時間割idを記録する。
 
+echo $mode;
+
 $schflg = false;
 $ttflg = false;
 $recttflg = false;

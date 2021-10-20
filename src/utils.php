@@ -46,6 +46,7 @@
 
 	function gettotalpointCategoryTT($stu_id, $category_id){
 		include('db_inc.php');
+		//カテゴリーごとに時間割を取得
 		$sql = <<<EOM
 		select * from tb_subject natural join tb_timetable natural join tb_category where category_id = '$category_id'
 		EOM;
@@ -60,32 +61,69 @@
 			];
 			$row = $rs->fetch_assoc();
 		}
-		//var_dump($reccat);
+		// var_dump($reccat);
 		
+		 // || empty($row)
+
 		$scores = [];
+		$count = 0;
 		foreach ($reccat as $key => $value) {
+				//学生のアンケート結果と、募集中の時間割で設定した値を取得
 			$sql = <<<EOM
-			select * from tb_student natural join tb_answer natural join tb_config natural join tb_recruitment where stu_id = '$stu_id' and tt_id = '$key';
+			select * from tb_student natural join tb_answer natural join tb_config natural join tb_recruitment where stu_id = '$stu_id' and tt_id = '$key'
 			EOM;
 			$rs = $conn->query($sql);
 			$row = $rs->fetch_assoc();
 			$total = 0;
-			while($row){
-				$tt_id = $row['tt_id'];
-				$score = abs($row['con_value'] - $row['ans_value']);
-				if(($row['con_value'] < $row['ans_value'])){
-					$score = -$score;
-				}
-				$total += $score;
-				//echo $total;
-				$row = $rs->fetch_assoc();
-			} 
 			
-			$scores[$tt_id] = [
+			if(isset($row)){
+				while($row){
+					$tt_id = $key;
+					if($row['con_value'] == 0){
+						if($row['ans_value'] < 3){
+							$score = 1;
+						}
+						if($row['ans_value'] == 3){
+							$score = 0;
+						}
+						if($row['ans_value'] > 3){
+							$score = -1;
+						}
+					}else{
+						$score = abs($row['con_value'] - $row['ans_value']);
+						if($row['con_value'] < $row['ans_value']){
+							$score = -$score;
+						}
+					}
+					$total += $score;
+					$row = $rs->fetch_assoc();
+				}
+			}else{
+				//アンケート設定を行っていない時間割(募集をかけていない)
+				break;
+				// echo $key.$value['category_name'].'値がないよ<br>';
+				// $sql2 = <<<EOM
+				// select * from tb_answer where stu_id = '{$stu_id}'
+				// EOM;
+				// $rs2 = $conn->query($sql2);
+				// $row2 = $rs2->fetch_assoc();
+				// while($row2){
+				// 	if($row2['ans_value'] < 3){
+				// 		$score = 1;
+				// 	}
+				// 	if($row2['ans_value'] > 3){
+				// 		$score = -1;
+				// 	}
+				// 	$total += $score;
+				// 	$row2 = $rs2->fetch_assoc();
+				// }
+			}
+			
+			$scores[$key] = [
 				'total' => $total
 			];
-
 		}
+		// var_dump($scores);
 		return $scores;
 	}
 

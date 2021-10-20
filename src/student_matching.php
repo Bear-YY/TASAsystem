@@ -5,6 +5,7 @@ require_once('utils.php');
 $usr_id = $_SESSION['usr_id'];
 $stu_id = strtoupper($usr_id);
 $stu_id = mb_substr($stu_id, 1);
+$mode = 'category';
 
 //カテゴリー別のGPAを計算する。
 $sql = <<<EOM
@@ -24,12 +25,31 @@ while($row){
 	$row = $rs->fetch_assoc();
 	$rank ++;
 }
-// var_dump($categorygpa);
 
-$category_1 = gettotalpointCategoryTT($stu_id, 1);
-$category_3 = gettotalpointCategoryTT($stu_id, 3);
-var_dump($category_1);
-var_dump($category_3);
+$loopcate = 0;
+$categoryscore = []; //
+
+$sql = <<<EOM
+SELECT * FROM tb_answer WHERE stu_id = '{$stu_id}'
+EOM;
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+
+if($row){
+$mode = 'questionnaire';
+	foreach ($categorygpa as $key => $value) {
+		$result = gettotalpointCategoryTT($stu_id, $key);
+		arsort($result); 
+		$categoryscore[$key] = $result;
+	}
+	var_dump($categoryscore);
+}
+
+//categorygpa は成績のみで判断するときに使う。
+//categoryscore はアンケート結果を使うときに使う。
+
+
+
 
 
 
