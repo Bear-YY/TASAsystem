@@ -148,6 +148,8 @@ if($recommends):
       <th scope="col">GPA</th>
       <th scope="col">推薦結果</th>
       <th scope="col">操作</th>
+      <th scope="col"></th>
+
     </tr>
   </thead>
   <tbody>
@@ -176,9 +178,11 @@ echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 				  }
 				  echo '<td scope="col">'.$result.'</td>';
 				  echo '<td align="center">';
-		  		echo '<button type="submit" class="btn btn-secondary" role="button">詳細</button>';
+		  		echo '<button type="submit" class="btn btn-sm btn-secondary" role="button">詳細</button>';
 				  echo '</form>';
-		  		echo '<a class="btn btn-info" href="?do=teacher_recommend_answer&rcm_id='.$key.'&rec_id='.$rec_id.'" role="button">推薦詳細</a>';
+		  		echo '</td>';
+		  		echo '<td align="center">';
+		  		echo '<a class="btn btn-sm btn-info" href="?do=teacher_recommend_answer&rcm_id='.$key.'&rec_id='.$rec_id.'" role="button">推薦詳細</a>';
 		  		echo '</td>';
 ?>
 		</tr>
@@ -196,7 +200,7 @@ if((!$usetapps) && (!$setapps)){
 	echo '<h4>応募している学生はまだいません。</h4>';
 	echo '<h4>↓学生を推薦する際はこちらから行ってください。</h4>';
 }else{
-	echo '<h2>応募者一覧</h2>';
+	echo '<h1>応募者一覧</h1>';
 }
 ?>
 
@@ -208,7 +212,7 @@ if((!$usetapps) && (!$setapps)){
 <table class="table table-bordered">
   <thead class="thead-dark">
     <tr>
-    　<th scope="col">状態</th>
+    　<th scope="col" width="10%">状態</th>
       <th scope="col">学籍番号</th>
       <th scope="col">氏名</th>
       <th scope="col">学年</th>
@@ -249,11 +253,10 @@ if((!$usetapps) && (!$setapps)){
 endif; 
 
 if($usetapps): ?>
-<h3>採用の判断をしていない学生</h3>
 <table class="table table-bordered">
   <thead class="thead-dark">
     <tr>
-    　<th scope="col"></th>
+    　<th scope="col" width="10%"></th>
       <th scope="col">学籍番号</th>
       <th scope="col">氏名</th>
       <th scope="col">学年</th>
@@ -269,14 +272,14 @@ echo '<form action="?do=teacher_application_detail&app_id='.$value['app_id'].'&s
 echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 ?>
 		<tr>
-			<td scope="col">
-				<span class="badge badge-primary"></span>
+			<td scope="col" align="center">
+				<h4><span class="badge badge-secondary">判断無し</span></h4>
 			</td>
 <?php
 				  print('<td scope="col">'.$key.'</td>');
 				  print('<td scope="col">'.$value['stu_name'].'</td>');
 				  $year = $fake_year - $value['ad_year'];
-				  print('<td scope="col">'.$year.'</td>');
+				  print('<td scope="col">'.$school_grade[$year].'</td>');
 				  print('<td scope="col">'.$value['app_day'].'</td>');
 				  print('<td scope="col">'.$value['stu_gpa'].'</td>');
 				  print('<td align="center">

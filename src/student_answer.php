@@ -23,7 +23,7 @@ if($row){
 
 // var_dump($answers);
 
-var_dump($act);
+// var_dump($act);
 
 $sql = "SELECT * FROM tb_questionnaire";
 $rs = $conn->query($sql);

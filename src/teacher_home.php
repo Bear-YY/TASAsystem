@@ -61,13 +61,13 @@ while($row){
 
 ?>
 <h2>教員ホーム</h2>
-<h3>担当科目一覧</h3>
+<h3>担当時間割一覧</h3>
 
 <?php if($rec): ?>
 <table class="table table-bordered">
   <thead class="thead-dark">
     <tr>
-      <th scope="col">募集状況</th>
+      <th scope="col" width="8%">募集状況</th>
       <th scope="col">科目名</th>
       <th scope="col">学期</th>
       <th scope="col">曜日</th>
@@ -81,7 +81,7 @@ while($row){
   <tbody>
 <?php foreach($rec as $key => $value): ?>
 		<tr>
-			<td scope="col">
+			<td scope="col" align="center">
 				<span class="badge badge-primary">募集中</span></td>
 
 <?php
@@ -96,12 +96,14 @@ while($row){
 				  	echo '<td scope="col">0人</td>';
 				  }
 ?>
-			<td scope="col">
-				<a href="?do=teacher_recruitment_add&tt_id=<?= $value['tt_id'];?>" class="badge badge-info">編集</a>
+			<td scope="col" align="center">
+				<!-- <a href="?do=teacher_recruitment_add&tt_id=<?= $value['tt_id'];?>" class="badge badge-info">編集</a> -->
+				<a href="?do=teacher_recruitment_add&tt_id=<?= $value['tt_id'];?>" class="btn btn-sm btn-info" role="button">編集</a>
 			</td>
-			<td scope="col">
+			<td scope="col" align="center">
 				<?php 
-				echo '<a href="?do=teacher_application_list&rec_id='.$key.'" class="badge badge-info">募集者確認</a>'
+				// echo '<a href="?do=teacher_application_list&rec_id='.$key.'" class="badge badge-info">募集者確認</a>';
+				echo '<a href="?do=teacher_application_list&rec_id='.$key.'" class="btn btn-sm btn-info" role="button">募集者一覧</a>';
 				?>
 			</td>
 			</tr>
@@ -121,7 +123,7 @@ if($norec):
 <table class="table table-bordered">	
   <thead class="thead-light">
     <tr>
-      <th scope="col">募集状況</th>
+      <th scope="col" width="8%">募集状況</th>
       <th scope="col">科目名</th>
       <th scope="col">学期</th>
       <th scope="col">曜日</th>
@@ -131,7 +133,7 @@ if($norec):
   <tbody>
 <?php foreach($norec as $key => $value): ?>
 	<tr>
-	<td scope="col">
+	<td scope="col" align="center">
 <?php
 echo '<a href="?do=teacher_recruitment_add&tt_id='.$key.'" class="badge badge-danger">募集する</a>';
 ?>

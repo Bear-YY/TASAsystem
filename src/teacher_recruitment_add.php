@@ -11,6 +11,7 @@ $row = $rs->fetch_assoc();
 if($row){
   $act = 'update';
   $rec_id = $row['rec_id'];
+  $rec_comment = $row['rec_comment'];
 }
 
 
@@ -96,20 +97,42 @@ if($act === 'update'){
       </fieldset>
 
       <div class="form-group">
+
           <label for="rec-comment">教員コメント</label>
-          <textarea class="form-control" id="rec-comment" name='rec_comment' rows="4"></textarea>
+          <?php 
+            if(isset($rec_comment)){
+          ?>
+              <table >
+                <tbody>
+                  <tr>
+                    <td width="50%">・前回設定したコメント</td>
+                    <td><?= $rec_comment ;?></td>
+                  </tr>
+                </tbody>
+              </table>
+          <?php 
+            }
+          ?>
+          <textarea class="form-control" id="rec-comment" name='rec_comment' rows="4">
+
+          </textarea>
       </div>
       <hr color="#000000" width="80%" size="3">
 
 <?php 
-$sql = "SELECT * FROM tb_questionnaire";
+$sql = "SELECT * FROM tb_questionnaire NATURAL JOIN tb_config WHERE tt_id = '{$ttid}'";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 
 echo '<h1>応募者に求める資質</h1>';
  
 while($row):
-  echo '<h5>・'.$row['que_title'].'</h5>';
+  echo '<h5>・'.$row['que_title'];
+  if($act === 'update'){
+    echo '&nbsp&nbspーー前回の回答：'.$ques[$row['con_value']].'</h5>';
+  }
+  echo '</h5>';
+
   echo '<div class="radio-area">';
   for($i = 0; $i <= 5; $i++):
     echo '<div class="form-check">';
