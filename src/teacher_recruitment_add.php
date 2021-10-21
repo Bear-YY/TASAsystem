@@ -105,7 +105,7 @@ if($act === 'update'){
               <table >
                 <tbody>
                   <tr>
-                    <td width="50%">・前回設定したコメント</td>
+                    <td width="200px">・前回設定したコメント</td>
                     <td><?= $rec_comment ;?></td>
                   </tr>
                 </tbody>
@@ -120,7 +120,10 @@ if($act === 'update'){
       <hr color="#000000" width="80%" size="3">
 
 <?php 
-$sql = "SELECT * FROM tb_questionnaire NATURAL JOIN tb_config WHERE tt_id = '{$ttid}'";
+$sql = "SELECT * FROM tb_questionnaire";
+if($act === 'update'){
+  $sql = "SELECT * FROM tb_questionnaire NATURAL JOIN tb_config WHERE tt_id = '{$ttid}'";
+}
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 
