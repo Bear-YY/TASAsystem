@@ -113,9 +113,7 @@ if($act === 'update'){
           <?php 
             }
           ?>
-          <textarea class="form-control" id="rec-comment" name='rec_comment' rows="4">
-
-          </textarea>
+          <textarea class="form-control" id="rec-comment" name='rec_comment' rows="4"></textarea>
       </div>
       <hr color="#000000" width="80%" size="3">
 
