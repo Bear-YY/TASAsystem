@@ -319,7 +319,7 @@ if(isset($app_id)){
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
         <?php 
-        echo '<a class="btn btn-primary" href="?do=teacher_application_save&app_id='.$app_id.'" role="button">決定</a>'
+        echo '<a class="btn btn-primary" href="?do=teacher_application_save&app_id='.$app_id.'&rec_id='.$rec_id.'" role="button">決定</a>'
           ?>
       </div>
     </div>

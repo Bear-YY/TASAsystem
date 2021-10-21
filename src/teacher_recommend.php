@@ -46,7 +46,7 @@ foreach ($students as $key => $value):
 			  print('<td scope="col">'.$key.'</td>');
 			  print('<td scope="col">'.$value['stu_name'].'</td>');
 			  $year = $fake_year - $value['ad_year'];
-			  print('<td scope="col">'.$year.'</td>');
+			  print('<td scope="col">'.$school_grade[$year].'</td>');
 			  print('<td scope="col">'.$value['stu_gpa'].'</td>');
 			  echo '<td>';
 			  echo '<a class="btn btn-secondary" href="?do=teacher_recommend_detail&rec_id='.$rec_id.'&stu_id='.$key.'" role="button">詳細</a>';

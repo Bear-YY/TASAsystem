@@ -15,7 +15,7 @@ EOM;
 $rs = $conn->query($sql);
 if(!$rs) die('エラー: '. $conn->error);
 
-$url = '?do=teacher_home';
+$url = '?do=teacher_application_list&rec_id='.$rec_id;
 header('Location:'.$url);
 
  ?>
