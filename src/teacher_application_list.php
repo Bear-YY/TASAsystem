@@ -142,12 +142,12 @@ if($recommends):
 <table class="table table-bordered">
   <thead class="thead-dark">
     <tr>
+      <th scope="col">推薦結果</th>
       <th scope="col">学籍番号</th>
       <th scope="col">氏名</th>
       <th scope="col">学年</th>
       <th scope="col">GPA</th>
-      <th scope="col">推薦結果</th>
-      <th scope="col">操作</th>
+      <th scope="col"></th>
       <th scope="col"></th>
 
     </tr>
@@ -161,22 +161,22 @@ echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 ?>
 		<tr>
 <?php
+				  if($value['rcm_result']){
+				  	if($value['rcm_result'] == 1){
+				  		$result = 'class="table-primary"><h5><b>了承';
+				  	}
+				  	if($value['rcm_result'] == 2){
+				  		$result = 'class="table-danger"><h5><b>拒否';
+				  	}
+				  }else{
+				  	$result = 'class="table-secondary"><h5><b>未回答';
+				  }
+				  echo '<td width="10%" scope="col" align="center"'.$result.'</b></h5></td>';
 				  echo '<td scope="col">'.$value['stu_id'].'</td>';
 				  echo '<td scope="col">'.$value['stu_name'].'</td>';
 				  $year = $fake_year - $value['ad_year'];
 				  echo '<td scope="col">'.$school_grade[$year].'</td>';
 				  echo '<td scope="col">'.$value['stu_gpa'].'</td>';
-				  if($value['rcm_result']){
-				  	if($value['rcm_result'] == 1){
-				  		$result = '了承';
-				  	}
-				  	if($value['rcm_result'] == 2){
-				  		$result = '拒否';
-				  	}
-				  }else{
-				  	$result = '未回答';
-				  }
-				  echo '<td scope="col">'.$result.'</td>';
 				  echo '<td align="center">';
 		  		echo '<button type="submit" class="btn btn-sm btn-secondary" role="button">詳細</button>';
 				  echo '</form>';
@@ -230,8 +230,9 @@ if((!$usetapps) && (!$setapps)){
 ?>
 
 		<tr>
-			<td scope="col" align="center">
-				<h4><span class="badge badge-primary">採用中</span></h4>
+			<td scope="col" align="center" class="table-primary">
+				<!-- <h4><span class="badge badge-primary">採用中</span></h4> -->
+				<h5><b>採用中</b></h5>
 			</td>
 <?php
 			print('<td scope="col">'.$key.'</td>');
@@ -272,8 +273,9 @@ echo '<form action="?do=teacher_application_detail&app_id='.$value['app_id'].'&s
 echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 ?>
 		<tr>
-			<td scope="col" align="center">
-				<h4><span class="badge badge-secondary">判断無し</span></h4>
+			<td scope="col" align="center" class="table-secondary">
+				<!-- <h4><span class="badge badge-secondary">判断無し</span></h4> -->
+				<h5><b>判断無し</b></h5>
 			</td>
 <?php
 				  print('<td scope="col">'.$key.'</td>');
