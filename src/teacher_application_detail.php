@@ -49,10 +49,17 @@ while($row){
     'ad_year' => $row['ad_year'],
     'grade' => $row['grade'],
     'stu_mail' => $row['stu_mail'],
-    'stu_gpa' => $row['stu_gpa'],
-    '' => $row['']
+    'stu_gpa' => $row['stu_gpa']
   ];
   $row = $rs->fetch_assoc();
+}
+if(isset($app_id)){
+  $sql = <<<EOM
+  SELECT * FROM tb_application WHERE app_id = '{$app_id}'
+  EOM;
+  $rs = $conn->query($sql);
+  $row = $rs->fetch_assoc();
+  $stu_detail['app_comment'] = $row['app_comment'];
 }
 
 //推薦者であったときは処理方法を変える。
@@ -67,6 +74,7 @@ if(isset($_GET['rcm_id'])){
   $row = $rs->fetch_assoc();
 }
 
+var_dump($stu_detail);
  ?>
 
 <div class="tablearea-sm">
@@ -112,7 +120,7 @@ if(isset($_GET['rcm_id'])){
 
 <div >
    <div>
-       <h2>募集学生の応募情報</h2>
+       <h2>学生の情報</h2>
    </div>
    <table class="table table-sm table-bordered">
      <thead class="thead-dark"> 
@@ -140,6 +148,14 @@ if(isset($_GET['rcm_id'])){
        </tbody>
    </table>
 </div>
+<?php  
+if(isset($stu_detail['app_comment'])){
+echo '<table class="table table-borderless"><tbody><tr>';
+echo '<th scope="row" width="15%">学生コメント</th>';
+echo '<td>'.$stu_detail['app_comment'].'</td>';
+echo '</tr></tbody></table>';  
+}
+?>
 
 
 <hr style="border:0;border-top:1px solid black;">
