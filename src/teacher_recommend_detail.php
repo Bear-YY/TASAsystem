@@ -86,6 +86,7 @@ $row = $rs->fetch_assoc();
   </div>
 <hr style="border:0;border-top:1px solid black;">
 
+<h3>成績要件を満たす学生</h3>
 <table class="table table-sm table-bordered">
 	<thead class="thead-dark"> 
 		<tr>

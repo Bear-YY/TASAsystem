@@ -19,12 +19,8 @@ $row = $rs->fetch_assoc();
 
 <article>
 
-<div class="side">
-
-<p>サイドバー</p>
-</div>
-
 <div class="main">
+<h2>登録科目一覧</h2>
 <table class="table table-bordered">
 <thead class="thead-dark">
 <tr>

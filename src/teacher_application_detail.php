@@ -16,6 +16,7 @@ if(isset($_POST['search'])) {
     $search = $_POST["search"];
 }
 
+//募集科目の詳細を取得
 $sql = <<<EOM
 SELECT * FROM tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_teacher NATURAL JOIN tb_subject
 WHERE rec_id = '{$rec_id}' AND rec.tt_id = tt.tt_id
@@ -32,7 +33,7 @@ $subject_detail = [
   'rec_num' => $row['rec_num']
 ];
 
-
+//応募学生の詳細を取得
 $sql = <<<EOM
 SELECT * FROM tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_subject sub,tb_course cou NATURAL JOIN tb_student stu
 WHERE rec.rec_id = '{$rec_id}' AND stu.stu_id = '{$stu_id}' AND cou.sub_id = sub.sub_id AND rec.tt_id = tt.tt_id
@@ -48,12 +49,13 @@ while($row){
     'ad_year' => $row['ad_year'],
     'grade' => $row['grade'],
     'stu_mail' => $row['stu_mail'],
-    'stu_gpa' => $row['stu_gpa']
+    'stu_gpa' => $row['stu_gpa'],
+    '' => $row['']
   ];
   $row = $rs->fetch_assoc();
 }
 
-
+//推薦者であったときは処理方法を変える。
 if(isset($_GET['rcm_id'])){
   $rcm_id = $_GET['rcm_id'];
   $rcmflg = true;

@@ -8,7 +8,7 @@ SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' 
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
-$usetapps = [];    						//$usetapps (un set applications)
+$usetapps = [];    					
 while($row){
 	$stu_id = $row['stu_id'];
 	$usetapps[$stu_id] = [
@@ -27,7 +27,7 @@ SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' 
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
-$usetapps = [];    						//$usetapps (un set applications)
+$usetapps = [];    					
 while($row){
 	$stu_id = $row['stu_id'];
 	$usetapps[$stu_id] = [
@@ -46,7 +46,7 @@ SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' 
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
-$setapps = [];							//$setapps (set applications)
+$setapps = [];						
 while($row){
 	$stu_id = $row['stu_id'];
 	$setapps[$stu_id] = [
@@ -149,7 +149,6 @@ if($recommends):
       <th scope="col">GPA</th>
       <th scope="col"></th>
       <th scope="col"></th>
-
     </tr>
   </thead>
   <tbody>
@@ -203,9 +202,6 @@ if((!$usetapps) && (!$setapps)){
 	echo '<h1>応募者一覧</h1>';
 }
 ?>
-
-
-
 
 <!-- 採用決定した学生 -->
 <?php if($setapps): ?>

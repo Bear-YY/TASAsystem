@@ -103,7 +103,7 @@ while($row){
 			<td scope="col" align="center">
 				<?php 
 				// echo '<a href="?do=teacher_application_list&rec_id='.$key.'" class="badge badge-info">募集者確認</a>';
-				echo '<a href="?do=teacher_application_list&rec_id='.$key.'" class="btn btn-sm btn-info" role="button">募集者一覧</a>';
+				echo '<a href="?do=teacher_application_list&rec_id='.$key.'" class="btn btn-sm btn-info" role="button">応募・推薦者一覧</a>';
 				?>
 			</td>
 			</tr>
