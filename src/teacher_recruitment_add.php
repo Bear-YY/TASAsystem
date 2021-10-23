@@ -105,7 +105,7 @@ if($act === 'update'){
               <table >
                 <tbody>
                   <tr>
-                    <td width="200px">・前回設定したコメント</td>
+                    <td width="200px">※前回設定したコメント</td>
                     <td><?= $rec_comment ;?></td>
                   </tr>
                 </tbody>
