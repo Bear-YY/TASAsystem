@@ -67,29 +67,34 @@ $row = $rs->fetch_assoc();
 <!--        デバック用に切り替えて(上のほうがデバック用)-->      
 <?php 
 if($act === 'insert'){
-  echo '<form action="?do=teacher_recruitment_save&tt_id='.$ttid.'&act='.$act.'" method="post">';
+  echo '<form action="?do=teacher_recruitment_save&tt_id='.$ttid.'&act='.$act.'" method="post"';
 }
 if($act === 'update'){
-  echo '<form action="?do=teacher_recruitment_save&rec_id='.$rec_id.'&act='.$act.'&tt_id='.$ttid.'" method="post">';
+  echo '<form action="?do=teacher_recruitment_save&rec_id='.$rec_id.'&act='.$act.'&tt_id='.$ttid.'" method="post"';
 }
+echo ' class="needs-validation" novalidate>';
  ?>
         <!-- <form action="?do=eps_subject" method="post"> -->
       <div class="form-group row">
         <label for="sub_name-form" class="col-sm-2 col-form-label">募集人数</label>
         <div>
-          <input type="text" class="form-control" name="rec_num" id="rec-num-form" placeholder="例:2">
+          <input type="text" class="form-control" name="rec_num" id="rec-num-form" placeholder="例:2" required>
+          <div class="invalid-feedback">
+            募集人数を記入してください。
+          </div>
         </div>
+        
       </div>
       <fieldset class="form-group">
         <div class="row">
           <legend class="col-form-label col-sm-2 pt-0">募集役割</legend>
           <div class="col-sm-0">
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="role_id" id="role-id-form1" value="1">
+              <input class="form-check-input" type="radio" name="role_id" id="role-id-form1" value="1" required>
               <label class="form-check-label" for="role-id-form1">SA</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="role_id" id="role-id-form2" value="2">
+              <input class="form-check-input" type="radio" name="role_id" id="role-id-form2" value="2" required>
               <label class="form-check-label" for="role-id-form2">TA</label>
             </div>
           </div>
@@ -113,7 +118,10 @@ if($act === 'update'){
           <?php 
             }
           ?>
-          <textarea class="form-control" id="rec-comment" name='rec_comment' rows="4"></textarea>
+          <textarea class="form-control" id="rec-comment" name='rec_comment' rows="4" required></textarea>
+          <div class="invalid-feedback">
+            募集するに当たってのコメント、連絡事項等を記入してください。
+          </div>
       </div>
       <hr color="#000000" width="80%" size="3">
 
@@ -194,3 +202,5 @@ switch ($i) {
     </form>   
     </div>     
 </div>
+
+<script src="../js/validation.js"></script>
