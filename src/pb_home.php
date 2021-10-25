@@ -30,25 +30,24 @@ TA・SAを頼みたい教員は募集情報を学生に伝え、学生は気軽�
 
 <h4><b>教員が利用可能な機能</b></h4>
 <ul>
-	<li class="listitem">担当時間割一覧
+	<li class="listitem"><span class="marker-blue">担当時間割一覧</span>
 		<ul>
 			<img src="../img/teacher/home_1.png" width="60%" class="img-thumbnail" alt="Responsive image">
 		</ul>
 	</li>
-
-	<li class="listitem">募集情報登録
-	<li>応募・推薦者一覧</li>
+	<li class="listitem"><span class="marker-blue">募集情報登録</span></li>
+	<li><span class="marker-blue">応募・推薦者一覧</span>
 		<ul>
 			<img src="../img/teacher/application_list_1.png" width="60%" class="img-thumbnail" alt="Responsive image">
 		</ul>
 	</li>
-	<li class="listitem">応募・推薦者詳細確認</li>
-	<li class="listitem">TA・SA候補者推薦</li>
+	<li class="listitem"><span class="marker-blue">応募・推薦者詳細確認</span></li>
+	<li class="listitem"><span class="marker-blue">TA・SA候補者推薦</span></li>
 </ul>		
 
 <h4><b>学生が利用可能な機能</b></h4>
 <ul>
-	<li class="listitem">募集中時間割の確認
+	<li class="listitem"><span class="marker-blue">募集中時間割の確認</span>
 		<ul>
 			<img src="../img/student/home_1.png" width="60%" class="img-thumbnail" alt="Responsive image">
 			<li>
@@ -61,23 +60,23 @@ TA・SAを頼みたい教員は募集情報を学生に伝え、学生は気軽�
 			</li>
 		</ul>
 	</li>
-	<li class="listitem">応募登録機能
-	<li class="listitem">スケジュールの登録・削除
+	<li class="listitem"><span class="marker-blue">応募登録機能</span></li>
+	<li class="listitem"><span class="marker-blue">スケジュールの登録・削除</span>
 		<ul>
 			<li>スケジュール登録の登録が行えます。スケジュールが入っていた場合は、応募可能科目の背景が赤色になり、応募出来なくなります。</li>
 		</ul>
 	</li>
-	<li class="listitem">アンケート回答・編集
+	<li class="listitem"><span class="marker-blue">アンケート回答・編集</span>
 		<ul>
 			<li>アンケートに回答することによって、TA・SAを募集している時間割の中から資質の面で相性の良い科目を知らせてくれます。</li>
 		</ul>
 	</li>
-	<li class="listitem">推薦状態の確認
+	<li class="listitem"><span class="marker-blue">推薦状態の確認</span>
 		<ul>
 			<li>推薦が来ていた場合は、サイドバーにお知らせが届きます。</li>
 		</ul>
 	</li>
-	<li class="listitem">推薦の返答
+	<li class="listitem"><span class="marker-blue">推薦の返答</span>
 		<ul>
 			<li>推薦が来ている時間割に対して教員に、了承するか断るかを選択して応募してください。</li>
 		</ul>

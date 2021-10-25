@@ -74,7 +74,6 @@ if(isset($_GET['rcm_id'])){
   $row = $rs->fetch_assoc();
 }
 
-var_dump($stu_detail);
  ?>
 
 <div class="tablearea-sm">
