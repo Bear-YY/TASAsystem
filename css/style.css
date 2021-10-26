@@ -109,6 +109,6 @@ rgbaで色を指定してます。()内はそれぞれ(赤,緑,青,アルファ�
 }
 
 .marker-blue {
-background: linear-gradient(transparent 60%, #99ccff 0%);
+  background: linear-gradient(transparent 60%, #99ccff 0%);
 }
 

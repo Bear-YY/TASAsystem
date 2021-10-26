@@ -33,15 +33,25 @@ TA・SAを頼みたい教員は募集情報を学生に伝え、学生は気軽�
 	<li class="listitem"><span class="marker-blue">担当時間割一覧</span>
 		<ul>
 			<img src="../img/teacher/home_1.png" width="60%" class="img-thumbnail" alt="Responsive image">
+			<li>教員が担当している時間割が表示されます。また、SA・TAを募集しているか否か、募集予定人数、応募人数などが一目で確認できます。</li>
 		</ul>
 	</li>
-	<li class="listitem"><span class="marker-blue">募集情報登録</span></li>
-	<li><span class="marker-blue">応募・推薦者一覧</span>
+	<li class="listitem"><span class="marker-blue">募集情報登録</span>
+		<ul>
+			<li>TA・SAの応募種別、募集予定人数、募集に当たっての連絡事項、業務内容等を登録します。</li>
+		</ul>
+	</li>
+	<li class="listitem"><span class="marker-blue">応募・推薦者一覧</span>
 		<ul>
 			<img src="../img/teacher/application_list_1.png" width="60%" class="img-thumbnail" alt="Responsive image">
+			<li>応募者と推薦者の採用状態、返答状態を含め、GPAを確認することが出来ます。</li>
 		</ul>
 	</li>
-	<li class="listitem"><span class="marker-blue">応募・推薦者詳細確認</span></li>
+	<li class="listitem"><span class="marker-blue">応募・推薦者詳細確認</span>
+		<ul>
+			<li>推薦者と応募者のアンケート回答情報、他の科目の成績を含めて学生の詳細を確認して、応募学生を採用するかなどの判断の手助けをします。</li>
+		</ul>
+	</li>
 	<li class="listitem"><span class="marker-blue">TA・SA候補者推薦</span></li>
 </ul>		
 
@@ -50,17 +60,22 @@ TA・SAを頼みたい教員は募集情報を学生に伝え、学生は気軽�
 	<li class="listitem"><span class="marker-blue">募集中時間割の確認</span>
 		<ul>
 			<img src="../img/student/home_1.png" width="60%" class="img-thumbnail" alt="Responsive image">
+			<li>時間割表に表示されている科時間割は全て応募可能なものです。</li>
+			<li>「スケジュール登録」が登録されている時間帯は赤色背景となり、応募可能時間割があっても応募画面に遷移しないようになります。</li>
 			<li>
 				<span class="badge badge-success">▼カテゴリー相性：良!!</span>
 			：学生の履修科目の成績からカテゴリーごとの成績を算出し、良い成績順に、TA・SA募集中の時間割がお勧めとして表示されます。</li>
 			<li>
 				<span class="badge badge-success">▼適性相性：良!!</span>
 				：アンケート回答をすることによって、相性の良い時間割をお知らせします。
-
 			</li>
 		</ul>
 	</li>
-	<li class="listitem"><span class="marker-blue">応募登録機能</span></li>
+	<li class="listitem"><span class="marker-blue">応募登録機能</span>
+		<ul>
+			<li>応募したい時間割を時間割表から選択して、意気込みや連絡事項を記入することで、応募が完了します。</li>
+		</ul>
+	</li>
 	<li class="listitem"><span class="marker-blue">スケジュールの登録・削除</span>
 		<ul>
 			<li>スケジュール登録の登録が行えます。スケジュールが入っていた場合は、応募可能科目の背景が赤色になり、応募出来なくなります。</li>

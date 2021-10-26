@@ -8,11 +8,6 @@ $row = $rs->fetch_assoc();
 ?>
 
 <article>
-<div class="side">
-
-<p>サイドバー</p>
-</div>
-
 <div class="main">
 
 <!-- 	<p>{{message}}</p> -->
@@ -26,7 +21,7 @@ $row = $rs->fetch_assoc();
 	<!-- Modal -->
 	<div class="modal fade" id="modal-queadd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-	    <form action="?do=admin_questionnaire_save" method="post">
+	    <form action="?do=admin_questionnaire_save&act=insert" method="post">
 	    	<div class="modal-content">
 	    	  <div class="modal-header">
 	    	    <h5 class="modal-title" id="exampleModalLabel">追加する項目名を入力してください</h5>
@@ -58,10 +53,9 @@ echo "</div>";
 
 <?php else: ?>
 
-<table class="table table-bordered">
+<table class="table table-sm table-bordered" style="width: 70%;">
 <thead class="thead-dark">
 <tr>
-<th scope="col" width="10%">番号</th>
 <th scope="col">項目内容</th>
 <th scope="col">操作</th>
 
@@ -71,19 +65,70 @@ echo "</div>";
 
 <?php
 while($row){
+	echo '<tr>';
+	echo '<td>'.$row['que_title'].'</td>';
 ?>
 
-<tr>
-<th scope="row">
-<?php 
-//echo '<a href="https://getbootstrap.com/docs/4.5/content/tables/">';  //1.
-echo $row['que_id'].'</th>';
-//echo '</a>';															//2. 2つでリンクをつけられる
-echo '<td>'.$row['que_title'].'</td>';
+<td align="center">
+<!-- Button trigger modal -->
+	<button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#modal-queupdate<?= $row['que_id'];?>">
+	  編集
+	</button>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="modal-queupdate<?= $row['que_id'];?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+	    <form action="?do=admin_questionnaire_save&act=update&que_id=<?= $row['que_id'];?>" method="post">
+	    	<div class="modal-content">
+	    	  <div class="modal-header">
+	    	    <h5 class="modal-title" id="exampleModalLabel">変更後の項目名を記入してください。</h5>
+	    	    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	    	      <span aria-hidden="true">×</span>
+	    	    </button>
+	    	  </div>
+	    	  <div class="modal-body">
+	    	  	<div class="form-group">
+					<label for="que_title-form"></label>
+					<input type="text" class="form-control" name="que_title" id="que_title-form" placeholder="例:○○が好き">
+				</div>
+	    	  </div>
+	    	  <div class="modal-footer">
+	    	    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	    	    <button type="submit" class="btn btn-primary">更新</button>
+	    	  </div>
+	    	</div>
+		</form>
+	  </div>
+	</div>
 
-?>
-<td align="center"><a class="btn btn-secondary btn-sm" href="https://getbootstrap.com/docs/4.5/components/buttons/" role="button">編集</a>
-<a class="btn btn-danger btn-sm" href="https://getbootstrap.com/docs/4.5/components/buttons/" role="button">削除</a></td>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-quedelete<?= $row['que_id'];?>">
+  削除
+</button>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="modal-quedelete<?= $row['que_id'];?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">警告</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	この項目を本当に削除しますか?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a class="btn btn-danger" href="?do=admin_questionnaire_save&act=delete&que_id=<?= $row['que_id'];?>" role="button">削除</a>
+      </div>
+    </div>
+  </div>
+ </div>
+
+</td>
 </tr>
 <?php
 $row = $rs->fetch_assoc ();  
