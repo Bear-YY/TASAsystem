@@ -6,7 +6,7 @@ $tea_id = $_SESSION['usr_id'];
 //募集している時間割情報を取得
 $sql = 
 "SELECT * FROM tb_teacher tea NATURAL JOIN tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_subject sub
-WHERE rec.tea_id = '{$tea_id}' AND rec.tt_id = tt.tt_id";
+WHERE rec.tea_id = '{$tea_id}' AND rec.tt_id = tt.tt_id ORDER BY semester , tt_weekday , tt_timed";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();                    //募集してる時間割情報(それ以外の時間割は募集してない)
 $rec = [];
@@ -42,7 +42,7 @@ while($row){
 //募集してない時間割情報を取得
 $sql = <<<EOM
 SELECT * FROM tb_timetable NATURAL JOIN tb_subject WHERE tt_id NOT IN
-(SELECT tt_id FROM tb_teacher NATURAL JOIN tb_recruitment WHERE tea_id = '{$tea_id}') AND tea_id = '{$tea_id}'
+(SELECT tt_id FROM tb_teacher NATURAL JOIN tb_recruitment WHERE tea_id = '{$tea_id}') AND tea_id = '{$tea_id}' ORDER BY semester , tt_weekday , tt_timed
 EOM;
 
 $rs = $conn->query($sql);
