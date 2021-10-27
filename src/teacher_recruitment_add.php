@@ -133,7 +133,7 @@ if($act === 'update'){
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 
-echo '<h1>応募者に求める資質</h1>';
+echo '<h1>この時間割における応募者に求める資質</h1>';
  
 while($row):
   echo '<h5>・'.$row['que_title'];
