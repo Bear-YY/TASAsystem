@@ -8,7 +8,7 @@ $sql = <<<EOM
 SELECT * FROM tb_student NATURAL JOIN tb_course NATURAL JOIN tb_subject NATURAL JOIN tb_timetable tt,tb_recruitment rec
 WHERE grade <= 2 AND tt.tt_id = rec.tt_id AND rec_id = '{$rec_id}' AND stu_id NOT IN
 (SELECT rcm.stu_id FROM tb_recommend rcm, tb_student stu NATURAL JOIN tb_recruitment rec
-WHERE rcm.stu_id = stu.stu_id AND rcm.rec_id = '{$rec_id}' AND rcm.rcm_result IS NULL) ORDER BY stu_gpa DESC
+WHERE rcm.stu_id = stu.stu_id AND rcm.rec_id = '{$rec_id}') ORDER BY stu_gpa DESC
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
