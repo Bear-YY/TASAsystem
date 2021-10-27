@@ -13,14 +13,12 @@ if(isset($_GET['err'])){
 <form action="?do=sys_check" method="post" class="needs-validation" novalidate>
   <div class="login-form">
     <div class="form-group" style="width: 50%;">
-      <label for="uid-form">ユーザーID</label>
       <input type="text" class="form-control" name="usr_id" id="uid-form" placeholder="ユーザーIDを入力してください" required>
       <div class="invalid-feedback">
         ユーザーIDを入力してください。
       </div>
     </div>
     <div class="form-group" style="width: 50%;">
-      <label for="pass-form">パスワード</label>
       <input type="password" class="form-control" id="" name="passwd" placeholder="パスワードを入力してください" required>
       <div class="invalid-feedback">
         パスワードを入力してください。
