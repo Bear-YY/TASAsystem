@@ -166,8 +166,11 @@ while($row){
 				<h4><?= $semesters[$semester];?></h4>
 			</div>
 			<div style="margin: 10px;">
-				<a href="?do=student_home&semester=1"><button type="button" class="btn btn-warning">前期</button></a>
+<?php if($semester == 1): ?>
 				<a href="?do=student_home&semester=2"><button type="button" class="btn btn-warning">後期</button></a>
+<?php elseif($semester == 2): ?>
+				<a href="?do=student_home&semester=1"><button type="button" class="btn btn-warning">前期</button></a>
+<?php endif; ?>				
 			</div>
 		</div>
 		<table class="table table-bordered">
