@@ -48,36 +48,20 @@ while($row):
   for($i = 1; $i <= 5; $i++):
     echo '<div class="form-check">';
     echo '<input class="form-check-input" type="radio" value="'.$i.'" id="Check1" name="'.$row['que_id'].'"';
-    if($i === 1){
-      echo 'checked';
+    if($act == 'update'){
+      if($i == $answers[$row['que_id']]){
+        echo 'checked';
+      }
+    }else{
+      if($i == 1){
+        echo 'checked';
+      }
     }
     echo '>';
 ?>
   <label class="form-check-label" for="Check1">
+<?php echo $ques[$i]; ?>
 
-<?php 
-switch ($i) {
-  case 1:
-      echo "当てはまる";// code...
-    break;
-  case 2:
-      echo "やや当てはまる";// code...
-    // code...
-    break;
-  case 3:
-      echo "どちらでもない";// code...
-    // code...
-    break;
-  case 4:
-      echo "やや当てはまらない";// code...
-    // code...
-    break;
-  case 5:
-      echo "当てはまらない";// code...
-    // code...
-    break;
-}
-?>
   </label>
   </div>
 <?php 
