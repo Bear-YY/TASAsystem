@@ -38,8 +38,8 @@
         	}
         	echo '<li class="list-group-item">';
         	echo '<a href="?do=student_application&rec_id='.$value['rec_id'].'"><b>'.$value['sub_name']; echo '</b></a><br>';
-        		echo '・担当：'.$value['tea_name'].'<br>';
-        		echo '・'.$semesters[$value['semester']].'-'.$weekdays_sm[$value['tt_weekday']].'-'.$times[$value['tt_timed']].'<br>';
+        	echo '・担当：'.$value['tea_name'].'<br>';
+        	echo '・'.$semesters[$value['semester']].'-'.$weekdays_sm[$value['tt_weekday']].'-'.$times[$value['tt_timed']].'<br>';
         	echo '</li>'; 
         }
 	}

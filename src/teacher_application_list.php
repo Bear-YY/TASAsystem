@@ -3,27 +3,9 @@ require_once('db_inc.php');
 require_once('data.php');
 $rec_id = $_GET['rec_id'];
 
-$sql = <<<EOM
-SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' AND app_result IS NULL ORDER BY stu_gpa DESC
-EOM;
-$rs = $conn->query($sql);
-$row = $rs->fetch_assoc();
-$usetapps = [];    					
-while($row){
-	$stu_id = $row['stu_id'];
-	$usetapps[$stu_id] = [
-		'stu_name' => $row['stu_name'],
-		'ad_year' => $row['ad_year'],
-		'app_id' => $row['app_id'],
-		'app_day' => $row['app_day'],
-		'stu_gpa' => $row['stu_gpa']
-	];
-	$row = $rs->fetch_assoc();
-}
-
 // 応募していて判断されてない人のデータ
 $sql = <<<EOM
-SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' AND app_result IS NULL ORDER BY stu_gpa DESC
+SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' AND app_result = '0' ORDER BY stu_gpa DESC
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
@@ -62,7 +44,7 @@ while($row){
 //推薦をされた学生の情報を取得
 $sql = <<<EOM
 SELECT * FROM tb_recommend rcm,tb_student stu NATURAL JOIN tb_recruitment rec
-WHERE rcm.stu_id = stu.stu_id AND rcm.rec_id = '{$rec_id}'
+WHERE rcm.stu_id = stu.stu_id AND rcm.rec_id = '{$rec_id}' ORDER BY rcm_result DESC
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
