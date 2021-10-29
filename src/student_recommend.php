@@ -51,8 +51,6 @@ $row = $rs->fetch_assoc();
 	         <th scope="row" class="table-secondary">教員コメント</th>
 	         <td><?= $row['rcm_comment']; ?></td>
 	       </tr>
-	       
-
 	     </tbody>
 	   </table>
 	</div>
@@ -65,110 +63,63 @@ $row = $rs->fetch_assoc();
 	}else if($row['rcm_result'] == 2){
 		echo '<p>あなたは推薦拒否済みです。</p>';
 	}else{
-
-
 	 ?>
 
 	<p class="red">あなたはこの時間割において、教員から推薦されています。</p>
-	<p class="red">推薦を了承する場合は①へ、推薦を受けない場合は②へと進んでください。</p>
+	<p class="red">以下から推薦の「了承」または「断る」を選択して、コメントを入力してください。</p>
 
 	<div>
-		<?php for($i = 0; $i <= 1; $i++): ?>
 		<form action="?do=student_recommend_save" method="post" class="needs-validation" novalidate>
+
+			      <fieldset class="form-group">
+			        <div class="row">
+			          <legend class="col-form-label col-sm-1 pt-0"><b>返答選択</b></legend>
+			          <div class="col-sm-0">
+			            <div class="form-check form-check-inline">
+			              <input class="form-check-input" type="radio" name="rcm_result" id="rcm_result-form1" value="1" required>
+			              <label class="form-check-label" for="rcm_result-form1">了承する</label>
+			            </div>
+			            <div class="form-check form-check-inline">
+			              <input class="form-check-input" type="radio" name="rcm_result" id="rcm_result-form2" value="2" required>
+			              <label class="form-check-label" for="rcm_result-form2">断る</label>
+			            </div>
+			          </div>
+			        </div>
+			      </fieldset>
+
 			<div class="form-group">
-			<?php  
-			if($i === 0){
-	      	    echo '<label for="rcm-acomment">①推薦了承</label>';
-	      	    echo '<textarea class="form-control" id="rcm-acomment" name="rcm_acomment" rows="4" placeholder="連絡事項等を入力してください" required></textarea>';
-	      	}
-	      	if($i === 1){
-	      	    echo '<label for="rcm-acomment">②推薦を断る</label>';
-	      		echo '<textarea class="form-control" id="rcm-acomment" name="rcm_acomment" rows="4" placeholder="断る理由を簡潔に記入してください" required></textarea>';
-	      	}
-			?>
-			<div class="invalid-feedback">
-            	テキストエリアに文章を入力してください。
-          	</div>
+	      		<label for="rcm-acomment"><b>返答文</b></label>
+	      		<textarea class="form-control" id="rcm-acomment" name="rcm_acomment" rows="4" placeholder="連絡事項等を入力してください" required></textarea>
+				<div class="invalid-feedback">
+            		テキストエリアに文章を入力してください。
+          		</div>
 	      	</div>
 	      	<input type="hidden" name="rcm_id" value="<?= $rcm_id;?>">
 	      	<div style="text-align: right;">
-	      	
 		<!-- Button trigger modal -->
-	      	<?php 
-			if($i === 0){	
-			echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rsModal0">';
-		  	echo '送信(了承)';
-			}
-			if($i === 1){	
-			echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rsModal1">';
-		  	echo '送信(断る)';
-			}
-			?>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rsModal">
+		  	送信
 			</button>
 	      	</div>
-
-		<!-- Modal -->		
-			<?php 
-			if($i === 0){	
-			echo '<div class="modal fade" id="rsModal0" tabindex="-1" aria-labelledby="molabel0" aria-hidden="true">';
-			}
-			if($i === 1){	
-			echo '<div class="modal fade" id="rsModal1" tabindex="-1" aria-labelledby="molabel1" aria-hidden="true">';
-			}
-
-			?>
+		<!-- Modal -->	
+			<div class="modal fade" id="rsModal" tabindex="-1" aria-labelledby="molabel" aria-hidden="true">
 			  <div class="modal-dialog modal-dialog-centered">
 			    <div class="modal-content">
 			      <div class="modal-header">
-			<?php 
-			if($i === 0){	
-			    echo '<h5 class="modal-title" id="molabel0">確認</h5>';
-			}
-			if($i === 1){	
-			    echo '<h5 class="modal-title" id="molabel1">注意：確認</h5>';
-			}
-
-			?>
+			   		<h5 class="modal-title" id="molabel">確認</h5>
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			          <span aria-hidden="true">&times;</span>
 			        </button>
 			      </div>
 			      <div class="modal-body">
-			<?php 
-			if($i === 0){	
-				echo '<input type="hidden" name="rcm_result" value="1">';
-			    echo '推薦を了承します。本当によろしいですか？';
-			}
-			if($i === 1){	
-				echo '<input type="hidden" name="rcm_result" value="2">';
-			    echo '推薦を拒否します。本当によろしいですか？';
-			}
-
-			?>
+			  			推薦を了承します。本当によろしいですか？
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			        <?php  
-	    	  		if($i === 0){
-	    	  			echo '<button type="submit" class="btn btn-primary">送信(了承)</button>';
-	    	  		}
-	    	  		if($i === 1){
-	    	    		echo '<button type="submit" class="btn btn-primary">送信(断る)</button>';
-	    	  		}
-					?>
-			      </div>
-			    </div>
-			  </div>
-			</div>
+	    	  		<button type="submit" class="btn btn-primary">送信</button>
+	    	  	  </div>
 		</form>
-
-
-
-		<?php endfor; ?>
-	</div>
-	<?php 
-	}
-	 ?>
+	<?php } ?>
 </div>
 
 <script src="../js/validation.js"></script>

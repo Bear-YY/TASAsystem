@@ -4,9 +4,9 @@ $rcm_acomment = $_POST['rcm_acomment'];
 $rcm_result = $_POST['rcm_result'];
 $rcm_id = $_POST['rcm_id'];
 
-echo $rcm_acomment;
-echo $rcm_result; 
-echo $rcm_id; 
+// echo $rcm_acomment; echo '<br>';
+// echo $rcm_result; echo '<br>';
+// echo $rcm_id; echo '<br>';
 
 $sql = <<<EOM
 UPDATE tb_recommend SET rcm_result = '{$rcm_result}', rcm_acomment = '{$rcm_acomment}' 
