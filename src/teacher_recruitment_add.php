@@ -1,31 +1,48 @@
 <?php 
 require_once('db_inc.php');
 require_once('data.php');
-$ttid = $_GET['tt_id'];
-$tid = $_SESSION['usr_id'];
+$tt_id = $_GET['tt_id'];
+$tea_id = $_SESSION['usr_id'];
 $act = "insert";
 
-$sql = "select * from tb_recruitment where tt_id = '{$ttid}'";
+//募集している時は募集情報を取得(募集しているなら検索結果があるから、あるときと無いときで処理を変える)
+$sql = "select * from tb_recruitment where tt_id = '{$tt_id}'";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
+$prevrec = [];
+
+//募集している科目があったときの処理
 if($row){
   $act = 'update';
   $rec_id = $row['rec_id'];
-  $rec_comment = $row['rec_comment'];
+  $prevrec = [
+    'rec_comment' => $row['rec_comment'],
+    'role_id' => $row['role_id'],
+    'rec_num' => $row['rec_num']
+  ];
+  //前回のアンケート設定値を取得
+  $sql = "SELECT * FROM tb_config WHERE tt_id = '{$tt_id}' ORDER BY que_id";
+  $rs = $conn->query($sql);
+  $row = $rs->fetch_assoc();
+  $configs = [];
+  while($row){
+    $que_id = $row['que_id'];
+    $configs[$que_id] = $row['con_value'];
+    $row = $rs->fetch_assoc();
+  }
+  var_dump($prevrec);
 }
-
-
-
+//
 
 $sql = <<<EOM
 SELECT * FROM tb_timetable NATURAL JOIN tb_teacher NATURAL JOIN tb_subject NATURAL JOIN tb_category
-WHERE tea_id = '{$tid}' AND tt_id = '{$ttid}'
+WHERE tea_id = '{$tea_id}' AND tt_id = '{$tt_id}'
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 
-// echo $ttid;
-// echo $tid;
+// echo $tt_id;
+// echo $tea_id;
  ?>
 <div class="main">
     <h1>時間割詳細</h1>
@@ -67,18 +84,22 @@ $row = $rs->fetch_assoc();
 <!--        デバック用に切り替えて(上のほうがデバック用)-->      
 <?php 
 if($act === 'insert'){
-  echo '<form action="?do=teacher_recruitment_save&tt_id='.$ttid.'&act='.$act.'" method="post"';
+  echo '<form action="?do=teacher_recruitment_save&tt_id='.$tt_id.'&act='.$act.'" method="post"';
 }
 if($act === 'update'){
-  echo '<form action="?do=teacher_recruitment_save&rec_id='.$rec_id.'&act='.$act.'&tt_id='.$ttid.'" method="post"';
+  echo '<form action="?do=teacher_recruitment_save&rec_id='.$rec_id.'&act='.$act.'&tt_id='.$tt_id.'" method="post"';
 }
 echo ' class="needs-validation" novalidate>';
- ?>
+?>
         <!-- <form action="?do=eps_subject" method="post"> -->
       <div class="form-group row">
         <label for="sub_name-form" class="col-sm-2 col-form-label">募集人数</label>
         <div>
-          <input type="text" class="form-control" name="rec_num" id="rec-num-form" placeholder="例:2" required>
+          <input type="text" class="form-control" name="rec_num" id="rec-num-form" placeholder="例:2" 
+<?php if($act === 'update'): ?>
+          value="<?= $prevrec['rec_num'];?>"
+<?php endif; ?>
+          required>
           <div class="invalid-feedback">
             募集人数を記入してください。
           </div>
@@ -90,11 +111,25 @@ echo ' class="needs-validation" novalidate>';
           <legend class="col-form-label col-sm-2 pt-0">募集役割</legend>
           <div class="col-sm-0">
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="role_id" id="role-id-form1" value="1" required>
+              <input class="form-check-input" type="radio" name="role_id" id="role-id-form1" value="1" 
+<?php if($act === 'update'):
+        if($prevrec['role_id'] == 1):
+?>
+          checked
+<?php   endif; ?>
+<?php endif; ?>
+              required>
               <label class="form-check-label" for="role-id-form1">SA</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="role_id" id="role-id-form2" value="2" required>
+              <input class="form-check-input" type="radio" name="role_id" id="role-id-form2" value="2"
+<?php if($act === 'update'):
+        if($prevrec['role_id'] == 2):
+?>
+          checked 
+<?php   endif; ?>
+<?php endif; ?>
+              required>
               <label class="form-check-label" for="role-id-form2">TA</label>
             </div>
           </div>
@@ -104,21 +139,11 @@ echo ' class="needs-validation" novalidate>';
       <div class="form-group">
 
           <label for="rec-comment">教員コメント</label>
-          <?php 
-            if(isset($rec_comment)){
-          ?>
-              <table >
-                <tbody>
-                  <tr>
-                    <td width="200px">※前回設定したコメント</td>
-                    <td><?= $rec_comment ;?></td>
-                  </tr>
-                </tbody>
-              </table>
-          <?php 
-            }
-          ?>
-          <textarea class="form-control" id="rec-comment" name='rec_comment' rows="4" required></textarea>
+          <textarea class="form-control" id="rec-comment" name='rec_comment' rows="4" required>
+<?php if($act === 'update'){
+          echo $prevrec['rec_comment'];
+      }
+?></textarea>
           <div class="invalid-feedback">
             募集するに当たってのコメント、連絡事項等を記入してください。
           </div>
@@ -128,7 +153,7 @@ echo ' class="needs-validation" novalidate>';
 <?php 
 $sql = "SELECT * FROM tb_questionnaire";
 if($act === 'update'){
-  $sql = "SELECT * FROM tb_questionnaire NATURAL JOIN tb_config WHERE tt_id = '{$ttid}'";
+  $sql = "SELECT * FROM tb_questionnaire NATURAL JOIN tb_config WHERE tt_id = '{$tt_id}'";
 }
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
@@ -146,38 +171,21 @@ while($row):
   for($i = 0; $i <= 5; $i++):
     echo '<div class="form-check">';
     echo '<input class="form-check-input" type="radio" value="'.$i.'" id="Check1" name="'.$row['que_id'].'"';
-    if($i === 0){
-      echo 'checked';
+    if($act == 'update'){
+      if($i == $configs[$row['que_id']]){
+        echo 'checked';
+      }
+    }else{
+      if($i == 0){
+        echo 'checked';
+      }
     }
     echo '>';
 ?>
   <label class="form-check-label" for="Check1">
-
 <?php 
-switch ($i) {
-  case 1:
-      echo "当てはまる";// code...
-    break;
-  case 2:
-      echo "やや当てはまる";// code...
-    // code...
-    break;
-  case 3:
-      echo "どちらでもない";// code...
-    // code...
-    break;
-  case 4:
-      echo "やや当てはまらない";// code...
-    // code...
-    break;
-  case 5:
-      echo "当てはまらない";// code...
-    // code...
-    break;
-  default:
-    echo '特になし';// code...
-    break;
-}
+echo $ques[$i];
+
 ?>
   </label>
   </div>
