@@ -61,6 +61,8 @@ if(isset($app_id)){
   $rs = $conn->query($sql);
   $row = $rs->fetch_assoc();
   $stu_detail['app_comment'] = $row['app_comment'];
+  $stu_detail['app_cancmnt'] = $row['app_cancmnt'];
+  $stu_detail['app_result'] = $row['app_result'];
 }
 
 //推薦者であったときは処理方法を変える。
@@ -136,7 +138,7 @@ if(isset($_GET['rcm_id'])){
 
 <div >
    <div>
-       <h2>学生の情報</h2>
+       <h3>学生の情報</h3>
    </div>
    <table class="table table-sm table-bordered">
      <thead class="thead-dark"> 
@@ -166,10 +168,17 @@ if(isset($_GET['rcm_id'])){
 </div>
 <?php  
 if(isset($stu_detail['app_comment'])){
-echo '<table class="table table-borderless"><tbody><tr>';
-echo '<th scope="row" width="15%">学生コメント</th>';
-echo '<td>'.$stu_detail['app_comment'].'</td>';
-echo '</tr></tbody></table>';  
+  echo '<table class="table table-borderless"><tbody><tr>';
+  echo '<th scope="row" width="15%">学生コメント</th>';
+  echo '<td>'.$stu_detail['app_comment'].'</td>';
+  echo '</tr>';
+  if($stu_detail['app_result'] == 3){
+    echo '<tr>';
+    echo '<th scope="row" width="15%"><p class="red">応募撤回文</p></th>';
+    echo '<td>'.$stu_detail['app_cancmnt'].'</td>';
+    echo '</tr>';
+  }
+  echo '</tbody></table>';  
 }
 ?>
 
@@ -327,7 +336,7 @@ if(isset($app_id)){
   EOM;
   $rs = $conn->query($sql);
   $row = $rs->fetch_assoc();
-  if($row['app_result'] === NULL){
+  if($row['app_result'] == 0){
 
 
 ?>
