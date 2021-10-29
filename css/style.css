@@ -112,3 +112,6 @@ rgbaで色を指定してます。()内はそれぞれ(赤,緑,青,アルファ�
   background: linear-gradient(transparent 60%, #99ccff 0%);
 }
 
+.table-inline {
+  display: flex;
+}

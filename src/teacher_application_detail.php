@@ -30,7 +30,8 @@ $subject_detail = [
   'tt_weekday' => $row['tt_weekday'],
   'tt_timed' => $row['tt_timed'],
   'role_id' => $row['role_id'],
-  'rec_num' => $row['rec_num']
+  'rec_num' => $row['rec_num'],
+  'rec_comment' => $row['rec_comment']
 ];
 
 //応募学生の詳細を取得
@@ -76,42 +77,58 @@ if(isset($_GET['rcm_id'])){
 
  ?>
 
-<div class="tablearea-sm">
-   <div>
-       <h2>募集時間割</h2>
-   </div>
-   <table class="table table-sm table-bordered">
-     <tbody>
-       <tr>
-         <th scope="row" width="25%" class="table-secondary">科目名</th>
-         <td><?= $subject_detail['sub_name']; ?></td>
-       </tr>
-       <tr>
-         <th scope="row" class="table-secondary">担当教員</th>
-         <td><?= $subject_detail['tea_name']; ?></td>
-       </tr>
-      <tr>
-         <th scope="row" class="table-secondary">学期</th>
-         <td><?= $semesters[$subject_detail['semester']];?></td>
-       </tr>
-       <tr>
-         <th scope="row" class="table-secondary">曜日</th>
-         <td><?= $weekdays[$subject_detail{'tt_weekday'}]; ?></td>
-       </tr>
-       <tr>
-         <th scope="row" class="table-secondary">時限</th>
-         <td><?= $times[$subject_detail{'tt_timed'}]; ?></td>
-       </tr>
-       <tr>
-         <th scope="row" class="table-secondary">募集役割</th>
-         <td><?= $role[$subject_detail['role_id']]; ?></td>
-       </tr>
-       <tr>
-         <th scope="row" class="table-secondary">募集人数</th>
-         <td><?= $subject_detail['rec_num']; ?>人</td>
-       </tr>
-     </tbody>
-   </table>
+<div class="table-inline">
+  <div class="tablearea-sm">
+    <div>
+      <h2>募集時間割</h2>
+    </div>
+      <table class="table table-sm table-bordered">
+        <tbody>
+          <tr>
+            <th scope="row" width="25%" class="table-secondary">科目名</th>
+            <td><?= $subject_detail['sub_name']; ?></td>
+          </tr>
+          <tr>
+            <th scope="row" class="table-secondary">担当教員</th>
+            <td><?= $subject_detail['tea_name']; ?></td>
+          </tr>
+          <tr>
+            <th scope="row" class="table-secondary">学期</th>
+            <td><?= $semesters[$subject_detail['semester']];?></td>
+          </tr>
+          <tr>
+            <th scope="row" class="table-secondary">曜日</th>
+            <td><?= $weekdays[$subject_detail['tt_weekday']]; ?></td>
+          </tr>
+          <tr>
+            <th scope="row" class="table-secondary">時限</th>
+            <td><?= $times[$subject_detail['tt_timed']]; ?></td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+
+  <div class="tablearea-sm">
+    <div>
+      <h2>募集要項</h2>
+    </div>
+      <table class="table table-sm table-bordered">
+        <tbody>
+          <tr>
+            <th scope="row" class="table-secondary">募集役割</th>
+            <td><?= $role[$subject_detail['role_id']]; ?></td>
+          </tr>
+          <tr>
+            <th scope="row" class="table-secondary">募集人数</th>
+            <td><?= $subject_detail['rec_num']; ?>人</td>
+          </tr>
+          <tr>
+            <th scope="row" class="table-secondary">教員コメント</th>
+            <td style="white-space:pre-wrap;"><?= $subject_detail['rec_comment']; ?></td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
 </div>
 
 <hr style="border:0;border-top:1px solid black;">

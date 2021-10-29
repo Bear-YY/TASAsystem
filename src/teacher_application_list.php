@@ -93,50 +93,61 @@ $row = $rs->fetch_assoc();
 	<div class="main">
 		
 
-<div class="tablearea-sm">
-	<div>
-		<h2>募集時間割</h2>
-	</div>
-    <table class="table table-sm table-bordered">
-      <tbody>
-        <tr>
-          <th scope="row" width="25%" class="table-secondary">科目名</th>
-          <td><?= $row['sub_name']; ?></td>
-        </tr>
-        <tr>
-          <th scope="row" class="table-secondary">担当教員</th>
-          <td><?= $row['tea_name']; ?></td>
-        </tr>
-        <tr>
-          <th scope="row" class="table-secondary">学期</th>
-          <td><?= $semesters[$row['semester']];?></td>
-        </tr>
-        <tr>
-          <th scope="row" class="table-secondary">曜日</th>
-          <td><?= $weekdays[$row['tt_weekday']]; ?></td>
-        </tr>
-        <tr>
-          <th scope="row" class="table-secondary">時限</th>
-          <td><?= $times[$row['tt_timed']]; ?></td>
-        </tr>
-        <tr>
-          <th scope="row" class="table-secondary">募集役割</th>
-          <td><?= $role[$row['role_id']]; ?></td>
-        </tr>
-        <tr>
-          <th scope="row" class="table-secondary">募集人数</th>
-          <td><?= $row['rec_num']; ?>人</td>
-        </tr>
-        
-      </tbody>
-    </table>
+<div class="table-inline">
+  <div class="tablearea-sm">
+	  <div>
+	  	<h2>募集時間割</h2>
+	  </div>
+      <table class="table table-sm table-bordered">
+        <tbody>
+          <tr>
+            <th scope="row" width="25%" class="table-secondary">科目名</th>
+            <td><?= $row['sub_name']; ?></td>
+          </tr>
+          <tr>
+            <th scope="row" class="table-secondary">担当教員</th>
+            <td><?= $row['tea_name']; ?></td>
+          </tr>
+          <tr>
+            <th scope="row" class="table-secondary">学期</th>
+            <td><?= $semesters[$row['semester']];?></td>
+          </tr>
+          <tr>
+            <th scope="row" class="table-secondary">曜日</th>
+            <td><?= $weekdays[$row['tt_weekday']]; ?></td>
+          </tr>
+          <tr>
+            <th scope="row" class="table-secondary">時限</th>
+            <td><?= $times[$row['tt_timed']]; ?></td>
+          </tr>
+        </tbody>
+      </table>
   </div>
 
-<?php 
-
-// 推薦した学生
-if($recommends):
- ?>
+  <div class="tablearea-sm">
+    <div>
+      <h2>募集要項</h2>
+    </div>
+      <table class="table table-sm table-bordered">
+        <tbody>
+          <tr>
+            <th scope="row" class="table-secondary">募集役割</th>
+            <td><?= $role[$row['role_id']]; ?></td>
+          </tr>
+          <tr>
+            <th scope="row" class="table-secondary">募集人数</th>
+            <td><?= $row['rec_num']; ?>人</td>
+          </tr>
+          <tr>
+            <th scope="row" class="table-secondary">教員コメント</th>
+            <td style="white-space:pre-wrap;"><?= $row['rec_comment']; ?></td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+</div>
+<!-- 推薦した学生 -->
+<?php if($recommends): ?>
 <hr style="border:0;border-top:1px solid black;">
 <h3>推薦を送った学生</h3>
 <table class="table table-bordered">
@@ -289,9 +300,7 @@ echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 <?php endforeach; ?>
   </tbody>
 </table>
-<?php 
-endif; 
-?>
+<?php endif; ?>
 <a class="btn btn-secondary" href="?do=teacher_recommend&rec_id=<?= $rec_id;?>" role="button">学生を推薦をする</a>
 	</div>
 </article>
