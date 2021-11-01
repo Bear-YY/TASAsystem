@@ -1,9 +1,8 @@
 <?php 
-echo 'admin_teacher';
 require_once('db_inc.php');
 require_once('data.php');
 
-$sql = "SELECT * FROM tb_teacher";
+$sql = "SELECT * FROM tb_teacher ORDER BY tea_id";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 $teachers = [];
@@ -25,8 +24,8 @@ while($row){
 <table class="table table-bordered">
   <thead class="thead-dark"> 
     <tr>
-        <th scope="col">教員ID</th>
         <th scope="col">氏名</th>
+        <th scope="col">教員ID</th>
         <th scope="col">学科ID</th>
         <th scope="col">性別</th>
         <th scope="col">教室番号</th>
@@ -37,13 +36,13 @@ while($row){
     <tbody>
     <?php foreach($teachers as $key => $value): ?>
       <tr>
-        <td><?= $key; ?></td>
         <td><?= $value['tea_name'] ; ?></td>
+        <td><?= $key; ?></td>
         <td><?= $value['dpt_id'] ; ?></td>
         <td><?= $sex[$value['tea_sex']] ; ?></td>
         <td><?= $value['tea_room'] ; ?></td>
         <td><?= $value['tea_mail'] ; ?></td>
-        <td align="center"><a class="btn btn-secondary" href="" role="button">担当時間割</a></td>
+        <td align="center"><a class="btn btn-secondary" href="?do=admin_teacher_timetable&tea_id=<?= $key; ?>" role="button">担当時間割</a></td>
       </tr>
   	<?php endforeach; ?>
     </tbody>

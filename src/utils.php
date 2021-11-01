@@ -1,5 +1,5 @@
 <?php 
-
+	
 	function flagonCheck($weekday, $timed, $tweekday, $ttimed){
 		if(($weekday == $tweekday) && ($timed == $ttimed)){
 			return true;
@@ -101,24 +101,7 @@
 			}else{
 				//アンケート設定を行っていない時間割(募集をかけていない)
 				break;
-				// echo $key.$value['category_name'].'値がないよ<br>';
-				// $sql2 = <<<EOM
-				// select * from tb_answer where stu_id = '{$stu_id}'
-				// EOM;
-				// $rs2 = $conn->query($sql2);
-				// $row2 = $rs2->fetch_assoc();
-				// while($row2){
-				// 	if($row2['ans_value'] < 3){
-				// 		$score = 1;
-				// 	}
-				// 	if($row2['ans_value'] > 3){
-				// 		$score = -1;
-				// 	}
-				// 	$total += $score;
-				// 	$row2 = $rs2->fetch_assoc();
-				// }
 			}
-			
 			$scores[$key] = [
 				'total' => $total
 			];
