@@ -170,12 +170,12 @@ if(isset($_GET['rcm_id'])){
 if(isset($stu_detail['app_comment'])){
   echo '<table class="table table-borderless"><tbody><tr>';
   echo '<th scope="row" width="15%">学生コメント</th>';
-  echo '<td>'.$stu_detail['app_comment'].'</td>';
+  echo '<td style="white-space:pre-wrap;">'.$stu_detail['app_comment'].'</td>';
   echo '</tr>';
   if($stu_detail['app_result'] == 3){
     echo '<tr>';
     echo '<th scope="row" width="15%"><p class="red">応募撤回文</p></th>';
-    echo '<td>'.$stu_detail['app_cancmnt'].'</td>';
+    echo '<td style="white-space:pre-wrap;">'.$stu_detail['app_cancmnt'].'</td>';
     echo '</tr>';
   }
   echo '</tbody></table>';  
