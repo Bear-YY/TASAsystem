@@ -71,9 +71,9 @@ while($row){
 
 //推薦をしている科目
 $sql = <<<EOM
-select * from tb_recruitment rec, tb_timetable tt natural join tb_subject natural join tb_recommend
-where rec.tt_id = tt.tt_id and rec.rec_id in
-(select rec_id from tb_recommend where tea_id = '{$tea_id}') ORDER BY semester , tt_weekday , tt_timed
+SELECT * ,count(*) AS count FROM tb_recommend NATURAL JOIN tb_recruitment rec, tb_timetable tt NATURAL JOIN tb_subject
+WHERE rec.tt_id = tt.tt_id and rcm_id in
+(SELECT rcm_id FROM tb_recommend WHERE tea_id = '{$tea_id}') GROUP BY rec_id ORDER BY semester , tt_weekday , tt_timed
 EOM;
 $rs = $conn->query($sql);
 if (!$rs) die('エラー: ' . $conn->error);
@@ -81,14 +81,44 @@ $row = $rs->fetch_assoc();                    //募集してる時間割情報(�
 $rcmtt = [];
 while($row){
 	$rcm_id = $row['rcm_id'];
-	$rcmtt[$tt_id] = [	
+	$rcmtt[$rcm_id] = [	
 		'sub_name' => $row['sub_name'],
 		'semester' => $row['semester'],
 		'tt_weekday' => $row['tt_weekday'],
 		'tt_timed' => $row['tt_timed'],
+    'count' => $row['count'],
+    'rec_id' => $row['rec_id']
 	];
 	$row= $rs->fetch_assoc();
 }
+
+if($rcmtt){
+  foreach ($rcmtt as $key => $value) {
+    $rec_id = $value['rec_id'];
+    $rcmtt[$key]['ok'] = 0;
+    $rcmtt[$key]['no'] = 0;
+    $rcmtt[$key]['unanswerd'] = 0;
+    $sql = "SELECT *,count(*) as count FROM tb_recommend WHERE rec_id = '{$rec_id}' GROUP BY rcm_result";
+    $rs = $conn->query($sql);
+    $row = $rs->fetch_assoc();
+    while($row){
+      switch ($row['rcm_result']) {
+        case 1:
+            $rcmtt[$key]['ok'] = $row['count'];             
+            break;
+        case 2:
+            $rcmtt[$key]['no'] = $row['count'];  
+            break;
+        default:
+            $rcmtt[$key]['unanswerd'] = $row['count'];  
+            break;
+      }
+      $row = $rs->fetch_assoc();
+    }
+  }
+  // var_dump($rcmtt);
+}
+
 ?>
 
 <h3>--<?= $tea_name; ?>様--の担当時間割</h3>
@@ -137,6 +167,7 @@ while($row){
 </table>
 
 <?php if($rcmtt): ?>
+<hr style="border:0;border-top:1px solid black;">
 <h3>--<?= $tea_name; ?>様--の推薦を行っている時間割</h3>
 <table class="table table-bordered">
   <thead class="thead-dark"> 
@@ -145,6 +176,10 @@ while($row){
         <th scope="col">学期</th>
         <th scope="col">曜日</th>
         <th scope="col">時限</th>
+        <th scope="col">推薦人数</th>
+        <th scope="col">承諾</th>
+        <th scope="col">拒否</th>
+        <th scope="col">未回答</th>
         <th scope="col"></th>
       </tr>
   </thead>  
@@ -155,6 +190,10 @@ while($row){
        <td><?=$semesters[$value['semester']]; ?></td>
        <td><?=$weekdays[$value['tt_weekday']]; ?></td>
        <td><?=$times[$value['tt_timed']]; ?></td>
+       <td><?=$value['count']; ?>人</td>
+       <td><?=$value['ok']; ?>人</td>
+       <td><?=$value['no']; ?>人</td>
+       <td><?=$value['unanswerd']; ?></td>
        <td align="center"><a class="btn btn-secondary" href="?do=admin_teacher_recommend&rcm_id=<?= $key; ?>" role="button">推薦者</a></td>
     </tr>
  	<?php endforeach; ?>
