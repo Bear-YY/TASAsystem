@@ -34,7 +34,7 @@ CREATE TABLE `tb_answer` (
   KEY `que_id` (`que_id`),
   CONSTRAINT `tb_answer_ibfk_1` FOREIGN KEY (`stu_id`) REFERENCES `tb_student` (`stu_id`),
   CONSTRAINT `tb_answer_ibfk_2` FOREIGN KEY (`que_id`) REFERENCES `tb_questionnaire` (`que_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,6 +43,7 @@ CREATE TABLE `tb_answer` (
 
 LOCK TABLES `tb_answer` WRITE;
 /*!40000 ALTER TABLE `tb_answer` DISABLE KEYS */;
+INSERT INTO `tb_answer` VALUES (5,'30RS001',1,NULL,1),(6,'30RS001',2,NULL,1),(7,'30RS001',3,NULL,2),(8,'30RS001',4,NULL,1),(9,'30RS001',5,NULL,1),(10,'30RS999',1,NULL,5),(11,'30RS999',2,NULL,4),(12,'30RS999',3,NULL,2),(13,'30RS999',4,NULL,3),(14,'30RS999',5,NULL,1);
 /*!40000 ALTER TABLE `tb_answer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,14 +60,15 @@ CREATE TABLE `tb_application` (
   `rec_id` int(10) unsigned NOT NULL,
   `app_day` date DEFAULT NULL,
   `app_comment` text DEFAULT NULL,
-  `app_result` int(11) DEFAULT NULL,
+  `app_result` int(11) DEFAULT 0,
+  `app_cancmnt` text DEFAULT NULL,
   PRIMARY KEY (`app_id`,`stu_id`,`rec_id`),
   UNIQUE KEY `app_id` (`app_id`),
   KEY `stu_id` (`stu_id`),
   KEY `rec_id` (`rec_id`),
   CONSTRAINT `tb_application_ibfk_1` FOREIGN KEY (`stu_id`) REFERENCES `tb_student` (`stu_id`),
   CONSTRAINT `tb_application_ibfk_2` FOREIGN KEY (`rec_id`) REFERENCES `tb_recruitment` (`rec_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -75,6 +77,7 @@ CREATE TABLE `tb_application` (
 
 LOCK TABLES `tb_application` WRITE;
 /*!40000 ALTER TABLE `tb_application` DISABLE KEYS */;
+INSERT INTO `tb_application` VALUES (8,'30RS001',11,'2033-10-19','がんばります。',1,NULL),(9,'30RS005',8,'2033-10-20','がんばりたいです。',1,NULL),(11,'30RS002',8,'2033-10-21','がんばります。',0,NULL),(12,'30RS999',15,'2033-10-27','頑張ります。',1,NULL),(13,'30RS002',10,'2033-10-29','伊藤です。がんばります。',0,NULL),(14,'30RS005',12,'2033-10-29','吉田、がんばります。',3,'ごめんなさい'),(16,'30RS007',14,'2033-10-29','コメント\r\nコメント\r\nコメント',0,NULL);
 /*!40000 ALTER TABLE `tb_application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,7 +124,7 @@ CREATE TABLE `tb_config` (
   KEY `que_id` (`que_id`),
   CONSTRAINT `tb_config_ibfk_1` FOREIGN KEY (`tt_id`) REFERENCES `tb_timetable` (`tt_id`),
   CONSTRAINT `tb_config_ibfk_2` FOREIGN KEY (`que_id`) REFERENCES `tb_questionnaire` (`que_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,6 +133,7 @@ CREATE TABLE `tb_config` (
 
 LOCK TABLES `tb_config` WRITE;
 /*!40000 ALTER TABLE `tb_config` DISABLE KEYS */;
+INSERT INTO `tb_config` VALUES (22,1,1,5),(22,2,2,5),(22,3,3,5),(22,4,4,5),(22,5,5,5),(1,1,6,2),(1,2,7,1),(1,3,8,2),(1,4,9,1),(1,5,10,2),(2,1,11,1),(2,2,12,1),(2,3,13,1),(2,4,14,1),(2,5,15,1),(3,1,16,3),(3,2,17,2),(3,3,18,2),(3,4,19,1),(3,5,20,3),(10,1,21,1),(10,2,22,3),(10,3,23,1),(10,4,24,1),(10,5,25,4),(5,1,26,1),(5,2,27,3),(5,3,28,2),(5,4,29,3),(5,5,30,1),(7,1,31,0),(7,2,32,0),(7,3,33,0),(7,4,34,0),(7,5,35,0);
 /*!40000 ALTER TABLE `tb_config` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,7 +232,7 @@ CREATE TABLE `tb_questionnaire` (
   `que_title` text DEFAULT NULL,
   PRIMARY KEY (`que_id`),
   UNIQUE KEY `que_id` (`que_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -265,7 +269,7 @@ CREATE TABLE `tb_recommend` (
   CONSTRAINT `tb_recommend_ibfk_1` FOREIGN KEY (`tea_id`) REFERENCES `tb_teacher` (`tea_id`),
   CONSTRAINT `tb_recommend_ibfk_2` FOREIGN KEY (`stu_id`) REFERENCES `tb_student` (`stu_id`),
   CONSTRAINT `tb_recommend_ibfk_3` FOREIGN KEY (`rec_id`) REFERENCES `tb_recruitment` (`rec_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -274,6 +278,7 @@ CREATE TABLE `tb_recommend` (
 
 LOCK TABLES `tb_recommend` WRITE;
 /*!40000 ALTER TABLE `tb_recommend` DISABLE KEYS */;
+INSERT INTO `tb_recommend` VALUES (13,'kato','30RS005',10,'2021-10-27',NULL,'2021-10-29 00:00:00','頑張ってほしいです。',NULL),(5,'kato','30RS999',10,'2021-10-19',1,'2021-10-28 00:00:00','ぜひ頑張ってもらいたい','了承'),(8,'kato','30RS006',11,'2021-10-20',1,'2021-10-29 00:00:00','君の成績を見て採用を考えました。','頑張りたいと思います。'),(12,'konishi','30RS003',12,'2021-10-21',2,'2021-10-21 00:00:00','がんばれー','ごめんなさい。');
 /*!40000 ALTER TABLE `tb_recommend` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -300,7 +305,7 @@ CREATE TABLE `tb_recruitment` (
   CONSTRAINT `tb_recruitment_ibfk_1` FOREIGN KEY (`tt_id`) REFERENCES `tb_timetable` (`tt_id`),
   CONSTRAINT `tb_recruitment_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `tb_role` (`role_id`),
   CONSTRAINT `tb_recruitment_ibfk_3` FOREIGN KEY (`tea_id`) REFERENCES `tb_teacher` (`tea_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -309,6 +314,7 @@ CREATE TABLE `tb_recruitment` (
 
 LOCK TABLES `tb_recruitment` WRITE;
 /*!40000 ALTER TABLE `tb_recruitment` DISABLE KEYS */;
+INSERT INTO `tb_recruitment` VALUES (8,22,1,'konishi','2033-10-21','教えることが好きな学生は大歓迎です。',2),(10,2,1,'kato','2033-10-29','業務内容は、主に受講生のサポートになります。\r\n追記',2),(11,3,1,'kato','2033-10-29','注意事項は特にありません。',2),(12,10,1,'konishi','2033-10-20','書類の配布と小テストの○付けをお願いします。',2),(13,5,1,'matumoto','2033-10-20','レポートの採点をお願いしたいので、授業でレポートの点数が○○だった方にお願いしたいです。',2),(14,7,1,'matumoto','2033-10-20','小テストの採点と、受講生のサポートをお願いします。',2),(15,1,1,'kato','2033-10-29','小テストの採点。',2);
 /*!40000 ALTER TABLE `tb_recruitment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -357,7 +363,7 @@ CREATE TABLE `tb_schedule` (
   UNIQUE KEY `sch_id` (`sch_id`),
   KEY `stu_id` (`stu_id`),
   CONSTRAINT `tb_schedule_ibfk_1` FOREIGN KEY (`stu_id`) REFERENCES `tb_student` (`stu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -366,7 +372,7 @@ CREATE TABLE `tb_schedule` (
 
 LOCK TABLES `tb_schedule` WRITE;
 /*!40000 ALTER TABLE `tb_schedule` DISABLE KEYS */;
-INSERT INTO `tb_schedule` VALUES (21,'30RS002','用事が...あるんだ...',2,1,'だから...俺が帰ってくるまで待ってくれないか？',2),(22,'30RS002','なんと',3,1,'用事があります。',2),(25,'30RS001','基礎数学',2,1,'まぁ大変',1),(26,'30RS999','アルバイト',2,1,'アルバイトしたいなー',1),(28,'30RS005','アルバイト',2,2,'アルバイトしたいなー',1),(29,'30RS005','病院',4,1,'午前中に病院に通う必要がある',2);
+INSERT INTO `tb_schedule` VALUES (21,'30RS002','用事が...あるんだ...',2,1,'だから...俺が帰ってくるまで待ってくれないか？',2),(22,'30RS002','なんと',3,1,'用事があります。',2),(28,'30RS005','アルバイト',2,2,'アルバイトしたいなー',1),(29,'30RS005','病院',4,1,'午前中に病院に通う必要がある',2),(32,'30RS006','アルバイト',4,1,'午前中アルバイト',1),(33,'30RS001','基礎数学',4,1,'',2),(34,'30RS001','アルバイト',3,1,'',2),(35,'30RS999','アルバイト',3,4,'夜9時までアルバイトです。',1),(36,'30RS999','基礎数学',3,2,'',1);
 /*!40000 ALTER TABLE `tb_schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -428,7 +434,7 @@ CREATE TABLE `tb_subject` (
   KEY `category_id` (`category_id`),
   CONSTRAINT `tb_subject_ibfk_1` FOREIGN KEY (`dpt_id`) REFERENCES `tb_department` (`dpt_id`),
   CONSTRAINT `tb_subject_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `tb_category` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -437,7 +443,7 @@ CREATE TABLE `tb_subject` (
 
 LOCK TABLES `tb_subject` WRITE;
 /*!40000 ALTER TABLE `tb_subject` DISABLE KEYS */;
-INSERT INTO `tb_subject` VALUES (1,'RS',1,'プログラミング基礎Ⅰ',2,1,1),(2,'RS',1,'プログラミング基礎Ⅱ',2,2,1),(3,'RS',1,'データ構造とアルゴリズムⅠ',2,1,1),(4,'RS',1,'ゲームプログラミング演習',2,1,2),(5,'RS',2,'組込みソフトウェア',2,2,2),(6,'RS',2,'ハードウェア設計Ⅰ',2,1,1),(7,'RS',2,'計算機構成論Ⅰ',2,1,1),(8,'RS',2,'ハードウェア設計Ⅱ',2,2,1),(9,'RS',3,'統計学',2,1,2),(10,'RS',3,'離散数学Ⅰ',2,1,1),(11,'RS',3,'離散数学Ⅱ',2,2,2),(12,'RS',3,'線形代数Ⅰ',2,1,1),(13,'RS',4,'データベース',2,2,2),(14,'RS',4,'WEBプログラミング演習',2,2,2),(15,'RS',4,'クラウドプログラミング演習',2,1,2),(16,'RS',4,'コンピュータネットワーク',2,1,1),(17,'RS',5,'情報リテラシー',2,1,1),(18,'RS',5,'プロジェクトデザイン管理',2,3,2),(19,'RS',5,'情報処理技術Ⅰ',2,1,2),(20,'RS',5,'技術者倫理',2,1,2);
+INSERT INTO `tb_subject` VALUES (1,'RS',1,'プログラミング基礎Ⅰ',2,1,1),(2,'RS',1,'プログラミング基礎Ⅱ',2,2,1),(3,'RS',1,'データ構造とアルゴリズムⅠ',2,1,1),(4,'RS',1,'ゲームプログラミング演習',2,1,2),(5,'RS',2,'組込みソフトウェア',2,2,2),(6,'RS',2,'ハードウェア設計Ⅰ',2,1,1),(7,'RS',2,'計算機構成論Ⅰ',2,1,1),(8,'RS',2,'ハードウェア設計Ⅱ',2,2,1),(9,'RS',3,'統計学',2,1,2),(10,'RS',3,'離散数学Ⅰ',2,1,1),(11,'RS',3,'離散数学Ⅱ',2,2,2),(12,'RS',3,'線形代数Ⅰ',2,1,1),(13,'RS',4,'データベース',2,2,2),(14,'RS',4,'WEBプログラミング演習',2,2,2),(15,'RS',4,'クラウドプログラミング演習',2,1,2),(16,'RS',4,'コンピュータネットワーク',2,1,1),(17,'RS',5,'情報リテラシー',2,1,1),(18,'RS',5,'プロジェクトデザイン管理',2,3,2),(19,'RS',5,'情報処理技術Ⅰ',2,1,2),(20,'RS',5,'技術者倫理',2,1,2),(21,'RS',3,'基礎数学',2,1,1);
 /*!40000 ALTER TABLE `tb_subject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -497,8 +503,7 @@ CREATE TABLE `tb_timetable` (
   KEY `sub_id` (`sub_id`),
   CONSTRAINT `tb_timetable_ibfk_1` FOREIGN KEY (`tea_id`) REFERENCES `tb_teacher` (`tea_id`),
   CONSTRAINT `tb_timetable_ibfk_2` FOREIGN KEY (`sub_id`) REFERENCES `tb_subject` (`sub_id`)
-  -- ,CONSTRAINT `tb_timetable_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `tb_role` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -507,7 +512,7 @@ CREATE TABLE `tb_timetable` (
 
 LOCK TABLES `tb_timetable` WRITE;
 /*!40000 ALTER TABLE `tb_timetable` DISABLE KEYS */;
-INSERT INTO `tb_timetable` VALUES (1,'kato',1,1,2,1,2030,'12104'),(2,'kato',2,2,2,2,2031,'12104'),(3,'kato',3,2,3,1,2030,'12107'),(4,'kato',4,1,3,3,2030,'12107'),(5,'matumoto',5,1,1,3,2031,'12203'),(6,'matumoto',6,2,1,1,2030,'12201'),(7,'matumoto',7,1,3,2,2030,'12103'),(8,'matumoto',8,2,3,3,2031,'12203'),(9,'konishi',9,1,4,4,2030,'12106'),(10,'konishi',10,1,4,3,2030,'12109'),(11,'konishi',11,2,5,4,2031,'12107'),(12,'konishi',12,2,5,2,2030,'12108'),(13,'yamagishi',13,2,2,1,2031,'12109'),(14,'yamagishi',14,1,2,2,2031,'12201'),(15,'yamagishi',15,2,5,3,2030,'12104'),(16,'yamagishi',16,1,5,1,2030,'12105'),(17,'thuchiya',17,2,3,4,2030,'12103'),(18,'thuchiya',18,1,2,1,2032,'12107'),(19,'thuchiya',19,2,4,3,2030,'12208'),(20,'thuchiya',20,1,1,4,2030,'12209');
+INSERT INTO `tb_timetable` VALUES (1,'kato',1,1,2,1,2030,'12104'),(2,'kato',2,2,2,2,2031,'12104'),(3,'kato',3,2,3,1,2030,'12107'),(4,'kato',4,1,3,3,2030,'12107'),(5,'matumoto',5,1,1,3,2031,'12203'),(6,'matumoto',6,2,1,1,2030,'12201'),(7,'matumoto',7,1,3,2,2030,'12103'),(8,'matumoto',8,2,3,3,2031,'12203'),(9,'konishi',9,1,4,4,2030,'12106'),(10,'konishi',10,1,4,3,2030,'12109'),(11,'konishi',11,2,5,4,2031,'12107'),(12,'konishi',12,2,5,2,2030,'12108'),(13,'yamagishi',13,2,2,1,2031,'12109'),(14,'yamagishi',14,1,2,2,2031,'12201'),(15,'yamagishi',15,2,5,3,2030,'12104'),(16,'yamagishi',16,1,5,1,2030,'12105'),(17,'thuchiya',17,2,3,4,2030,'12103'),(18,'thuchiya',18,1,2,1,2032,'12107'),(19,'thuchiya',19,2,4,3,2030,'12208'),(20,'thuchiya',20,1,1,4,2030,'12209'),(22,'konishi',1,1,2,1,2031,'12105');
 /*!40000 ALTER TABLE `tb_timetable` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -547,4 +552,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-13 19:12:50
+-- Dump completed on 2021-11-01 14:27:14
