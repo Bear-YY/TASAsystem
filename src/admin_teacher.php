@@ -36,7 +36,7 @@ while($row){
     <tbody>
     <?php foreach($teachers as $key => $value): ?>
       <tr>
-        <td><?= $value['tea_name'] ; ?></td>
+        <th scope="row"><?= $value['tea_name'] ; ?></td>
         <td><?= $key; ?></td>
         <td><?= $value['dpt_id'] ; ?></td>
         <td><?= $sex[$value['tea_sex']] ; ?></td>
