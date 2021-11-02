@@ -116,7 +116,7 @@ $row = $rs->fetch_assoc();
        	<?php endif; ?>
        </td>
        <td><?= $value['stu_id'];?></td>
-       <td><a href="?do=admin_home&stu_id=<?= $key ;?>"><?= $value['stu_name'];?></a></td>
+       <td><a href="?do=admin_student_timetable&stu_id=<?= $key ;?>"><?= $value['stu_name'];?></a></td>
        <td><?= $value['dpt_id'];?></td>
        <?php $year = $fake_year - $value['ad_year']; ?>
        <td><?= $school_grade[$year];?></td>
