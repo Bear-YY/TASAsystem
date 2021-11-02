@@ -34,7 +34,7 @@ CREATE TABLE `tb_answer` (
   KEY `que_id` (`que_id`),
   CONSTRAINT `tb_answer_ibfk_1` FOREIGN KEY (`stu_id`) REFERENCES `tb_student` (`stu_id`),
   CONSTRAINT `tb_answer_ibfk_2` FOREIGN KEY (`que_id`) REFERENCES `tb_questionnaire` (`que_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `tb_application` (
   KEY `rec_id` (`rec_id`),
   CONSTRAINT `tb_application_ibfk_1` FOREIGN KEY (`stu_id`) REFERENCES `tb_student` (`stu_id`),
   CONSTRAINT `tb_application_ibfk_2` FOREIGN KEY (`rec_id`) REFERENCES `tb_recruitment` (`rec_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +122,7 @@ CREATE TABLE `tb_config` (
   KEY `que_id` (`que_id`),
   CONSTRAINT `tb_config_ibfk_1` FOREIGN KEY (`tt_id`) REFERENCES `tb_timetable` (`tt_id`),
   CONSTRAINT `tb_config_ibfk_2` FOREIGN KEY (`que_id`) REFERENCES `tb_questionnaire` (`que_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,7 +229,7 @@ CREATE TABLE `tb_questionnaire` (
   `que_title` text DEFAULT NULL,
   PRIMARY KEY (`que_id`),
   UNIQUE KEY `que_id` (`que_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -265,7 +265,7 @@ CREATE TABLE `tb_recommend` (
   CONSTRAINT `tb_recommend_ibfk_1` FOREIGN KEY (`tea_id`) REFERENCES `tb_teacher` (`tea_id`),
   CONSTRAINT `tb_recommend_ibfk_2` FOREIGN KEY (`stu_id`) REFERENCES `tb_student` (`stu_id`),
   CONSTRAINT `tb_recommend_ibfk_3` FOREIGN KEY (`rec_id`) REFERENCES `tb_recruitment` (`rec_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -300,7 +300,7 @@ CREATE TABLE `tb_recruitment` (
   CONSTRAINT `tb_recruitment_ibfk_1` FOREIGN KEY (`tt_id`) REFERENCES `tb_timetable` (`tt_id`),
   CONSTRAINT `tb_recruitment_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `tb_role` (`role_id`),
   CONSTRAINT `tb_recruitment_ibfk_3` FOREIGN KEY (`tea_id`) REFERENCES `tb_teacher` (`tea_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -357,7 +357,7 @@ CREATE TABLE `tb_schedule` (
   UNIQUE KEY `sch_id` (`sch_id`),
   KEY `stu_id` (`stu_id`),
   CONSTRAINT `tb_schedule_ibfk_1` FOREIGN KEY (`stu_id`) REFERENCES `tb_student` (`stu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -545,4 +545,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-02 19:04:09
+-- Dump completed on 2021-11-02 19:13:21
