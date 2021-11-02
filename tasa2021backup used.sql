@@ -43,6 +43,7 @@ CREATE TABLE `tb_answer` (
 
 LOCK TABLES `tb_answer` WRITE;
 /*!40000 ALTER TABLE `tb_answer` DISABLE KEYS */;
+INSERT INTO `tb_answer` VALUES (5,'30RS001',1,NULL,1),(6,'30RS001',2,NULL,1),(7,'30RS001',3,NULL,2),(8,'30RS001',4,NULL,1),(9,'30RS001',5,NULL,1),(10,'30RS999',1,NULL,5),(11,'30RS999',2,NULL,4),(12,'30RS999',3,NULL,2),(13,'30RS999',4,NULL,3),(14,'30RS999',5,NULL,1);
 /*!40000 ALTER TABLE `tb_answer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,6 +77,7 @@ CREATE TABLE `tb_application` (
 
 LOCK TABLES `tb_application` WRITE;
 /*!40000 ALTER TABLE `tb_application` DISABLE KEYS */;
+INSERT INTO `tb_application` VALUES (8,'30RS001',11,'2033-10-19','がんばります。',1,NULL),(9,'30RS005',8,'2033-10-20','がんばりたいです。',1,NULL),(11,'30RS002',8,'2033-10-21','がんばります。',0,NULL),(12,'30RS999',15,'2033-10-27','頑張ります。',1,NULL),(13,'30RS002',10,'2033-10-29','伊藤です。がんばります。',0,NULL),(14,'30RS005',12,'2033-10-29','吉田、がんばります。',3,'ごめんなさい'),(16,'30RS007',14,'2033-10-29','コメント\r\nコメント\r\nコメント',0,NULL);
 /*!40000 ALTER TABLE `tb_application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,6 +133,7 @@ CREATE TABLE `tb_config` (
 
 LOCK TABLES `tb_config` WRITE;
 /*!40000 ALTER TABLE `tb_config` DISABLE KEYS */;
+INSERT INTO `tb_config` VALUES (22,1,1,5),(22,2,2,5),(22,3,3,5),(22,4,4,5),(22,5,5,5),(1,1,6,2),(1,2,7,1),(1,3,8,2),(1,4,9,1),(1,5,10,2),(2,1,11,1),(2,2,12,1),(2,3,13,1),(2,4,14,1),(2,5,15,1),(3,1,16,3),(3,2,17,2),(3,3,18,2),(3,4,19,1),(3,5,20,3),(10,1,21,1),(10,2,22,3),(10,3,23,1),(10,4,24,1),(10,5,25,4),(5,1,26,1),(5,2,27,3),(5,3,28,2),(5,4,29,3),(5,5,30,1),(7,1,31,0),(7,2,32,0),(7,3,33,0),(7,4,34,0),(7,5,35,0);
 /*!40000 ALTER TABLE `tb_config` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -238,6 +241,7 @@ CREATE TABLE `tb_questionnaire` (
 
 LOCK TABLES `tb_questionnaire` WRITE;
 /*!40000 ALTER TABLE `tb_questionnaire` DISABLE KEYS */;
+INSERT INTO `tb_questionnaire` VALUES (1,'プログラミングに自信がある'),(2,'コミュニケーションが得意である'),(3,'教えることが好き'),(4,'数学が得意である'),(5,'プログラミングが好き');
 /*!40000 ALTER TABLE `tb_questionnaire` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,6 +278,7 @@ CREATE TABLE `tb_recommend` (
 
 LOCK TABLES `tb_recommend` WRITE;
 /*!40000 ALTER TABLE `tb_recommend` DISABLE KEYS */;
+INSERT INTO `tb_recommend` VALUES (13,'kato','30RS005',10,'2021-10-27',NULL,'2021-10-29 00:00:00','頑張ってほしいです。',NULL),(5,'kato','30RS999',10,'2021-10-19',1,'2021-10-28 00:00:00','ぜひ頑張ってもらいたい','了承'),(8,'kato','30RS006',11,'2021-10-20',1,'2021-10-29 00:00:00','君の成績を見て採用を考えました。','頑張りたいと思います。'),(12,'konishi','30RS003',12,'2021-10-21',2,'2021-10-21 00:00:00','がんばれー','ごめんなさい。');
 /*!40000 ALTER TABLE `tb_recommend` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -309,6 +314,7 @@ CREATE TABLE `tb_recruitment` (
 
 LOCK TABLES `tb_recruitment` WRITE;
 /*!40000 ALTER TABLE `tb_recruitment` DISABLE KEYS */;
+INSERT INTO `tb_recruitment` VALUES (8,22,1,'konishi','2033-10-21','教えることが好きな学生は大歓迎です。',2),(10,2,1,'kato','2033-10-29','業務内容は、主に受講生のサポートになります。\r\n追記',2),(11,3,1,'kato','2033-10-29','注意事項は特にありません。',2),(12,10,1,'konishi','2033-10-20','書類の配布と小テストの○付けをお願いします。',2),(13,5,1,'matumoto','2033-10-20','レポートの採点をお願いしたいので、授業でレポートの点数が○○だった方にお願いしたいです。',2),(14,7,1,'matumoto','2033-10-20','小テストの採点と、受講生のサポートをお願いします。',2),(15,1,1,'kato','2033-10-29','小テストの採点。',2);
 /*!40000 ALTER TABLE `tb_recruitment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -366,6 +372,7 @@ CREATE TABLE `tb_schedule` (
 
 LOCK TABLES `tb_schedule` WRITE;
 /*!40000 ALTER TABLE `tb_schedule` DISABLE KEYS */;
+INSERT INTO `tb_schedule` VALUES (21,'30RS002','用事が...あるんだ...',2,1,'だから...俺が帰ってくるまで待ってくれないか？',2),(22,'30RS002','なんと',3,1,'用事があります。',2),(28,'30RS005','アルバイト',2,2,'アルバイトしたいなー',1),(29,'30RS005','病院',4,1,'午前中に病院に通う必要がある',2),(32,'30RS006','アルバイト',4,1,'午前中アルバイト',1),(33,'30RS001','基礎数学',4,1,'',2),(34,'30RS001','アルバイト',3,1,'',2),(35,'30RS999','アルバイト',3,4,'夜9時までアルバイトです。',1),(36,'30RS999','基礎数学',3,2,'',1);
 /*!40000 ALTER TABLE `tb_schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -545,4 +552,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-02 19:04:09
+-- Dump completed on 2021-11-01 14:27:14
