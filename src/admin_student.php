@@ -18,6 +18,37 @@ while($row){
 	$row = $rs->fetch_assoc();
 }
 
+if($students){
+  foreach ($students as $key => $value) {
+    //応募数を$studentsに加える。
+    $sql = <<<EOM
+      SELECT *,COUNT(*) AS apptotal FROM tb_application NATURAL JOIN tb_recruitment rec NATURAL JOIN tb_teacher, tb_timetable tt NATURAL JOIN tb_subject
+      WHERE app_id IN
+        (SELECT app_id 
+        FROM tb_application 
+        WHERE stu_id = '{$key}') 
+      AND rec.tt_id = tt.tt_id
+    EOM;
+    $rs = $conn->query($sql);
+    $row = $rs->fetch_assoc();
+    $students[$key]['apptotal'] = $row['apptotal'];
+
+    //推薦数を$studentsに加える
+    $sql = <<<EOM
+      SELECT *,COUNT(*) AS rcmtotal FROM tb_recommend NATURAL JOIN tb_recruitment rec NATURAL JOIN tb_teacher, tb_timetable tt NATURAL JOIN tb_subject
+      WHERE rcm_id IN
+        (SELECT rcm_id 
+        FROM tb_recommend 
+        WHERE stu_id = '{$key}') 
+      AND rec.tt_id = tt.tt_id
+    EOM;
+    $rs = $conn->query($sql);
+    $row = $rs->fetch_assoc();
+    $students[$key]['rcmtotal'] = $row['rcmtotal'];
+  }
+}
+
+
 ?>
 <h3>学生一覧</h3>
 <table class="table table-bordered">
@@ -28,6 +59,8 @@ while($row){
         <th scope="col">学科ID</th>
         <th scope="col">性別</th>
         <th scope="col">メールアドレス</th>
+        <th scope="col">応募数</th>
+        <th scope="col">推薦数</th>
         <th scope="col"></th>
       </tr>
   </thead>  
@@ -39,6 +72,8 @@ while($row){
         <td><?= $value['dpt_id'] ; ?></td>
         <td><?= $sex[$value['stu_sex']] ; ?></td>
         <td><?= $value['stu_mail'] ; ?></td>
+        <td><?= $value['apptotal'] ; ?></td>
+        <td><?= $value['rcmtotal'] ; ?></td>
         <td align="center"><a class="btn btn-secondary" href="?do=admin_student_timetable&stu_id=<?= $key; ?>" role="button">応募・推薦時間割</a></td>
       </tr>
   	<?php endforeach; ?>
