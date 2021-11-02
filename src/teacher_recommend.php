@@ -22,7 +22,21 @@ while($row){
 	];
 	$row = $rs->fetch_assoc();
 }
-// var_dump($students);
+if($students){
+  foreach ($students as $key => $value) {
+    //応募数を$studentsに加える。
+    $sql = <<<EOM
+      SELECT * from tb_application where stu_id = '{$key}' and rec_id = '{$rec_id}'
+    EOM;
+    $rs = $conn->query($sql);
+    $row = $rs->fetch_assoc();
+    if($row){
+      $students[$key]['app_result'] = $row['app_result'];
+    }else{
+      $students[$key]['app_result'] = 9; //採用待ち:0、採用:1、応募撤回:3なのでとりあえず重複しない値を選択
+    }
+  }
+}
 
 $sql = <<<EOM
 SELECT * FROM tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_teacher NATURAL JOIN tb_subject
@@ -95,24 +109,26 @@ $row = $rs->fetch_assoc();
       <th scope="col">学年</th>
       <th scope="col">GPA</th>
       <th scope="col"></th>
+      <th scope="col">応募の有無</th>
     </tr>
   </thead>
   <tbody>
-<?php 
-foreach ($students as $key => $value): 
-?>
+<?php foreach ($students as $key => $value): ?>
 	<tr>
-<?php
-			  print('<td scope="col">'.$key.'</td>');
-			  print('<td scope="col">'.$value['stu_name'].'</td>');
-			  $year = $fake_year - $value['ad_year'];
-			  print('<td scope="col">'.$school_grade[$year].'</td>');
-			  print('<td scope="col">'.$value['stu_gpa'].'</td>');
-			  echo '<td>';
-			  echo '<a class="btn btn-secondary" href="?do=teacher_recommend_detail&rec_id='.$rec_id.'&stu_id='.$key.'" role="button">詳細</a>';
-			  echo '</td>';
-?>
-		</tr>
+		<td scope="col"><?=$key;?></td>
+		<td scope="col"><?=$value['stu_name'];?></td>
+		<?php $year = $fake_year - $value['ad_year'];  ?>
+		<td scope="col"><?=$school_grade[$year];?></td>
+		<td scope="col"><?=$value['stu_gpa'];?></td>
+		<td>
+		<a class="btn btn-secondary" href="?do=teacher_recommend_detail&rec_id=<?= $rec_id;?>&stu_id=<?= $key;?>" role="button">詳細</a>
+		</td>
+    <?php if($value['app_result'] == 9): ?>
+      <td scope="col" class="table-secondary">無</td>
+    <?php else: ?>
+      <td scope="col" class="table-primary">有</td>
+    <?php endif; ?>
+	</tr>
 <?php endforeach; ?>
   </tbody>
 </table>
