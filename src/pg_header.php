@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="ja"><head>
 <meta http-equiv="Content-TYPE" content="text/html; charset=UTF-8">
 
@@ -19,6 +19,9 @@
 <!-- import axios -->
 <script src="https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js"></script>
 
+<!-- import chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js" integrity="sha512-GMGzUEevhWh8Tc/njS0bDpwgxdCJLQBWG3Z2Ct+JGOpVnEmjvNx6ts4v6A2XJf1HOrtOsfhv3hBKpK9kE5z8AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 </head>
 <body>
 <div class="wrapper">
@@ -30,7 +33,7 @@
 <?php
 
 echo '<div class="right-content">';
-  
+
 if (isset($_SESSION['usr_kind'])){
   echo '<p class="text-white" style="display:inline">';
   echo $_SESSION['usr_name'].'&nbsp;&nbsp;</p>';
@@ -40,14 +43,14 @@ if (isset($_SESSION['usr_kind'])){
       'スケジュール管理' => 'student_schedule',
       'アンケート回答' => 'student_answer'
     );
-  }  
-  
+  }
+
   if($_SESSION['usr_kind'] == 2){ //教員
 
     $menu = array(   //メニュー項目：プログラム名（拡張子.php省略）
       'HOME'  => 'teacher_home',
     );
-  }  
+  }
 
   if($_SESSION['usr_kind'] == 9){ //管理者
     $menu = array(   //メニュー項目：プログラム名（拡張子.php省略）
@@ -55,7 +58,7 @@ if (isset($_SESSION['usr_kind'])){
     );
   }
 
-  foreach($menu as $label=>$action){ 
+  foreach($menu as $label=>$action){
     echo  '<a href="?do=' . $action . '">' . $label . '</a>&nbsp&nbsp;' ;
   }
   echo  '<a href="?do=sys_logout"><button type="button" class="btn btn-secondary btn-sm">ログアウト</button></a>&nbsp;' ;
@@ -66,4 +69,3 @@ if (isset($_SESSION['usr_kind'])){
 ?>
 </div>
   </nav>
-
