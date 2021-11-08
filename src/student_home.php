@@ -1,9 +1,9 @@
-<?php 
+<?php
 require_once('db_inc.php');
 include('data.php');
 require_once('utils.php');
 include('student_matching.php');
-$timetable = array();     
+$timetable = array();
 $rectt = [];				//応募中の時間割idを記録する。
 
 //echo $mode;
@@ -22,7 +22,7 @@ $stu_id = mb_substr($stu_id, 1);
 
 // 学生が応募要件(成績A以上)を満たしている科目のみを取得
 $sql = <<<EOM
-SELECT * FROM tb_student NATURAL JOIN tb_course NATURAL JOIN tb_subject NATURAL JOIN tb_timetable 
+SELECT * FROM tb_student NATURAL JOIN tb_course NATURAL JOIN tb_subject NATURAL JOIN tb_timetable
 WHERE stu_id = '{$stu_id}' AND grade <= 2 AND semester = '{$semester}'
 EOM;
 $rs = $conn->query($sql);
@@ -131,11 +131,12 @@ while($row){
 <article>
 	<div class="side">
 		<!-- 最後のsql文の実行結果を取ってきてるので、配列に入れて管理する場合は注意 -->
-		<?php				
+		<?php
 		listSide($apps, 0 , '応募中の時間割');
 		listSide($apps, 1 , '採用された時間割');
+		listSide($apps, 3 , '応募撤回した時間割');
 		// listSide($apps, 2 , '不採用の時間割');
-    if($recommends): 
+    if($recommends):
   	?>
     <div class="card bg-light mb-3" style="width: 12rem;" >
         <div class="card-header">
@@ -148,7 +149,7 @@ while($row){
         			echo '<a href="?do=student_recommend&rcm_id='.$key.'"><b>'.$value['sub_name']; echo '</b></a><br>';
         			echo '・担当：'.$value['tea_name'].'<br>';
         			echo '・'.$semesters[$value['semester']].'-'.$weekdays_sm[$value['tt_weekday']].'-'.$times[$value['tt_timed']].'<br>';
-        		echo '</li>'; 
+        		echo '</li>';
         	}
         	echo '</ul>';
         ?>
@@ -170,7 +171,7 @@ while($row){
 				<a href="?do=student_home&semester=2"><button type="button" class="btn btn-warning">後期</button></a>
 <?php elseif($semester == 2): ?>
 				<a href="?do=student_home&semester=1"><button type="button" class="btn btn-warning">前期</button></a>
-<?php endif; ?>				
+<?php endif; ?>
 			</div>
 		</div>
 		<table class="table table-bordered">
@@ -185,10 +186,10 @@ while($row){
 		    </tr>
 		  </thead>
 		  <tbody>
-<?php 
+<?php
  for ($i=1; $i <= 6; $i++) {       //$iが時限　$jが曜日
 		print('<tr scope = "row">');
-		for ($j=0; $j < 6; $j++) { 
+		for ($j=0; $j < 6; $j++) {
 			if($j === 0){
 				print('<td>'.$i.'</td>');
 			}else{
@@ -211,8 +212,8 @@ while($row){
 					$recttflg = matchdayCheck($rectt,'tt_weekday','tt_timed',$j ,$i);
 
 					$rcmflg = matchdayCheck($recommends,'tt_weekday','tt_timed',$j ,$i);
-					
-					if($recttflg && $ttflg){	
+
+					if($recttflg && $ttflg){
 						foreach ($rectt as $key => $value) {
 							if(flagonCheck($j, $i ,$value['tt_weekday'], $value['tt_timed'])){
 								$catcount = 1;
@@ -270,9 +271,9 @@ while($row){
 	 	}
 	 print('</tr>');
 }
-  ?>		  	
+  ?>
 		  </tbody>
 		</table>
-		
+
 	</div>
 </article>
