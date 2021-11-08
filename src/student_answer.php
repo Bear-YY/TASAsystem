@@ -30,10 +30,9 @@ $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 $questions = [];
 while($row){
-  $ans_id = $row['ans_id'];
-  $questions[$ans_id] = [
-    $que_title = $row['que_title'],
-    $que_id = $row['que_id'],
+  $que_id = $row['que_id'];
+  $questions[$que_id] = [
+    'que_title' => $row['que_title'],
   ];
   $row = $rs->fetch_assoc();
 }
@@ -45,20 +44,21 @@ while($row){
 
 echo '<form action="?do=student_answer_save&act='.$act.'" method="post">';
 
-while($questions):
+foreach ($questions as $key => $value) :
+  // code...
   if($act === 'insert'){
-    echo '<h5>・'.$questions['que_title'].'</h5>';
+    echo '<h5>・'.$value['que_title'].'</h5>';
   }
   if($act === 'update'){
-    echo '<h5>・'.$questions['que_title'].'&nbsp&nbspーー前回の回答：'.$ques[$answers[$questions['que_id']]].'</h5>';
+    echo '<h5>・'.$value['que_title'].'&nbsp&nbspーー前回の回答：'.$ques[$answers[$key]].'</h5>';
   }
 
   echo '<div class="radio-area">';
   for($i = 1; $i <= 5; $i++):
     echo '<div class="form-check">';
-    echo '<input class="form-check-input" type="radio" value="'.$i.'" id="Check1" name="'.$questions['que_id'].'"';
+    echo '<input class="form-check-input" type="radio" value="'.$i.'" id="Check1" name="'.$key.'"';
     if($act == 'update'){
-      if($i == $answers[$questions['que_id']]){
+      if($i == $answers[$key]){
         echo 'checked';
       }
     }else{
@@ -78,7 +78,7 @@ while($questions):
   $row = $rs->fetch_assoc();
   echo "</div>";
   echo "<br>";
-  endwhile;
+endforeach;
   if($act === 'insert'){
     if($questions){
       echo '<button type="submit" class="btn btn-primary">登録</button>';

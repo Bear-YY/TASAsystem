@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once('db_inc.php');
 require_once('data.php');
 $tt_id = $_GET['tt_id'];
@@ -81,8 +81,8 @@ $row = $rs->fetch_assoc();
 
   <h1>TA・SA 募集要項</h1>
     <div class="recruit-form">
-<!--        デバック用に切り替えて(上のほうがデバック用)-->      
-<?php 
+<!--        デバック用に切り替えて(上のほうがデバック用)-->
+<?php
 if($act === 'insert'){
   echo '<form action="?do=teacher_recruitment_save&tt_id='.$tt_id.'&act='.$act.'" method="post"';
 }
@@ -95,7 +95,7 @@ echo ' class="needs-validation" novalidate>';
       <div class="form-group row">
         <label for="sub_name-form" class="col-sm-2 col-form-label">募集人数</label>
         <div>
-          <input type="text" class="form-control" name="rec_num" id="rec-num-form" placeholder="例:2" 
+          <input type="text" class="form-control" name="rec_num" id="rec-num-form" placeholder="例:2"
 <?php if($act === 'update'): ?>
           value="<?= $prevrec['rec_num'];?>"
 <?php endif; ?>
@@ -104,14 +104,14 @@ echo ' class="needs-validation" novalidate>';
             募集人数を記入してください。
           </div>
         </div>
-        
+
       </div>
       <fieldset class="form-group">
         <div class="row">
           <legend class="col-form-label col-sm-2 pt-0">募集役割</legend>
           <div class="col-sm-0">
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="role_id" id="role-id-form1" value="1" 
+              <input class="form-check-input" type="radio" name="role_id" id="role-id-form1" value="1"
 <?php if($act === 'update'):
         if($prevrec['role_id'] == 1):
 ?>
@@ -126,7 +126,7 @@ echo ' class="needs-validation" novalidate>';
 <?php if($act === 'update'):
         if($prevrec['role_id'] == 2):
 ?>
-          checked 
+          checked
 <?php   endif; ?>
 <?php endif; ?>
               required>
@@ -150,16 +150,21 @@ echo ' class="needs-validation" novalidate>';
       </div>
       <hr color="#000000" width="80%" size="3">
 
-<?php 
+<?php
 $sql = "SELECT * FROM tb_questionnaire";
+$state = false;
+
 if($act === 'update'){
   $sql = "SELECT * FROM tb_questionnaire NATURAL JOIN tb_config WHERE tt_id = '{$tt_id}'";
 }
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
+if($row){
+  $state = true;
+}
 
 echo '<h1>この時間割における応募者に求める資質</h1>';
- 
+
 while($row):
   echo '<h5>・'.$row['que_title'];
   if($act === 'update'){
@@ -183,32 +188,35 @@ while($row):
     echo '>';
 ?>
   <label class="form-check-label" for="Check1">
-<?php 
+<?php
 echo $ques[$i];
 
 ?>
   </label>
   </div>
-<?php 
+<?php
   endfor;
   $row = $rs->fetch_assoc();
   echo "</div>";
   echo "<br>";
-  endwhile
-;?>
+  endwhile;
+  ?>
       <hr color="#000000" width="80%" size="3">
-      <button type="submit" class="btn btn-primary">
-      <?php 
+      <?php
       if($act === 'insert'){
-        echo '登録';
+        if($state){
+          echo '<button type="submit" class="btn btn-primary">';
+          echo '登録';
+        }
       }
       if($act === 'update'){
+        echo '<button type="submit" class="btn btn-primary">';
         echo '更新';
       }
       ?>
       </button>
-    </form>   
-    </div>     
+    </form>
+    </div>
 </div>
 
 <script src="../js/validation.js"></script>
