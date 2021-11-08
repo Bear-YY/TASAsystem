@@ -1,5 +1,5 @@
 <h1>アンケート回答</h1>
-<?php 
+<?php
 require_once('db_inc.php');
 require_once('data.php');
 $usr_id = $_SESSION['usr_id'];
@@ -28,28 +28,37 @@ if($row){
 $sql = "SELECT * FROM tb_questionnaire";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
+$questions = [];
+while($row){
+  $ans_id = $row['ans_id'];
+  $questions[$ans_id] = [
+    $que_title = $row['que_title'],
+    $que_id = $row['que_id'],
+  ];
+  $row = $rs->fetch_assoc();
+}
 ?>
 
 <article>
   <div class="main">
-<?php 
+<?php
 
 echo '<form action="?do=student_answer_save&act='.$act.'" method="post">';
 
-while($row):
+while($questions):
   if($act === 'insert'){
-    echo '<h5>・'.$row['que_title'].'</h5>';
+    echo '<h5>・'.$questions['que_title'].'</h5>';
   }
   if($act === 'update'){
-    echo '<h5>・'.$row['que_title'].'&nbsp&nbspーー前回の回答：'.$ques[$answers[$row['que_id']]].'</h5>';
+    echo '<h5>・'.$questions['que_title'].'&nbsp&nbspーー前回の回答：'.$ques[$answers[$questions['que_id']]].'</h5>';
   }
 
   echo '<div class="radio-area">';
   for($i = 1; $i <= 5; $i++):
     echo '<div class="form-check">';
-    echo '<input class="form-check-input" type="radio" value="'.$i.'" id="Check1" name="'.$row['que_id'].'"';
+    echo '<input class="form-check-input" type="radio" value="'.$i.'" id="Check1" name="'.$questions['que_id'].'"';
     if($act == 'update'){
-      if($i == $answers[$row['que_id']]){
+      if($i == $answers[$questions['que_id']]){
         echo 'checked';
       }
     }else{
@@ -64,18 +73,20 @@ while($row):
 
   </label>
   </div>
-<?php 
+<?php
   endfor;
   $row = $rs->fetch_assoc();
   echo "</div>";
   echo "<br>";
   endwhile;
   if($act === 'insert'){
+    if($questions){
       echo '<button type="submit" class="btn btn-primary">登録</button>';
+    }
   }
   if($act === 'update')
       echo '<button type="submit" class="btn btn-primary">更新</button>';
   ?>
-    </form>   
+    </form>
   </div>
 </article>
