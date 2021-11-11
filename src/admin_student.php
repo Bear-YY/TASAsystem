@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once('db_inc.php');
 require_once('data.php');
 
@@ -24,9 +24,9 @@ if($students){
     $sql = <<<EOM
       SELECT *,COUNT(*) AS apptotal FROM tb_application NATURAL JOIN tb_recruitment rec NATURAL JOIN tb_teacher, tb_timetable tt NATURAL JOIN tb_subject
       WHERE app_id IN
-        (SELECT app_id 
-        FROM tb_application 
-        WHERE stu_id = '{$key}') 
+        (SELECT app_id
+        FROM tb_application
+        WHERE stu_id = '{$key}')
       AND rec.tt_id = tt.tt_id
     EOM;
     $rs = $conn->query($sql);
@@ -37,9 +37,9 @@ if($students){
     $sql = <<<EOM
       SELECT *,COUNT(*) AS rcmtotal FROM tb_recommend NATURAL JOIN tb_recruitment rec NATURAL JOIN tb_teacher, tb_timetable tt NATURAL JOIN tb_subject
       WHERE rcm_id IN
-        (SELECT rcm_id 
-        FROM tb_recommend 
-        WHERE stu_id = '{$key}') 
+        (SELECT rcm_id
+        FROM tb_recommend
+        WHERE stu_id = '{$key}')
       AND rec.tt_id = tt.tt_id
     EOM;
     $rs = $conn->query($sql);
@@ -52,7 +52,7 @@ if($students){
 ?>
 <h3>学生一覧</h3>
 <table class="table table-bordered">
-  <thead class="thead-dark"> 
+  <thead class="thead-dark">
     <tr>
         <th scope="col">氏名</th>
         <th scope="col">学籍番号</th>
@@ -63,7 +63,7 @@ if($students){
         <th scope="col">推薦数</th>
         <th scope="col"></th>
       </tr>
-  </thead>  
+  </thead>
     <tbody>
     <?php foreach($students as $key => $value): ?>
       <tr>
@@ -72,8 +72,19 @@ if($students){
         <td><?= $value['dpt_id'] ; ?></td>
         <td><?= $sex[$value['stu_sex']] ; ?></td>
         <td><?= $value['stu_mail'] ; ?></td>
-        <td><?= $value['apptotal'] ; ?></td>
-        <td><?= $value['rcmtotal'] ; ?></td>
+				<?php if($value['apptotal'] == 0): ?>
+					<td>
+				<?php else: ?>
+					<td class="table-primary">
+				<?php endif; ?>
+				<?= $value['apptotal'] ; ?></td>
+
+				<?php if($value['rcmtotal'] == 0): ?>
+					<td>
+				<?php else: ?>
+					<td class="table-warning">
+				<?php endif; ?>
+        <?= $value['rcmtotal'] ; ?></td>
         <td align="center"><a class="btn btn-secondary" href="?do=admin_student_timetable&stu_id=<?= $key; ?>" role="button">応募・推薦時間割</a></td>
       </tr>
   	<?php endforeach; ?>
