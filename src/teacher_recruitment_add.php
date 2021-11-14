@@ -30,7 +30,7 @@ if($row){
     $configs[$que_id] = $row['con_value'];
     $row = $rs->fetch_assoc();
   }
-  var_dump($prevrec);
+  // var_dump($prevrec);
 }
 //
 
