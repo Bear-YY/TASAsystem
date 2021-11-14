@@ -1,4 +1,4 @@
-<?php  
+<?php
 require_once('db_inc.php');
 require_once('data.php');
 $rec_id = $_GET['rec_id'];
@@ -91,7 +91,7 @@ $row = $rs->fetch_assoc();
 	<hr style="border:0;border-top:1px solid black;">
 	<h3>応募学生一覧</h3>
 	<table class="table table-bordered">
-	  <thead class="thead-dark"> 
+	  <thead class="thead-dark">
 	    <tr>
 	    	<th scope="col"></th>
 	        <th scope="col">学籍番号</th>
@@ -101,7 +101,7 @@ $row = $rs->fetch_assoc();
 	        <th scope="col">性別</th>
 	        <th scope="col">メールアドレス</th>
 	      </tr>
-	  </thead>  
+	  </thead>
 	  <tbody>
 	  	<?php foreach($students as $key => $value): ?>
 	    <tr>
@@ -127,6 +127,5 @@ $row = $rs->fetch_assoc();
 	  </tbody>
 	</table>
 <?php else: ?>
-	<p>募集している学生はまだいません。</p>
+	<p>応募している学生はまだいません。</p>
 <?php endif; ?>
-

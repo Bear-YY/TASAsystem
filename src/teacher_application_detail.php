@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once('db_inc.php');
 require_once('data.php');
 
@@ -133,7 +133,7 @@ if(isset($_GET['rcm_id'])){
   </div>
 </div>
 
-<hr style="border:0;border-top:1px solid black;">
+<!-- <hr style="border:0;border-top:1px solid black;"> -->
 
 
 <div >
@@ -141,7 +141,7 @@ if(isset($_GET['rcm_id'])){
        <h3>学生の情報</h3>
    </div>
    <table class="table table-sm table-bordered">
-     <thead class="thead-dark"> 
+     <thead class="thead-dark">
        <tr>
            <th scope="col">学籍番号</th>
            <th scope="col">氏名</th>
@@ -150,12 +150,12 @@ if(isset($_GET['rcm_id'])){
            <th scope="col">成績</th>
            <th scope="col">メールアドレス</th>
          </tr>
-     </thead>  
+     </thead>
        <tbody>
          <tr>
            <td><?= $stu_detail['stu_id']; ?></td>
            <td><?= $stu_detail['stu_name']; ?></td>
-           <?php 
+           <?php
              $year = $fake_year - $stu_detail['ad_year'];
             ?>
            <td><?= $school_grade[$year]; ?></td>
@@ -166,7 +166,7 @@ if(isset($_GET['rcm_id'])){
        </tbody>
    </table>
 </div>
-<?php  
+<?php
 if(isset($stu_detail['app_comment'])){
   echo '<table class="table table-borderless"><tbody><tr>';
   echo '<th scope="row" width="15%">学生コメント</th>';
@@ -178,7 +178,7 @@ if(isset($stu_detail['app_comment'])){
     echo '<td style="white-space:pre-wrap;">'.$stu_detail['app_cancmnt'].'</td>';
     echo '</tr>';
   }
-  echo '</tbody></table>';  
+  echo '</tbody></table>';
 }
 ?>
 
@@ -186,7 +186,7 @@ if(isset($stu_detail['app_comment'])){
 <hr style="border:0;border-top:1px solid black;">
 
 <!-- 学生と教員のアンケート情報を取得して表形式で表示する。 -->
-<?php 
+<?php
 //学生のアンケート回答情報を取得
 $sql = "SELECT * FROM tb_questionnaire NATURAL JOIN tb_answer WHERE stu_id = '{$stu_id}'";
 $rs = $conn->query($sql);
@@ -197,7 +197,7 @@ while($row){
   $que_id = $row['que_id'];
   $ansinfo[$que_id] = [
     'que_title' => $row['que_title'],
-    'ans_value' => $row['ans_value'] 
+    'ans_value' => $row['ans_value']
   ];
   $row = $rs->fetch_assoc();
 }
@@ -211,7 +211,7 @@ $coninfo = [];
 while($row){
   $que_id = $row['que_id'];
   $coninfo[$que_id] = [
-    'con_value' => $row['con_value'] 
+    'con_value' => $row['con_value']
   ];
   $row = $rs->fetch_assoc();
 }
@@ -222,15 +222,15 @@ if($ansinfo){
 
 <h3>アンケート回答結果</h3>
 <table class="table table-sm table-bordered">
-  <thead class="thead-dark"> 
+  <thead class="thead-dark">
     <tr>
         <th scope="col">アンケート項目名</th>
         <th scope="col">学生回答</th>
         <th scope="col">教員設定</th>
       </tr>
-  </thead>  
+  </thead>
     <tbody>
-      <?php 
+      <?php
       foreach ($ansinfo as $key => $value) {
        ?>
       <tr>
@@ -238,7 +238,7 @@ if($ansinfo){
         <td><?= $ques[$value['ans_value']]; ?></td>
         <td><?= $ques[$coninfo[$key]['con_value']]; ?></td>
       </tr>
-      <?php 
+      <?php
       }
       ?>
 
@@ -255,7 +255,7 @@ if($ansinfo){
 
 <!-- 以下検索フォーム -->
 
-<?php 
+<?php
 if(isset($app_id)){
   echo '<form action="?do=teacher_application_detail&stu_id='.$stu_id.'&app_id='.$app_id.'" method="post" class="form-inline">';
 }
@@ -300,28 +300,28 @@ if($subjects):
 ?>
 <div class="tablearea-sm">
   <table class="table table-sm table-bordered">
-    <thead class="thead-dark"> 
+    <thead class="thead-dark">
       <tr>
           <th scope="col">科目名</th>
           <th scope="col">成績</th>
           <th scope="col">取得学年</th>
         </tr>
-    </thead>  
+    </thead>
       <tbody>
         <?php foreach ($subjects as $key => $value): ?>
-          
+
         <tr>
           <td><?= $value['sub_name']; ?></td>
           <td><?= $grade[$value['grade']]; ?></td>
           <td><?= $value['get_year']; ?>年生</td>
           </td>
         </tr>
-        
+
         <?php endforeach ?>
       </tbody>
   </table>
 </div>
-<?php 
+<?php
 else:
   echo '<p>その科目をこの学生は履修していません。</p>';
 endif;
@@ -329,7 +329,7 @@ endif;
 
 
 
-<?php 
+<?php
 if(isset($app_id)){
   $sql = <<<EOM
   SELECT * FROM tb_application WHERE app_id = '{$app_id}'
@@ -361,7 +361,7 @@ if(isset($app_id)){
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-        <?php 
+        <?php
         echo '<a class="btn btn-primary" href="?do=teacher_application_save&app_id='.$app_id.'&rec_id='.$rec_id.'" role="button">決定</a>'
           ?>
       </div>
@@ -370,12 +370,11 @@ if(isset($app_id)){
 </div>
 
 
-<?php 
+<?php
   }
 }
  ?>
 <div style="text-align: right;">
-  
+
 <a class="btn btn-primary" href="?do=teacher_application_list&rec_id=<?= $rec_id;?>" role="button">応募・推薦者リストに戻る</a>
 </div>
-
