@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once('db_inc.php');
 require_once('data.php');
 $rec_id = $_GET['rec_id'];
@@ -33,7 +33,7 @@ if($students){
     if($row){
       $students[$key]['app_result'] = $row['app_result'];
     }else{
-      $students[$key]['app_result'] = 9; //採用待ち:0、採用:1、応募撤回:3なのでとりあえず重複しない値を選択
+      $students[$key]['app_result'] = 9; //採用待ち:0、採用:1、応募撤回:3なのでとりあえず重複しない値で初期化
     }
   }
 }

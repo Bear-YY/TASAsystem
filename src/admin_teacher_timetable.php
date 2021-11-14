@@ -1,4 +1,4 @@
-<?php  
+<?php
 require_once('db_inc.php');
 require_once('data.php');
 require_once('utils.php');
@@ -9,7 +9,7 @@ $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();                    //募集してる時間割情報(それ以外の時間割は募集してない)
 $tea_name = $row['tea_name'];
 // 募集している時間割情報を取得
-$sql = 
+$sql =
 "SELECT * FROM tb_teacher tea NATURAL JOIN tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_subject sub
 WHERE rec.tea_id = '{$tea_id}' AND rec.tt_id = tt.tt_id ORDER BY semester , tt_weekday , tt_timed";
 $rs = $conn->query($sql);
@@ -17,7 +17,7 @@ $row = $rs->fetch_assoc();                    //募集してる時間割情報(�
 $rectt = [];
 while($row){
 	$rec_id = $row['rec_id'];
-	$rectt[$rec_id] = [	
+	$rectt[$rec_id] = [
 		'sub_name' => $row['sub_name'],
 		'semester' => $row['semester'],
 		'tt_weekday' => $row['tt_weekday'],
@@ -37,14 +37,14 @@ if($rectt){
 		EOM;
 		$rs = $conn->query($sql);
 		$row = $rs->fetch_assoc();
-		$rectt[$key]['totalapp'] = $row['totalapp'];	
+		$rectt[$key]['totalapp'] = $row['totalapp'];
 		//採用に人数を出してつっこむ
 		$sql = <<<EOM
 			SELECT *,count(*) AS decideapp FROM tb_application WHERE rec_id = '{$rec_id}' AND app_result = '1'
 		EOM;
 		$rs = $conn->query($sql);
 		$row = $rs->fetch_assoc();
-		$rectt[$key]['decideapp'] = $row['decideapp'];	
+		$rectt[$key]['decideapp'] = $row['decideapp'];
 	}
 }
 
@@ -60,7 +60,7 @@ $row = $rs->fetch_assoc();                    //募集してる時間割情報(�
 $timetable = [];
 while($row){
 	$tt_id = $row['tt_id'];
-	$timetable[$tt_id] = [	
+	$timetable[$tt_id] = [
 		'sub_name' => $row['sub_name'],
 		'semester' => $row['semester'],
 		'tt_weekday' => $row['tt_weekday'],
@@ -81,7 +81,7 @@ $row = $rs->fetch_assoc();                    //募集してる時間割情報(�
 $rcmtt = [];
 while($row){
 	$rcm_id = $row['rcm_id'];
-	$rcmtt[$rcm_id] = [	
+	$rcmtt[$rcm_id] = [
 		'sub_name' => $row['sub_name'],
 		'semester' => $row['semester'],
 		'tt_weekday' => $row['tt_weekday'],
@@ -104,13 +104,13 @@ if($rcmtt){
     while($row){
       switch ($row['rcm_result']) {
         case 1:
-            $rcmtt[$key]['ok'] = $row['count'];             
+            $rcmtt[$key]['ok'] = $row['count'];
             break;
         case 2:
-            $rcmtt[$key]['no'] = $row['count'];  
+            $rcmtt[$key]['no'] = $row['count'];
             break;
         default:
-            $rcmtt[$key]['unanswerd'] = $row['count'];  
+            $rcmtt[$key]['unanswerd'] = $row['count'];
             break;
       }
       $row = $rs->fetch_assoc();
@@ -123,7 +123,7 @@ if($rcmtt){
 
 <h3>--<?= $tea_name; ?>様--の担当時間割</h3>
 <table class="table table-bordered">
-  <thead class="thead-dark"> 
+  <thead class="thead-dark">
     <tr>
         <th scope="col">募集状況</th>
         <th scope="col">科目名</th>
@@ -135,7 +135,7 @@ if($rcmtt){
         <th scope="col">採用人数</th>
         <th scope="col"></th>
       </tr>
-  </thead>  
+  </thead>
     <tbody>
     <?php foreach((array)$rectt as $key => $value): ?>
       <tr>
@@ -170,7 +170,7 @@ if($rcmtt){
 <hr style="border:0;border-top:1px solid black;">
 <h3>--<?= $tea_name; ?>様--の推薦を行っている時間割</h3>
 <table class="table table-bordered">
-  <thead class="thead-dark"> 
+  <thead class="thead-dark">
     <tr>
         <th scope="col">科目名</th>
         <th scope="col">学期</th>
@@ -182,7 +182,7 @@ if($rcmtt){
         <th scope="col">未回答</th>
         <th scope="col"></th>
       </tr>
-  </thead>  
+  </thead>
   <tbody>
   	<?php foreach($rcmtt as $key => $value): ?>
     <tr>

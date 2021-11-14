@@ -1,9 +1,9 @@
 .wrapper {
-  margin-right: auto; 
-  margin-left:  auto; 
-  max-width: 1300px;  
-  padding-right: 10px; 
-  padding-left:  10px; 
+  margin-right: auto;
+  margin-left:  auto;
+  max-width: 1300px;
+  padding-right: 10px;
+  padding-left:  10px;
 }
 
 #navbar {
@@ -32,7 +32,7 @@
 .side {
   margin: 10px;
   width: 12rem;
-} 
+}
 
 .content {
   margin-left:10px;
@@ -114,4 +114,13 @@ rgbaで色を指定してます。()内はそれぞれ(赤,緑,青,アルファ�
 
 .table-inline {
   display: flex;
+}
+
+canvas {
+  border: 1px dotted red;
+}
+
+.chart-container {
+  position: relative;
+  margin: auto;
 }
