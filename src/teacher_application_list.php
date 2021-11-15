@@ -1,66 +1,38 @@
-<?php 
+<?php
 require_once('db_inc.php');
 require_once('data.php');
 $rec_id = $_GET['rec_id'];
 
 // 応募していて判断されてない人のデータ
 $sql = <<<EOM
-SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' AND app_result = '0' ORDER BY stu_gpa DESC
+SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' ORDER BY app_result DESC, stu_id
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
-$usetapps = [];    					
+$appstudents = [];
 while($row){
 	$stu_id = $row['stu_id'];
-	$usetapps[$stu_id] = [
+	$appstudents[$stu_id] = [
 		'stu_name' => $row['stu_name'],
 		'ad_year' => $row['ad_year'],
 		'app_id' => $row['app_id'],
 		'app_day' => $row['app_day'],
-		'stu_gpa' => $row['stu_gpa'],
 		'app_result' => $row['app_result']
 	];
 	$row = $rs->fetch_assoc();
 }
-
-//応募していて採用決定された人のデータ
-$sql = <<<EOM
-SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' AND app_result = 1 ORDER BY stu_gpa DESC
-EOM;
-$rs = $conn->query($sql);
-$row = $rs->fetch_assoc();
-$setapps = [];						
-while($row){
-	$stu_id = $row['stu_id'];
-	$setapps[$stu_id] = [
-		'stu_name' => $row['stu_name'],
-		'ad_year' => $row['ad_year'],
-		'app_id' => $row['app_id'],
-		'app_day' => $row['app_day'],
-		'stu_gpa' => $row['stu_gpa'],
-		'app_result' => $row['app_result']
-	];
-	$row = $rs->fetch_assoc();
-}
-
-//応募をキャンセルした人
-$sql = <<<EOM
-SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' AND app_result = 3 ORDER BY stu_gpa DESC
-EOM;
-$rs = $conn->query($sql);
-$row = $rs->fetch_assoc();
-$cancelapps = [];						
-while($row){
-	$stu_id = $row['stu_id'];
-	$cancelapps[$stu_id] = [
-		'stu_name' => $row['stu_name'],
-		'ad_year' => $row['ad_year'],
-		'app_id' => $row['app_id'],
-		'app_day' => $row['app_day'],
-		'stu_gpa' => $row['stu_gpa'],
-		'app_result' => $row['app_result']
-	];
-	$row = $rs->fetch_assoc();
+if($appstudents){
+	foreach ($appstudents as $key => $value) {
+		//GPAを$appstudentsに加える。
+		$sql = <<<EOM
+			SELECT *,round(SUM(grade*sub_unit)/SUM(sub_unit) , 2) AS gpa from tb_course NATURAL JOIN tb_subject WHERE stu_id = '{$key}'
+			EOM;
+			$rs = $conn->query($sql);
+			$row = $rs->fetch_assoc();
+			if($row){
+				$appstudents[$key]['gpa'] = $row['gpa'];
+			}
+		}
 }
 
 //推薦をされた学生の情報を取得
@@ -70,7 +42,7 @@ WHERE rcm.stu_id = stu.stu_id AND rcm.rec_id = '{$rec_id}' ORDER BY rcm_result D
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
-$recommends = [];							
+$recommends = [];
 while($row){
 	$rcm_id = $row['rcm_id'];
 	$recommends[$rcm_id] = [
@@ -95,7 +67,7 @@ $row = $rs->fetch_assoc();
 ?>
 <article>
 	<div class="main">
-		
+
 
 <div class="table-inline">
   <div class="tablearea-sm">
@@ -167,8 +139,8 @@ $row = $rs->fetch_assoc();
     </tr>
   </thead>
   <tbody>
-<?php 
-foreach ($recommends as $key => $value): 
+<?php
+foreach ($recommends as $key => $value):
 echo '<form action="?do=teacher_application_detail&rcm_id='.$key.'&stu_id='.$value['stu_id'].'" method="post">';
 echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 echo '<tr>';
@@ -201,28 +173,20 @@ echo '</td>';
   </tbody>
 </table>
 
-<?php 
+<?php
 endif;
  ?>
 
 <hr style="border:0;border-top:1px solid black;">
 <?php
-if((!$usetapps) && (!$setapps) && (!$cancelapps)){
+if(!$appstudents){
 	echo '<h4>応募している学生はまだいません。</h4>';
 	echo '<h4>↓学生を推薦する際はこちらから行ってください。</h4>';
 }else{
 	echo '<h3>応募者一覧</h3>';
 }
-if($setapps){
-	tableApplication($setapps, $rec_id);
-}
-
-if($usetapps){
-	tableApplication($usetapps, $rec_id);
-}
-
-if($cancelapps){
-	tableApplication($cancelapps, $rec_id);
+if($appstudents){
+	tableApplication($appstudents, $rec_id);
 }
 
 ?>
@@ -230,7 +194,7 @@ if($cancelapps){
 	</div>
 </article>
 
-<?php 
+<?php
 function tableApplication($array, $rec_id){
 	include('data.php');
 	echo '<table class="table table-bordered">';
@@ -246,7 +210,7 @@ function tableApplication($array, $rec_id){
 			echo '</tr>';
 		echo '</thead>';
 	echo '<tbody>';
-	foreach ($array as $key => $value): 
+	foreach ($array as $key => $value):
 		echo '<form action="?do=teacher_application_detail&app_id='.$value['app_id'].'&stu_id='.$key.'" method="post">';
 			echo '<input type="hidden" name="rec_id" value="'.$rec_id.'">';
 			echo '<tr>';
@@ -274,7 +238,7 @@ function tableApplication($array, $rec_id){
 				$year = $fake_year - $value['ad_year'];
 				echo '<td scope="col">'.$school_grade[$year].'</td>';
 				echo '<td scope="col">'.$value['app_day'].'</td>';
-			  echo '<td scope="col">'.$value['stu_gpa'].'</td>';
+			  echo '<td scope="col">'.$value['gpa'].'</td>';
 				echo '<td align="center">
 			  			<button type="submit" class="btn btn-secondary btn-sm" role="button">詳細</button>
 			  			</td>';

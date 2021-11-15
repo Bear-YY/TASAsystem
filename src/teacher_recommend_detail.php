@@ -31,6 +31,16 @@ while($row){
 	$row = $rs->fetch_assoc();
 }
 
+$stu_id = $stu_detail['stu_id'];
+$sql = <<<EOM
+  SELECT *,round(SUM(grade*sub_unit)/SUM(sub_unit) , 2) AS gpa from tb_course NATURAL JOIN tb_subject WHERE stu_id = '{$stu_id}'
+EOM;
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+if($row){
+  $stu_detail['gpa'] = $row['gpa'];
+}
+
 $sql = <<<EOM
 SELECT * FROM tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_teacher NATURAL JOIN tb_subject
 WHERE rec_id = '{$rec_id}' AND rec.tt_id = tt.tt_id

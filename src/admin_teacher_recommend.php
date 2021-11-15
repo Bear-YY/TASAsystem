@@ -1,6 +1,6 @@
-<?php 
+<?php
 require_once('db_inc.php');
-require_once('data.php'); 
+require_once('data.php');
 $rcm_id = $_GET['rcm_id'];
 
 $sql = "SELECT * FROM tb_recommend WHERE rcm_id = '{$rcm_id}'";
@@ -91,9 +91,9 @@ $row = $rs->fetch_assoc();
 </div>
 
 <hr style="border:0;border-top:1px solid black;">
-<h3>応募学生一覧</h3>
+<h3>推薦学生一覧</h3>
 <table class="table table-bordered">
-  <thead class="thead-dark"> 
+  <thead class="thead-dark">
     <tr>
     	<th scope="col"></th>
         <th scope="col">学籍番号</th>
@@ -103,7 +103,7 @@ $row = $rs->fetch_assoc();
         <th scope="col">性別</th>
         <th scope="col">メールアドレス</th>
       </tr>
-  </thead>  
+  </thead>
   <tbody>
   	<?php foreach($rcmstu as $key => $value): ?>
     <tr>

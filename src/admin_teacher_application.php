@@ -5,7 +5,7 @@ $rec_id = $_GET['rec_id'];
 
 //応募している学生の情報を取得
 $sql = <<<EOM
-SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' ORDER BY app_result DESC
+SELECT * FROM tb_application NATURAL JOIN tb_student WHERE rec_id = '{$rec_id}' ORDER BY app_result DESC, stu_id
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();

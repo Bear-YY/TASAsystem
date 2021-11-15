@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once('db_inc.php');
 include('data.php');
 $rcm_id = $_GET['rcm_id'];
@@ -72,11 +72,32 @@ $row = $rs->fetch_assoc();
 
 
 <?php
+
+
 $sql = <<<EOM
 select * from tb_recommend natural join tb_student where rcm_id = '{$rcm_id}';
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
+$rcm_stu = [
+  'stu_id' => $row['stu_id'],
+  'stu_name' => $row['stu_name'],
+  'ad_year' => $row['ad_year'],
+  'stu_mail' => $row['stu_mail'],
+  'rcm_deadline' => $row['rcm_deadline'],
+  'rcm_result' => $row['rcm_result'],
+  'rcm_acomment' => $row['rcm_acomment']
+];
+
+$stu_id = $rcm_stu['stu_id'];
+$sql = <<<EOM
+  SELECT *,round(SUM(grade*sub_unit)/SUM(sub_unit) , 2) AS gpa from tb_course NATURAL JOIN tb_subject WHERE stu_id = '{$stu_id}'
+EOM;
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+if($row){
+  $rcm_stu['gpa'] = $row['gpa'];
+}
 
 ?>
 <div class="main">
@@ -88,38 +109,38 @@ $row = $rs->fetch_assoc();
       <tbody>
         <tr>
           <th scope="row" width="25%" class="table-secondary">学籍番号</th>
-          <td><?= $row['stu_id']; ?></td>
+          <td><?= $rcm_stu['stu_id']; ?></td>
         </tr>
         <tr>
           <th scope="row" class="table-secondary">氏名</th>
-          <td><?= $row['stu_name']; ?></td>
+          <td><?= $rcm_stu['stu_name']; ?></td>
         </tr>
         <tr>
-        	<?php  
-        	$year = $fake_year - $row['ad_year'];
+        	<?php
+        	$year = $fake_year - $rcm_stu['ad_year'];
         	?>
           <th scope="row" class="table-secondary">学年</th>
           <td><?= $school_grade[$year];?></td>
         </tr>
         <tr>
           <th scope="row" class="table-secondary">GPA</th>
-          <td><?= $row['stu_gpa']; ?></td>
+          <td><?= $rcm_stu['gpa']; ?></td>
         </tr>
         <tr>
           <th scope="row" class="table-secondary">メールアドレス</th>
-          <td><?= $row['stu_mail']; ?></td>
+          <td><?= $rcm_stu['stu_mail']; ?></td>
         </tr>
         <tr>
           <th scope="row" class="table-secondary">返答期日</th>
-          <td><?= $row['rcm_deadline']; ?></td>
+          <td><?= $rcm_stu['rcm_deadline']; ?></td>
         </tr>
         <tr>
-        	<?php 
-        	if($row['rcm_result']){
-	    		if($row['rcm_result'] == 1){
+        	<?php
+        	if($rcm_stu['rcm_result']){
+	    		if($rcm_stu['rcm_result'] == 1){
 	    			$result = '了承';
 	    		}
-	    		if($row['rcm_result'] == 2){
+	    		if($rcm_stu['rcm_result'] == 2){
 	    			$result = '拒否';
 	    		}
 	    	}else{
@@ -129,21 +150,14 @@ $row = $rs->fetch_assoc();
           <th scope="row" class="table-secondary">返答結果</th>
           <td><?= $result; ?></td>
         </tr>
-        <?php if($row['rcm_result']): ?>
+        <?php if($rcm_stu['rcm_result']): ?>
         <tr>
           <th scope="row" class="table-secondary">返答コメント</th>
-          <td><?= $row['rcm_acomment']; ?></td>
+          <td><?= $rcm_stu['rcm_acomment']; ?></td>
         </tr>
     	<?php endif; ?>
-        
+
       </tbody>
     </table>
   </div>
 </div>
-
- <?php
-
-
-
-
-?>

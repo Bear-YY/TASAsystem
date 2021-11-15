@@ -54,6 +54,17 @@ while($row){
   ];
   $row = $rs->fetch_assoc();
 }
+
+$stu_id = $stu_detail['stu_id'];
+$sql = <<<EOM
+  SELECT *,round(SUM(grade*sub_unit)/SUM(sub_unit) , 2) AS gpa from tb_course NATURAL JOIN tb_subject WHERE stu_id = '{$stu_id}'
+EOM;
+$rs = $conn->query($sql);
+$row = $rs->fetch_assoc();
+if($row){
+  $stu_detail['gpa'] = $row['gpa'];
+}
+
 if(isset($app_id)){
   $sql = <<<EOM
   SELECT * FROM tb_application WHERE app_id = '{$app_id}'
@@ -159,7 +170,7 @@ if(isset($_GET['rcm_id'])){
              $year = $fake_year - $stu_detail['ad_year'];
             ?>
            <td><?= $school_grade[$year]; ?></td>
-           <td><?= $stu_detail['stu_gpa']; ?></td>
+           <td><?= $stu_detail['gpa']; ?></td>
            <td><?= $grade[$stu_detail['grade']]; ?></td>
            <td><?= $stu_detail['stu_mail']; ?></td>
          </tr>
