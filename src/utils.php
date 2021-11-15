@@ -1,5 +1,5 @@
-<?php 
-	
+<?php
+
 	function flagonCheck($weekday, $timed, $tweekday, $ttimed){
 		if(($weekday == $tweekday) && ($timed == $ttimed)){
 			return true;
@@ -7,7 +7,15 @@
 		return false;
 	}
 
-	
+	function sortByKey($key_name, $sort_order, $array) {
+    foreach ($array as $key => $value) {
+        $standard_key_array[$key] = $value[$key_name];
+    }
+    array_multisort($standard_key_array, $sort_order, $array);
+    return $array;
+	}
+
+
 	function matchdayCheck($schedule,$weekday,$timed, $w, $t){
 		if(!empty($schedule)){
 			foreach ($schedule as $key => $value) {
@@ -32,7 +40,7 @@
 
 	function listAppsubject($array, $app_result){
 		include('data.php');
-		foreach($array as $key => $value){ 
+		foreach($array as $key => $value){
         	if(!($value['app_result'] == $app_result)){
         		continue;
         	}
@@ -40,7 +48,7 @@
         	echo '<a href="?do=student_application&rec_id='.$value['rec_id'].'"><b>'.$value['sub_name']; echo '</b></a><br>';
         	echo '・担当：'.$value['tea_name'].'<br>';
         	echo '・'.$semesters[$value['semester']].'-'.$weekdays_sm[$value['tt_weekday']].'-'.$times[$value['tt_timed']].'<br>';
-        	echo '</li>'; 
+        	echo '</li>';
         }
 	}
 
@@ -56,13 +64,13 @@
 		while($row){
 			$tt_id = $row['tt_id'];
 			$reccat[$tt_id] = [
-				'category_name' => $row['category_name'], 
-				'category_id' => $row['category_name']		
+				'category_name' => $row['category_name'],
+				'category_id' => $row['category_name']
 			];
 			$row = $rs->fetch_assoc();
 		}
 		// var_dump($reccat);
-		
+
 		 // || empty($row)
 
 		$scores = [];
@@ -75,7 +83,7 @@
 			$rs = $conn->query($sql);
 			$row = $rs->fetch_assoc();
 			$total = 0;
-			
+
 			if(isset($row)){
 				while($row){
 					$tt_id = $key;

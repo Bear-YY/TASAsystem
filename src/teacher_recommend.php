@@ -1,6 +1,7 @@
 <?php
 require_once('db_inc.php');
 require_once('data.php');
+require_once('utils.php');
 $rec_id = $_GET['rec_id'];
 // echo $rec_id;
 
@@ -8,7 +9,7 @@ $sql = <<<EOM
 SELECT * FROM tb_student NATURAL JOIN tb_course NATURAL JOIN tb_subject NATURAL JOIN tb_timetable tt,tb_recruitment rec
 WHERE grade >= 3 AND tt.tt_id = rec.tt_id AND rec_id = '{$rec_id}' AND stu_id NOT IN
 (SELECT rcm.stu_id FROM tb_recommend rcm, tb_student stu NATURAL JOIN tb_recruitment rec
-WHERE rcm.stu_id = stu.stu_id AND rcm.rec_id = '{$rec_id}') ORDER BY stu_gpa DESC
+WHERE rcm.stu_id = stu.stu_id AND rcm.rec_id = '{$rec_id}') 
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
@@ -36,6 +37,21 @@ if($students){
       $students[$key]['app_result'] = 9; //採用待ち:0、採用:1、応募撤回:3なのでとりあえず重複しない値で初期化
     }
   }
+
+	foreach ($students as $key => $value) {
+    //GPAを$studentsに加える。
+    $sql = <<<EOM
+      SELECT *,round(SUM(grade*sub_unit)/SUM(sub_unit) , 2) AS gpa from tb_course NATURAL JOIN tb_subject WHERE stu_id = '{$key}'
+    EOM;
+    $rs = $conn->query($sql);
+    $row = $rs->fetch_assoc();
+    if($row){
+      $students[$key]['gpa'] = $row['gpa'];
+    }
+  }
+	// var_dump($students); echo '<br>';
+	$students = sortByKey('gpa', SORT_DESC, $students);
+	// var_dump($students);
 }
 
 $sql = <<<EOM
@@ -119,7 +135,7 @@ $row = $rs->fetch_assoc();
 		<td scope="col"><?=$value['stu_name'];?></td>
 		<?php $year = $fake_year - $value['ad_year'];  ?>
 		<td scope="col"><?=$school_grade[$year];?></td>
-		<td scope="col"><?=$value['stu_gpa'];?></td>
+		<td scope="col"><?=$value['gpa'];?></td>
 		<td>
 		<a class="btn btn-secondary" href="?do=teacher_recommend_detail&rec_id=<?= $rec_id;?>&stu_id=<?= $key;?>" role="button">詳細</a>
 		</td>

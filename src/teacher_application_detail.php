@@ -133,7 +133,7 @@ if(isset($_GET['rcm_id'])){
   </div>
 </div>
 
-<!-- <hr style="border:0;border-top:1px solid black;"> -->
+<hr style="border:0;border-top:1px solid black;">
 
 
 <div >
@@ -183,7 +183,7 @@ if(isset($stu_detail['app_comment'])){
 ?>
 
 
-<hr style="border:0;border-top:1px solid black;">
+<!-- <hr style="border:0;border-top:1px solid black;"> -->
 
 <!-- 学生と教員のアンケート情報を取得して表形式で表示する。 -->
 <?php
