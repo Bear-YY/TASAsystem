@@ -23,7 +23,7 @@ $stu_id = mb_substr($stu_id, 1);
 // 学生が応募要件(成績A以上)を満たしている科目のみを取得
 $sql = <<<EOM
 SELECT * FROM tb_student NATURAL JOIN tb_course NATURAL JOIN tb_subject NATURAL JOIN tb_timetable
-WHERE stu_id = '{$stu_id}' AND grade <= 2 AND semester = '{$semester}'
+WHERE stu_id = '{$stu_id}' AND grade >= 3 AND semester = '{$semester}'
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
