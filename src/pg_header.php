@@ -55,6 +55,11 @@ if (isset($_SESSION['usr_kind'])){
   if($_SESSION['usr_kind'] == 9){ //管理者
     $menu = array(   //メニュー項目：プログラム名（拡張子.php省略）
       'HOME'  => 'admin_home',
+      '科目登録' => 'admin_subject_add',
+      '科目一覧' => 'admin_subject_list',
+      'アンケート設定' => 'admin_questionnaire_list',
+      '教員一覧' => 'admin_teacher',
+      '学生一覧' => 'admin_student'
     );
   }
 
