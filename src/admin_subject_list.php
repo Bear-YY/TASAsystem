@@ -7,6 +7,8 @@ if (!isset($_SESSION['usr_kind'])){
 }
 
 
+define('MAX','10');
+
 require_once('db_inc.php');
 $sql = <<< EOM
 	SELECT * FROM tb_subject WHERE dpt_id = 'RS'
@@ -28,6 +30,21 @@ while($row){
 	$row = $rs->fetch_assoc();
 }
 
+/////////////////////////////////////////////////////////
+$subjects_num = count($subjects);
+$max_page = ceil($subjects_num / MAX);
+
+if(!isset($_GET['page_id'])){ // $_GET['page_id'] はURLに渡された現在のページ数
+    $now = 1; // 設定されてない場合は1ページ目にする
+}else{
+    $now = $_GET['page_id'];
+}
+
+$start_no = ($now - 1) * MAX; // 配列の何番目から取得すればよいか
+
+// array_sliceは、配列の何番目($start_no)から何番目(MAX)まで切り取る関数
+$disp_subjects = array_slice($subjects, $start_no, MAX, true);
+///////////////////////////////////////////////////////////////
 ?>
 
 <article>
@@ -37,7 +54,7 @@ while($row){
 <table class="table table-bordered">
 <thead class="thead-dark">
 <tr>
-<th scope="col">科目名</th>
+<th scope="col" width="25%">科目名</th>
 <th scope="col">学科ID</th>
 <th scope="col">単位数</th>
 <th scope="col">取得学年</th>
@@ -47,7 +64,7 @@ while($row){
 </thead>
 <tbody>
 
-<?php foreach ($subjects as $key => $value) :?>
+<?php foreach ($disp_subjects as $key => $value) :?>
 <tr>
 <th scope="row">
 <?php
@@ -73,5 +90,16 @@ echo '<td>'.$select2[$value['sub_section']].'</td>';
 <?php endforeach; ?>
 </tbody>
 </table>
+<?php
+////////////////////////////////////////////////////////////////////////////////
+for($i = 1; $i <= $max_page; $i++){ // 最大ページ数分リンクを作成
+    if ($i == $now) { // 現在表示中のページ数の場合はリンクを貼らない
+        echo '<p class="nowpage">'.$now. '</p>　';
+    } else {
+        echo '<a href="?do=admin_subject_list&page_id='. $i. '">'. $i. '</a>'. '　';
+    }
+}
+/////////////////////////////////////////////////////////////////////////////
+?>
 </div>
 </article>

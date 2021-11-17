@@ -124,3 +124,8 @@ canvas {
   position: relative;
   margin: auto;
 }
+.nowpage {
+  text-decoration:underline; /*下線を引く*/
+  text-decoration-color: blue; /*下線を赤色*/
+  display:inline;
+}
