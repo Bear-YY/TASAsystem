@@ -6,7 +6,6 @@ if (!isset($_SESSION['usr_kind'])){
 	die ('<h3>エラー：この機能は管理者でないと利用できません</h3>');
 }
 
-
 define('MAX','10');
 
 require_once('db_inc.php');
@@ -90,6 +89,7 @@ echo '<td>'.$select2[$value['sub_section']].'</td>';
 <?php endforeach; ?>
 </tbody>
 </table>
+<p><?= MAX * ($now - 1) + 1;?>~<?= MAX * ($now - 1) + count($disp_subjects) ;?> (全<?= $subjects_num;?>件)</p>
 <?php
 ////////////////////////////////////////////////////////////////////////////////
 for($i = 1; $i <= $max_page; $i++){ // 最大ページ数分リンクを作成
