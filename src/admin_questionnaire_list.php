@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once('db_inc.php');
 $sql = "SELECT * FROM tb_questionnaire";
 
@@ -11,7 +11,7 @@ $row = $rs->fetch_assoc();
 <div class="main">
 
 <!-- 	<p>{{message}}</p> -->
-	
+
 	<!-- Button trigger modal -->
 	<div class="left-content">
 	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-queadd">
@@ -89,7 +89,7 @@ while($row){
 	    	  <div class="modal-body">
 	    	  	<div class="form-group">
 					<label for="que_title-form"></label>
-					<input type="text" class="form-control" name="que_title" id="que_title-form" placeholder="例:○○が好き">
+					<input type="text" class="form-control" name="que_title" id="que_title-form" value="<?= $row['que_title'] ;?>">
 				</div>
 	    	  </div>
 	    	  <div class="modal-footer">
@@ -131,7 +131,7 @@ while($row){
 </td>
 </tr>
 <?php
-$row = $rs->fetch_assoc ();  
+$row = $rs->fetch_assoc ();
 }
 ?>
 </tbody>
