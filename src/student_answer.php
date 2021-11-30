@@ -46,13 +46,7 @@ echo '<form action="?do=student_answer_save&act='.$act.'" method="post">';
 
 foreach ($questions as $key => $value) :
   // code...
-  if($act === 'insert'){
-    echo '<h5>・'.$value['que_title'].'</h5>';
-  }
-  if($act === 'update'){
-    echo '<h5>・'.$value['que_title'].'&nbsp&nbspーー前回の回答：'.$ques[$answers[$key]].'</h5>';
-  }
-
+  echo '<h5>・'.$value['que_title'].'</h5>';
   echo '<div class="radio-area">';
   for($i = 1; $i <= 5; $i++):
     echo '<div class="form-check">';

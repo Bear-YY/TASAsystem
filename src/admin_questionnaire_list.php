@@ -118,6 +118,9 @@ while($row){
         </button>
       </div>
       <div class="modal-body">
+				~<?= $row['que_title'];?>~
+				<br>
+				<br>
       	この項目を本当に削除しますか?
       </div>
       <div class="modal-footer">
