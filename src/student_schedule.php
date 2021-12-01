@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once('db_inc.php');
 require_once('data.php');
 $usr_id = $_SESSION['usr_id'];
@@ -37,16 +37,16 @@ while($row){
 <article>
 	<div class="main">
 		<h2>スケジュール</h2>
-		<div style="display: flex;">	
+		<div style="display: flex;">
 			<div style="padding: 12px;">
 					<h4><?= $semesters[$semester];?></h4>
 			</div>
 			<div style="margin: 10px;">
-<?php if($semester == 2): ?>				
+<?php if($semester == 2): ?>
 					<a href="?do=student_schedule&semester=1"><button type="button" class="btn btn-warning">前期</button></a>
-<?php elseif($semester == 1): ?>					
+<?php elseif($semester == 1): ?>
 					<a href="?do=student_schedule&semester=2"><button type="button" class="btn btn-warning">後期</button></a>
-<?php endif; ?>					
+<?php endif; ?>
 				</div>
 		</div>
 		<table class="table table-bordered">
@@ -61,10 +61,10 @@ while($row){
 		    </tr>
 		  </thead>
 		  <tbody>
-<?php 
+<?php
  for ($i=1; $i <= 6; $i++) {               //$iが時限　$jが曜日
 		print('<tr scope = "row">');
-		for ($j=0; $j < 6; $j++) { 
+		for ($j=0; $j < 6; $j++) {
 			if($j === 0){
 				print('<th>'.$i.'</th>');
 			}else{
@@ -86,7 +86,7 @@ while($row){
   <div class="card-body text-secondary">
     <h5 class="card-title">予定詳細</h5>
     <!-- テキストエリアで入力した値の改行は<pre><pre>でも使えるが、<>,&などは実体参照する必要あり -->
-    <p class="card-text"><?= nl2br($value['sch_detail']);?></p> 
+    <p class="card-text"><?= nl2br($value['sch_detail']);?></p>
     	<div align="right">
 			<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalSchedule-del-<?= $j.$i;?>">
 			  削除
@@ -106,6 +106,9 @@ while($row){
 			    	    </button>
 			    	  </div>
 			    	  <div class="modal-body">
+								~<?= $value['sch_name'];?>~
+								<br>
+								<br>
 			    	  	このスケジュールを削除しますか？
 			    	  </div>
 			    	  <div class="modal-footer">
@@ -122,7 +125,7 @@ while($row){
 
 
 
-<?php 
+<?php
 }else{
  ?>
 	<!-- Button trigger modal -->
@@ -170,18 +173,18 @@ while($row){
 		</form>
 	  </div>
 	</div>
-<?php 
-					}		
+<?php
+					}
 				print('</td>');
 	 			$schflg = false;
 			}
 	 	}
 	 print('</tr>');
 }
-  ?>		  	
+  ?>
 			</tbody>
 		</table>
-	</div>	
+	</div>
 </article>
 
 <script src="../js/validation.js"></script>
