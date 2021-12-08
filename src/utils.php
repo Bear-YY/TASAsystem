@@ -38,18 +38,31 @@
 		return $date;
 	}
 
+	function checkInAppResult($array ,$app_result){
+		foreach ($array as $key => $value) {
+			if($value['app_result'] == $app_result){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	function listAppsubject($array, $app_result){
 		include('data.php');
+
 		foreach($array as $key => $value){
-        	if(!($value['app_result'] == $app_result)){
-        		continue;
-        	}
-        	echo '<li class="list-group-item">';
-        	echo '<a href="?do=student_application&rec_id='.$value['rec_id'].'"><b>'.$value['sub_name']; echo '</b></a><br>';
-        	echo '・担当：'.$value['tea_name'].'<br>';
-        	echo '・'.$semesters[$value['semester']].'-'.$weekdays_sm[$value['tt_weekday']].'-'.$times[$value['tt_timed']].'<br>';
-        	echo '</li>';
-        }
+    	if(!($value['app_result'] == $app_result)){
+    		continue;
+    	}
+    	echo '<li class="list-group-item">';
+    	echo '<a href="?do=student_application&rec_id='.$value['rec_id'].'"><b>'.$value['sub_name']; echo '</b></a><br>';
+    	echo '・担当：'.$value['tea_name'].'<br>';
+    	echo '・'.$semesters[$value['semester']].'-'.$weekdays_sm[$value['tt_weekday']].'-'.$times[$value['tt_timed']].'<br>';
+    	echo '</li>';
+    }
+		if(!checkInAppResult($array, $app_result)){
+			echo 'なし';
+		}
 	}
 
 	function gettotalpointCategoryTT($stu_id, $category_id){
@@ -124,7 +137,7 @@
         echo $title;
         echo '</div>';
         echo '<ul class="list-group list-group-flush">';
-        if($array){
+        if(isset($array)){
         	listAppsubject($array, $app_result);
         }else{
         	echo 'なし';

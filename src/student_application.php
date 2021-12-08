@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require_once('db_inc.php');
 require_once('data.php');
@@ -9,11 +9,11 @@ $act = 'insert';
 
 $rec_id = $_GET['rec_id'];
 $sql = <<<EOM
-SELECT * FROM tb_recruitment 
-NATURAL JOIN tb_timetable 
-NATURAL JOIN tb_teacher 
+SELECT * FROM tb_recruitment
+NATURAL JOIN tb_timetable
+NATURAL JOIN tb_teacher
 NATURAL JOIN tb_subject
-NATURAL JOIN tb_role 
+NATURAL JOIN tb_role
 WHERE rec_id = '{$rec_id}'
 EOM;
 $rs = $conn->query($sql);
@@ -77,7 +77,7 @@ $row = $rs->fetch_assoc();
           </tr>
         </tbody>
       </table>
-<?php 
+<?php
 $sql = "SELECT * FROM tb_application WHERE stu_id = '{$stu_id}' AND rec_id = '{$rec_id}' LIMIT 1";
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
@@ -85,25 +85,51 @@ $row = $rs->fetch_assoc();
 if($row):
   $act = 'update';
 ?>
-  <h4>あなたはすでにこの時間割に応募しています。</h4>
-  <h4>結果がホーム画面に通知されるのでお待ちください。</h4>
-  <hr color="#000000" width="80%" size="3">
-<?php if($row['app_result'] == '3'):?>  
+
+<?php if($row['app_result'] == '3'):?>
     <p class="red">あなたはこの時間割のTA・SA募集を撤回しました。</p>
-<?php else: ?>
+<?php elseif($row['app_result'] == '1'): ?>
+    <h4>あなたはすでにこの時間割に応募しています。</h4>
+    <h4>結果がホーム画面に通知されるのでお待ちください。</h4>
+    <hr color="#000000" width="80%" size="3">
     <p class="red">もし、諸事情でやむを得なく応募を撤回する場合は、撤回理由を明記の上、撤回を行ってください。</p>
-  <form action="?do=student_application_add&act=<?= $act ;?>" method="post" class="needs-validation" novalidate>
-    <input type="hidden" class="form-control" name="app_id" value="<?= $row['app_id']; ?>">
-    <div class="form-group">
+    <form action="?do=student_application_add&act=<?= $act ;?>" method="post" class="needs-validation" novalidate>
+      <input type="hidden" class="form-control" name="app_id" value="<?= $row['app_id']; ?>">
+      <div class="form-group">
         <label for="app_cancmnt">応募撤回理由記入欄</label>
         <textarea class="form-control" id="app_cancmnt" name='app_cancmnt' rows="4" required></textarea>
         <div class="invalid-feedback">
           テキストエリアに文章を入力してください。
         </div>
-    </div>
-    
+      </div>
     <button type="submit" class="btn btn-primary">応募撤回する</button>
   </form>
+<?php else: ?>
+<?php
+  $result = [
+    1 => '採用',
+    2 => '不採用'
+  ];
+?>
+<hr color="#000000" width="80%" size="3">
+<table class="table table-borderless">
+  <thead>
+    <tr>
+      <th scope="col" width="15%"></th>
+      <td scope="col"></td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th><b>応募結果</b></th>
+      <td>応募結果は<?= $result[$row['app_result']]; ?>でした。</td>
+    </tr>
+    <tr>
+      <th><b>教員メッセージ</b></th>
+      <td><?= $row['app_cancmnt'];?></td>
+    </tr>
+  </tbody>
+</table>
 <?php endif; ?>
 
 <?php else: ?>
@@ -120,8 +146,8 @@ if($row):
           </div>
       </div>
       <button type="submit" class="btn btn-primary">応募する</button>
-    </form>   
-    </div>     
+    </form>
+    </div>
 </div>
 
 <?php endif; ?>

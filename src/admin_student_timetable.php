@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once('db_inc.php');
 require_once('data.php');
 
@@ -13,9 +13,9 @@ $stu_id = $row['stu_id'];
 $sql = <<<EOM
 SELECT * FROM tb_application NATURAL JOIN tb_recruitment rec NATURAL JOIN tb_teacher, tb_timetable tt NATURAL JOIN tb_subject
 WHERE app_id IN
-	(SELECT app_id 
-	FROM tb_application 
-	WHERE stu_id = '{$stu_id}') 
+	(SELECT app_id
+	FROM tb_application
+	WHERE stu_id = '{$stu_id}')
 AND rec.tt_id = tt.tt_id
 ORDER BY app_result DESC ,semester ,tt_weekday ,tt_timed
 EOM;
@@ -41,9 +41,9 @@ while($row){
 $sql = <<<EOM
 SELECT * FROM tb_recommend NATURAL JOIN tb_recruitment rec NATURAL JOIN tb_teacher, tb_timetable tt NATURAL JOIN tb_subject
 WHERE rcm_id IN
-  (SELECT rcm_id 
-  FROM tb_recommend 
-  WHERE stu_id = '{$stu_id}') 
+  (SELECT rcm_id
+  FROM tb_recommend
+  WHERE stu_id = '{$stu_id}')
 AND rec.tt_id = tt.tt_id
 ORDER BY rcm_result DESC ,semester ,tt_weekday ,tt_timed
 EOM;
@@ -69,7 +69,7 @@ while($row){
 <?php if($timetable): ?>
 <h3>応募時間割&nbsp;&nbsp;<?php echo $stu_id.'-'.$stu_name?></h3>
 <table class="table table-bordered">
-  <thead class="thead-dark"> 
+  <thead class="thead-dark">
     <tr>
         <th scope="col">応募状況</th>
         <th scope="col">科目名</th>
@@ -78,12 +78,12 @@ while($row){
         <th scope="col">曜日</th>
         <th scope="col">時限</th>
       </tr>
-  </thead>  
+  </thead>
   <tbody>
   	<?php foreach($timetable as $key => $value): ?>
     <tr>
        <?php if($value['app_result'] == 2): ?>
-       	<th class="table-denger" width="10%" scope="row">不採用
+       	<th class="table-danger" width="10%" scope="row">不採用
        <?php elseif($value['app_result'] == 1): ?>
        	<th class="table-primary" width="10%" scope="row">採用中
        <?php else: ?>
@@ -109,7 +109,7 @@ while($row){
 <hr style="border:0;border-top:1px solid black;">
 <h3>推薦時間割&nbsp;&nbsp;<?php echo $stu_id.'-'.$stu_name?></h3>
 <table class="table table-bordered">
-  <thead class="thead-dark"> 
+  <thead class="thead-dark">
     <tr>
         <th scope="col">推薦状況</th>
         <th scope="col">科目名</th>
@@ -118,7 +118,7 @@ while($row){
         <th scope="col">曜日</th>
         <th scope="col">時限</th>
       </tr>
-  </thead>  
+  </thead>
   <tbody>
     <?php foreach($rcmtt as $key => $value): ?>
     <tr>

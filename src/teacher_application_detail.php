@@ -9,10 +9,10 @@ $rcmflg = false;
 $rec_id = $_POST['rec_id'];
 $search = '';
 $stu_id = $_GET['stu_id'];
-if(isset($_GET['app_id'])){
-  $app_id = $_GET['app_id'];
+if (isset($_GET['app_id'])) {
+    $app_id = $_GET['app_id'];
 }
-if(isset($_POST['search'])) {
+if (isset($_POST['search'])) {
     $search = $_POST["search"];
 }
 
@@ -40,11 +40,13 @@ SELECT * FROM tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_subject sub,tb_
 WHERE rec.rec_id = '{$rec_id}' AND stu.stu_id = '{$stu_id}' AND cou.sub_id = sub.sub_id AND rec.tt_id = tt.tt_id
 EOM;
 $rs = $conn->query($sql);
-if(!$rs) die('エラー: '. $conn->error);
+if (!$rs) {
+    die('エラー: '. $conn->error);
+}
 $row = $rs->fetch_assoc();
 $stu_detail = [];
-while($row){
-  $stu_detail = [
+while ($row) {
+    $stu_detail = [
     'stu_id' => $row['stu_id'],
     'stu_name' => $row['stu_name'],
     'ad_year' => $row['ad_year'],
@@ -52,7 +54,7 @@ while($row){
     'stu_mail' => $row['stu_mail'],
     'stu_gpa' => $row['stu_gpa']
   ];
-  $row = $rs->fetch_assoc();
+    $row = $rs->fetch_assoc();
 }
 
 $stu_id = $stu_detail['stu_id'];
@@ -61,31 +63,31 @@ $sql = <<<EOM
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
-if($row){
-  $stu_detail['gpa'] = $row['gpa'];
+if ($row) {
+    $stu_detail['gpa'] = $row['gpa'];
 }
 
-if(isset($app_id)){
-  $sql = <<<EOM
+if (isset($app_id)) {
+    $sql = <<<EOM
   SELECT * FROM tb_application WHERE app_id = '{$app_id}'
   EOM;
-  $rs = $conn->query($sql);
-  $row = $rs->fetch_assoc();
-  $stu_detail['app_comment'] = $row['app_comment'];
-  $stu_detail['app_cancmnt'] = $row['app_cancmnt'];
-  $stu_detail['app_result'] = $row['app_result'];
+    $rs = $conn->query($sql);
+    $row = $rs->fetch_assoc();
+    $stu_detail['app_comment'] = $row['app_comment'];
+    $stu_detail['app_cancmnt'] = $row['app_cancmnt'];
+    $stu_detail['app_result'] = $row['app_result'];
 }
 
 //推薦者であったときは処理方法を変える。
-if(isset($_GET['rcm_id'])){
-  $rcm_id = $_GET['rcm_id'];
-  $rcmflg = true;
-  $sql = <<<EOM
+if (isset($_GET['rcm_id'])) {
+    $rcm_id = $_GET['rcm_id'];
+    $rcmflg = true;
+    $sql = <<<EOM
   SELECT * FROM tb_recommend rcm,tb_student stu
   WHERE rcm.stu_id = stu.stu_id AND rcm.rcm_id = '{$rcm_id}'
   EOM;
-  $rs = $conn->query($sql);
-  $row = $rs->fetch_assoc();
+    $rs = $conn->query($sql);
+    $row = $rs->fetch_assoc();
 }
 
  ?>
@@ -178,19 +180,19 @@ if(isset($_GET['rcm_id'])){
    </table>
 </div>
 <?php
-if(isset($stu_detail['app_comment'])){
-  echo '<table class="table table-borderless"><tbody><tr>';
-  echo '<th scope="row" width="15%">学生コメント</th>';
-  echo '<td style="white-space:pre-wrap;">'.$stu_detail['app_comment'].'</td>';
-  echo '</tr>';
-  if($stu_detail['app_result'] == 3){
-    echo '<tr>';
-    echo '<th scope="row" width="15%"><p class="red">応募撤回文</p></th>';
-    echo '<td style="white-space:pre-wrap;">'.$stu_detail['app_cancmnt'].'</td>';
-    echo '</tr>';
-  }
-  echo '</tbody></table>';
-}
+if (isset($stu_detail['app_comment'])) {
+                echo '<table class="table table-borderless"><tbody><tr>';
+                echo '<th scope="row" width="15%">学生コメント</th>';
+                echo '<td style="white-space:pre-wrap;">'.$stu_detail['app_comment'].'</td>';
+                echo '</tr>';
+                if ($stu_detail['app_result'] == 3) {
+                    echo '<tr>';
+                    echo '<th scope="row" width="15%"><p class="red">応募撤回文</p></th>';
+                    echo '<td style="white-space:pre-wrap;">'.$stu_detail['app_cancmnt'].'</td>';
+                    echo '</tr>';
+                }
+                echo '</tbody></table>';
+            }
 ?>
 
 
@@ -201,35 +203,38 @@ if(isset($stu_detail['app_comment'])){
 //学生のアンケート回答情報を取得
 $sql = "SELECT * FROM tb_questionnaire NATURAL JOIN tb_answer WHERE stu_id = '{$stu_id}'";
 $rs = $conn->query($sql);
-if(!$rs) die('エラー: '. $conn->error);
+if (!$rs) {
+    die('エラー: '. $conn->error);
+}
 $row = $rs->fetch_assoc();
 $ansinfo = [];
-while($row){
-  $que_id = $row['que_id'];
-  $ansinfo[$que_id] = [
+while ($row) {
+    $que_id = $row['que_id'];
+    $ansinfo[$que_id] = [
     'que_title' => $row['que_title'],
     'ans_value' => $row['ans_value']
   ];
-  $row = $rs->fetch_assoc();
+    $row = $rs->fetch_assoc();
 }
 
 //教員のアンケート設定情報を取得
 $sql = "SELECT * FROM tb_config NATURAL JOIN tb_questionnaire NATURAL JOIN tb_recruitment WHERE rec_id = '{$rec_id}'";
 $rs = $conn->query($sql);
-if(!$rs) die('エラー: '. $conn->error);
+if (!$rs) {
+    die('エラー: '. $conn->error);
+}
 $row = $rs->fetch_assoc();
 $coninfo = [];
-while($row){
-  $que_id = $row['que_id'];
-  $coninfo[$que_id] = [
+while ($row) {
+    $que_id = $row['que_id'];
+    $coninfo[$que_id] = [
     'con_value' => $row['con_value']
   ];
-  $row = $rs->fetch_assoc();
+    $row = $rs->fetch_assoc();
 }
 
-if($ansinfo){
-
-?>
+if ($ansinfo) {
+    ?>
 
 <h3>アンケート回答結果</h3>
 <table class="table table-sm table-bordered">
@@ -243,15 +248,14 @@ if($ansinfo){
     <tbody>
       <?php
       foreach ($ansinfo as $key => $value) {
-       ?>
+          ?>
       <tr>
         <td><?= $value['que_title']; ?></td>
         <td><?= $ques[$value['ans_value']]; ?></td>
         <td><?= $ques[$coninfo[$key]['con_value']]; ?></td>
       </tr>
       <?php
-      }
-      ?>
+      } ?>
 
     </tbody>
 </table>
@@ -267,12 +271,12 @@ if($ansinfo){
 <!-- 以下検索フォーム -->
 
 <?php
-if(isset($app_id)){
-  echo '<form action="?do=teacher_application_detail&stu_id='.$stu_id.'&app_id='.$app_id.'" method="post" class="form-inline">';
+if (isset($app_id)) {
+    echo '<form action="?do=teacher_application_detail&stu_id='.$stu_id.'&app_id='.$app_id.'" method="post" class="form-inline">';
 }
 
-if(isset($rcm_id)){
-  echo '<form action="?do=teacher_application_detail&stu_id='.$stu_id.'&rcm_id='.$rcm_id.'" method="post" class="form-inline">';
+if (isset($rcm_id)) {
+    echo '<form action="?do=teacher_application_detail&stu_id='.$stu_id.'&rcm_id='.$rcm_id.'" method="post" class="form-inline">';
 }
 
 echo   '<div class="form-group">';
@@ -286,28 +290,28 @@ echo   '<button type="submit" class="btn btn-primary mb-0">検索</button>';
 echo '</form>';
 
 
-if($search === ''){
-  $sql = <<<EOM
+if ($search === '') {
+    $sql = <<<EOM
   SELECT * FROM tb_student stu NATURAL JOIN tb_course NATURAL JOIN tb_subject WHERE stu_id = '{$stu_id}'
   EOM;
-}else{
-  $sql = <<<EOM
+} else {
+    $sql = <<<EOM
   SELECT * FROM tb_student stu NATURAL JOIN tb_course NATURAL JOIN tb_subject WHERE sub_name LIKE '%$search%' AND stu_id = '{$stu_id}'
   EOM;
 }
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
 $subjects = [];
-while($row){
-  $sub_id = $row['sub_id'];
-  $subjects[$sub_id] = [
+while ($row) {
+    $sub_id = $row['sub_id'];
+    $subjects[$sub_id] = [
     'sub_name' => $row['sub_name'],
     'grade' => $row['grade'],
     'get_year' => $row['get_year']
   ];
-  $row = $rs->fetch_assoc();
+    $row = $rs->fetch_assoc();
 }
-if($subjects):
+if ($subjects):
 ?>
 <div class="tablearea-sm">
   <table class="table table-sm table-bordered">
@@ -341,16 +345,14 @@ endif;
 
 
 <?php
-if(isset($app_id)){
-  $sql = <<<EOM
+if (isset($app_id)) {
+     $sql = <<<EOM
   SELECT * FROM tb_application WHERE app_id = '{$app_id}'
   EOM;
-  $rs = $conn->query($sql);
-  $row = $rs->fetch_assoc();
-  if($row['app_result'] == 0){
-
-
-?>
+     $rs = $conn->query($sql);
+     $row = $rs->fetch_assoc();
+     if ($row['app_result'] == 0) {
+         ?>
 <!-- modalで確認を取る場合 -->
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
@@ -360,30 +362,69 @@ if(isset($app_id)){
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">確認</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+    <form action="?do=teacher_application_save&app_id=<?= $app_id ; ?>&rec_id=<?= $rec_id; ?>" method="post">
+      <input type="hidden" name="app_result" value="1">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">この学生を採用しますか?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label for="app_cancmnt-form">採用理由・連絡事項</label>
+            <textarea class="form-control" id="app_cancmnt-form" rows="4" name="app_cancmnt"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+          <button type="submit" class="btn btn-primary">採用</button>
+        </div>
       </div>
-      <div class="modal-body">
-        この学生を本当に採用決定しますか?
+    </form>
+  </div>
+</div>
+
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#drop">
+  不採用採用決定
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="drop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="dropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form class="" action="?do=teacher_application_save&app_id=<?= $app_id ; ?>&rec_id=<?= $rec_id; ?>" method="post">
+      <input type="hidden" name="app_result" value="2">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">この学生を不採用にしますか?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label for="app_cancmnt-form">不採用理由</label>
+            <textarea class="form-control" id="app_cancmnt-form" rows="3" name="app_cancmnt"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+          <button type="submit" class="btn btn-danger">不採用</button>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-        <?php
-        echo '<a class="btn btn-primary" href="?do=teacher_application_save&app_id='.$app_id.'&rec_id='.$rec_id.'" role="button">決定</a>'
-          ?>
-      </div>
-    </div>
+    </form>
   </div>
 </div>
 
 
+
+
 <?php
-  }
-}
+     }
+ }
  ?>
 <div style="text-align: right;">
 
