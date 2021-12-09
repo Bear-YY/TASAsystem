@@ -360,8 +360,8 @@ if (isset($app_id)) {
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade" id="staticBackdrop" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <form action="?do=teacher_application_save&app_id=<?= $app_id ; ?>&rec_id=<?= $rec_id; ?>" method="post">
       <input type="hidden" name="app_result" value="1">
       <div class="modal-content">
@@ -392,8 +392,8 @@ if (isset($app_id)) {
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="drop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="dropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade" id="drop" data-keyboard="false" tabindex="-1" aria-labelledby="dropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <form class="" action="?do=teacher_application_save&app_id=<?= $app_id ; ?>&rec_id=<?= $rec_id; ?>" method="post">
       <input type="hidden" name="app_result" value="2">
       <div class="modal-content">

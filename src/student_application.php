@@ -88,7 +88,7 @@ if($row):
 
 <?php if($row['app_result'] == '3'):?>
     <p class="red">あなたはこの時間割のTA・SA募集を撤回しました。</p>
-<?php elseif($row['app_result'] == '1'): ?>
+<?php elseif($row['app_result'] == '0'): ?>
     <h4>あなたはすでにこの時間割に応募しています。</h4>
     <h4>結果がホーム画面に通知されるのでお待ちください。</h4>
     <hr color="#000000" width="80%" size="3">
