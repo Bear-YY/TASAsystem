@@ -28,6 +28,7 @@
 <p>本システムは、TA・SAの募集、応募に関する情報を管理することで<br>
 TA・SAを頼みたい教員は募集情報を学生に伝え、学生は気軽に情報を得られるようにします。</p>
 
+
 <h4><b>教員が利用可能な機能</b></h4>
 <ul>
 	<li class="listitem"><span class="marker-blue">TA・SA募集機能</span>
