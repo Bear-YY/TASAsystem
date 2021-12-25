@@ -27,12 +27,30 @@ while($row){
 	$row = $rs->fetch_assoc();
 }
 
+// アンケート設定値を取得
+$sql = "SELECT * FROM tb_config NATURAL JOIN tb_questionnaire NATURAL JOIN tb_recruitment WHERE rec_id = '{$rec_id}'";
+$rs = $conn->query($sql);
+if (!$rs) {
+	die('エラー: '. $conn->error);
+}
+$row = $rs->fetch_assoc();
+$coninfo = [];
+while ($row) {
+	$que_id = $row['que_id'];
+	$coninfo[$que_id] = [
+		'con_value' => $row['con_value'],
+		'que_title' => $row['que_title']
+	];
+	$row = $rs->fetch_assoc();
+}
+
 $sql = <<<EOM
 SELECT * FROM tb_recruitment rec,tb_timetable tt NATURAL JOIN tb_teacher NATURAL JOIN tb_subject
 WHERE rec_id = '{$rec_id}' AND rec.tt_id = tt.tt_id
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
+
 
 ?>
 
@@ -74,20 +92,45 @@ $row = $rs->fetch_assoc();
       <table class="table table-sm table-bordered">
         <tbody>
           <tr>
-            <th scope="row" class="table-secondary">募集役割</th>
-            <td><?= $role[$row['role_id']]; ?></td>
+            <th scope="row" width="50%" class="table-secondary">募集役割</th>
+            <td width="50%"><?= $role[$row['role_id']]; ?></td>
           </tr>
           <tr>
             <th scope="row" class="table-secondary">募集人数</th>
             <td><?= $row['rec_num']; ?>人</td>
           </tr>
-          <tr>
-            <th scope="row" class="table-secondary">教員コメント</th>
-            <td style="white-space:pre-wrap;"><?= $row['rec_comment']; ?></td>
-          </tr>
         </tbody>
       </table>
   </div>
+</div>
+
+<table class="table table-borderless">
+	<tbody>
+		<tr>
+			<th scope="row">教員コメント</th>
+			<td style="white-space:pre-wrap;"><?= $row['rec_comment'] ;?></td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>アンケート設定</h3>
+<div class="tablearea-sm">
+	<table class="table table-sm table-bordered">
+		<thead class="thead-dark">
+  		<tr>
+    		<th scope="col">アンケート項目名</th>
+    		<th scope="col">教員設定</th>
+  		</tr>
+		</thead>
+  	<tbody>
+<?php foreach ($coninfo as $key => $value) :?>
+  		<tr>
+    		<td><?= $value['que_title']; ?></td>
+    		<td><?= $ques[$coninfo[$key]['con_value']]; ?></td>
+  		</tr>
+<?php endforeach; ?>
+		</tbody>
+	</table>
 </div>
 
 <hr style="border:0;border-top:1px solid black;">
