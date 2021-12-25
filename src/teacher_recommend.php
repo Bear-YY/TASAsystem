@@ -9,7 +9,7 @@ $sql = <<<EOM
 SELECT * FROM tb_student NATURAL JOIN tb_course NATURAL JOIN tb_subject NATURAL JOIN tb_timetable tt,tb_recruitment rec
 WHERE grade >= 3 AND tt.tt_id = rec.tt_id AND rec_id = '{$rec_id}' AND stu_id NOT IN
 (SELECT rcm.stu_id FROM tb_recommend rcm, tb_student stu NATURAL JOIN tb_recruitment rec
-WHERE rcm.stu_id = stu.stu_id AND rcm.rec_id = '{$rec_id}') 
+WHERE rcm.stu_id = stu.stu_id AND rcm.rec_id = '{$rec_id}')
 EOM;
 $rs = $conn->query($sql);
 $row = $rs->fetch_assoc();
@@ -99,21 +99,25 @@ $row = $rs->fetch_assoc();
       <table class="table table-sm table-bordered">
         <tbody>
           <tr>
-            <th scope="row" class="table-secondary">募集役割</th>
+            <th scope="row" width="50%" class="table-secondary">募集役割</th>
             <td><?= $role[$row['role_id']]; ?></td>
           </tr>
           <tr>
             <th scope="row" class="table-secondary">募集人数</th>
-            <td><?= $row['rec_num']; ?>人</td>
-          </tr>
-          <tr>
-            <th scope="row" class="table-secondary">教員コメント</th>
-            <td style="white-space:pre-wrap;"><?= $row['rec_comment']; ?></td>
+            <td width="50%"><?= $row['rec_num']; ?>人</td>
           </tr>
         </tbody>
       </table>
   </div>
 </div>
+<table class="table table-borderless">
+	<tbody>
+		<tr>
+			<th scope="row">教員コメント</th>
+			<td style="white-space:pre-wrap;"><?= $row['rec_comment'] ;?></td>
+		</tr>
+	</tbody>
+</table>
 <hr style="border:0;border-top:1px solid black;">
 
  <h3>成績条件を満たす学生</h3>

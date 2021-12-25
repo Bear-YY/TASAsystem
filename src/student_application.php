@@ -73,7 +73,7 @@ $row = $rs->fetch_assoc();
           </tr>
           <tr>
             <th scope="row">教員コメント</th>
-            <td><?= $row['rec_comment']; ?></td>
+            <td style="white-space:pre-wrap;"><?= $row['rec_comment']; ?></td>
           </tr>
         </tbody>
       </table>

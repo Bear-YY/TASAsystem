@@ -107,21 +107,25 @@ $row = $rs->fetch_assoc();
       <table class="table table-sm table-bordered">
         <tbody>
           <tr>
-            <th scope="row" class="table-secondary">募集役割</th>
-            <td><?= $role[$row['role_id']]; ?></td>
+            <th scope="row" width="50%" class="table-secondary">募集役割</th>
+            <td width="50%"><?= $role[$row['role_id']]; ?></td>
           </tr>
           <tr>
             <th scope="row" class="table-secondary">募集人数</th>
-            <td><?= $row['rec_num']; ?>人</td>
-          </tr>
-          <tr>
-            <th scope="row" class="table-secondary">教員コメント</th>
-            <td style="white-space:pre-wrap;"><?= $row['rec_comment']; ?></td>
+            <td ><?= $row['rec_num']; ?>人</td>
           </tr>
         </tbody>
       </table>
   </div>
 </div>
+<table class="table table-borderless">
+	<tbody>
+		<tr>
+			<th scope="row">教員コメント</th>
+			<td style="white-space:pre-wrap;"><?= $row['rec_comment'] ;?></td>
+		</tr>
+	</tbody>
+</table>
 <!-- 推薦した学生 -->
 <?php if($recommends): ?>
 <hr style="border:0;border-top:1px solid black;">
