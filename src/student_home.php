@@ -188,6 +188,7 @@ while($row){
 		  </thead>
 		  <tbody>
 <?php
+var_dump($schs);
  for ($i=1; $i <= 6; $i++) {       //$iが時限　$jが曜日
 		print('<tr scope = "row">');
 		for ($j=0; $j < 6; $j++) {
@@ -200,7 +201,7 @@ while($row){
 					if($schflg){
 						echo ' class="table-danger">';
 						foreach ($schs as $key => $value) {
-							if(flagonCheck($schflg,$value['sch_weekday'],$value['sch_timed'],$j,$i)){
+							if(flagonCheck($value['sch_weekday'],$value['sch_timed'],$j,$i)){
 								echo '<b>予定あり</b>:'.$value['sch_name'].'<br>';
 							}
 						}
